@@ -1,6 +1,6 @@
-#Cashier Webapp
+# Cashier Webapp
 
-##Usage
+## Usage
 - Clone repo
 - Run `yarn install`
 - Run `npm instal`
