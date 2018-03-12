@@ -1,14 +1,15 @@
 package io.cobra.catalogservice.model;
 
-import javax.persistence.*;
-import java.util.Collection;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Type {
     private int id;
     private String type;
     private String description;
-//    private Collection<Sustenance> sustenanceById;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -61,13 +62,4 @@ public class Type {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
-
-//    @OneToMany(mappedBy = "typeByTypeId")
-//    public Collection<Sustenance> getSustenanceById() {
-//        return sustenanceById;
-//    }
-
-//    public void setSustenanceById(Collection<Sustenance> sustenanceById) {
-//        this.sustenanceById = sustenanceById;
-//    }
 }

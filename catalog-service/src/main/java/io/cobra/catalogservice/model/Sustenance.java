@@ -2,7 +2,6 @@ package io.cobra.catalogservice.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 public class Sustenance {
@@ -14,10 +13,22 @@ public class Sustenance {
     private Timestamp createdDate;
     private Timestamp modifiedDate;
     private String imageId;
-//    private Collection<SustenanceHasIngredient> ingredientHasSustenanceById;
     private Type typeByTypeId;
+    private int typeId;
+
+    public Sustenance() {
+    }
+
+    public Sustenance(String name, double price, double discount, int unit, int typeId) {
+        this.name = name;
+        this.price = price;
+        this.discount = discount;
+        this.unit = unit;
+        this.typeId = typeId;
+    }
 
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     public int getId() {
         return id;
@@ -133,15 +144,6 @@ public class Sustenance {
         return result;
     }
 
-//    @OneToMany(mappedBy = "sustenanceBySustenanceId")
-//    public Collection<SustenanceHasIngredient> getIngredientHasSustenanceById() {
-//        return ingredientHasSustenanceById;
-//    }
-
-//    public void setIngredientHasSustenanceById(Collection<SustenanceHasIngredient> ingredientHasSustenanceById) {
-//        this.ingredientHasSustenanceById = ingredientHasSustenanceById;
-//    }
-
     @ManyToOne
     @JoinColumn(name = "type_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     public Type getTypeByTypeId() {
@@ -150,5 +152,15 @@ public class Sustenance {
 
     public void setTypeByTypeId(Type typeByTypeId) {
         this.typeByTypeId = typeByTypeId;
+    }
+
+    @Basic
+    @Column(name = "type_id", nullable = false)
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 }
