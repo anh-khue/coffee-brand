@@ -1,9 +1,6 @@
 package io.cobra.branchservice.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +11,14 @@ public class Rating {
     private int customerId;
     private int star;
     
+    public Rating(int branchId, int customerId, int star) {
+        this.branchId = branchId;
+        this.customerId = customerId;
+        this.star = star;
+    }
+    
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
