@@ -1,31 +1,35 @@
 package io.cobra.branchservice.service;
 
+import io.cobra.branchservice.googledrive.GoogleDriveService;
 import io.cobra.branchservice.model.Branch;
 import io.cobra.branchservice.model.Rating;
 import io.cobra.branchservice.repository.BranchRepository;
 import io.cobra.branchservice.repository.RatingRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
+import static io.cobra.branchservice.constant.BranchConstants.BRANCH_NOT_EXIST;
+
 @Service
 public class BranchService {
     
-    public static final Double BRANCH_NOT_PRESENT = -10.0;
-    
     private final BranchRepository branchRepository;
+    private final RatingRepository ratingRepository;
     
     private final RatingService ratingService;
-    private final RatingRepository ratingRepository;
+    private final GoogleDriveService googleDriveService;
     
     public BranchService(BranchRepository branchRepository,
                          RatingService ratingService,
-                         RatingRepository ratingRepository) {
+                         RatingRepository ratingRepository, GoogleDriveService googleDriveService) {
         this.branchRepository = branchRepository;
         this.ratingService = ratingService;
         this.ratingRepository = ratingRepository;
+        this.googleDriveService = googleDriveService;
     }
     
     public List<Branch> getAll() {
@@ -37,8 +41,16 @@ public class BranchService {
     }
     
     public int create(Branch branch) {
-        branchRepository.save(branch);
-        branchRepository.flush();
+        try {
+            String driveFolderId = googleDriveService.createFolder(branch.getName()
+                                                                     + System.currentTimeMillis());
+            branch.setDriveFolderId(driveFolderId);
+            
+            branchRepository.save(branch);
+            branchRepository.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
         return branch.getId();
     }
@@ -54,8 +66,7 @@ public class BranchService {
             updateRating(optionalBranch.get());
             return optionalBranch.get().getRating();
         }
-        
-        return BRANCH_NOT_PRESENT;
+        return BRANCH_NOT_EXIST;
     }
     
     private void updateRating(Branch branch) {
@@ -70,5 +81,9 @@ public class BranchService {
             branchRepository.save(branch);
             branchRepository.flush();
         });
+    }
+    
+    private String createDriveFolder(String branchName) {
+        return null;
     }
 }

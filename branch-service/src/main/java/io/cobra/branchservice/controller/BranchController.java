@@ -1,5 +1,6 @@
 package io.cobra.branchservice.controller;
 
+import io.cobra.branchservice.constant.BranchConstants;
 import io.cobra.branchservice.model.Branch;
 import io.cobra.branchservice.model.Rating;
 import io.cobra.branchservice.service.BranchService;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static io.cobra.branchservice.service.BranchService.BRANCH_NOT_PRESENT;
+import static io.cobra.branchservice.constant.BranchConstants.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
 
@@ -57,7 +58,7 @@ public class BranchController {
     public ResponseEntity<Double> rate(@PathVariable("id") String id, @RequestBody Rating rating) {
         if (Integer.parseInt(id) == rating.getBranchId()) {
             Double newRating = branchService.rate(rating);
-            if (newRating.equals(BRANCH_NOT_PRESENT)) {
+            if (newRating.equals(BRANCH_NOT_EXIST)) {
                 return ResponseEntity.status(NOT_FOUND).build();
             }
             return ResponseEntity.status(ACCEPTED).body(newRating);
