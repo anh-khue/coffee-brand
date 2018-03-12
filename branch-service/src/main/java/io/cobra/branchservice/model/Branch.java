@@ -14,7 +14,6 @@ public class Branch {
     private double longitude;
     private Time openingHour;
     private Time closingHour;
-    
     private String driveFolderId;
     private double rating;
     

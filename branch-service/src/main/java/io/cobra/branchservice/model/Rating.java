@@ -11,6 +11,9 @@ public class Rating {
     private int customerId;
     private int star;
     
+    public Rating() {
+    }
+    
     public Rating(int branchId, int customerId, int star) {
         this.branchId = branchId;
         this.customerId = customerId;

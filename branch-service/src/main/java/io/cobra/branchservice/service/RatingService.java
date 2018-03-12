@@ -19,23 +19,22 @@ public class RatingService {
         return ratingRepository.findByBranchIdAndCustomerId(branchId, customerId);
     }
     
-    Integer rate(Integer branchId, Integer customerId, Integer star) {
+    void rate(Integer branchId, Integer customerId, Integer star) {
         Optional<Rating> optionalRating = getByBranchIdAndCustomerId(branchId, customerId);
         if (optionalRating.isPresent()) {
-            return update(optionalRating.get(), star);
+            update(optionalRating.get(), star);
+            return;
         }
         Rating rating = new Rating(branchId, customerId, star);
-        return create(rating);
+        create(rating);
     }
     
-    private Integer update(Rating rating, Integer star) {
+    private void update(Rating rating, Integer star) {
         rating.setStar(star);
         ratingRepository.save(rating);
-        return rating.getStar();
     }
     
-    private Integer create(Rating rating) {
+    private void create(Rating rating) {
         ratingRepository.save(rating);
-        return rating.getStar();
     }
 }

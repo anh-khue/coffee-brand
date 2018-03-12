@@ -23,16 +23,16 @@ public class BranchController {
         this.branchService = branchService;
     }
     
-    @GetMapping("/branches")
+    @GetMapping(value = "/branches")
     public ResponseEntity<List<Branch>> getAll() {
         List<Branch> branches = branchService.getAll();
-        if (branches.isEmpty()) {
+        if (!branches.isEmpty()) {
             return status(OK).body(branches);
         }
         return status(NO_CONTENT).build();
     }
     
-    @GetMapping(value = "/branches/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/branches/{id}")
     public ResponseEntity<Branch> getById(@PathVariable("id") String id) {
         Optional<Branch> optionalBranch = branchService.getById(Integer.parseInt(id));
         return optionalBranch.map(status(OK)::body)
