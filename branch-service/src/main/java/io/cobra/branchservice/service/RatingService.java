@@ -16,7 +16,7 @@ public class RatingService {
     }
     
     private Optional<Rating> getByBranchIdAndCustomerId(Integer branchId, Integer customerId) {
-        return ratingRepository.findByBranchIdAndAndCustomerId(branchId, customerId);
+        return ratingRepository.findByBranchIdAndCustomerId(branchId, customerId);
     }
     
     Integer rate(Integer branchId, Integer customerId, Integer star) {

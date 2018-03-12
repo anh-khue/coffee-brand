@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Integer> {
     
-    Optional<Rating> findByBranchIdAndAndCustomerId(Integer branchId, Integer customerId);
+    Optional<Rating> findByBranchIdAndCustomerId(Integer branchId, Integer customerId);
 }
