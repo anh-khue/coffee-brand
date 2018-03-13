@@ -21,11 +21,12 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("io.cobra.orderservice"))
-                .paths(regex("/.*")).build()
+                .paths(regex("/.*"))
+                .build()
                 .apiInfo(generateApiInfo()).directModelSubstitute(Timestamp.class, Long.class);
     }
     private ApiInfo generateApiInfo() {
-        return new ApiInfo("demo", "demo.", "Version 1.0", "urn:tos", "test", "Apache 2.0",
+        return new ApiInfo("Coffee Brand", "Order", "Version 1.0", "urn:tos", "test", "Apache 2.0",
                 "http://www.apache.org/licenses/LICENSE-2.0");
     }
 }

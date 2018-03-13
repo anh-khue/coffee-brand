@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "receipt", schema = "Order_Coffee_Brand", catalog = "")
-public class OrderEntity {
+public class ReceiptEntity {
     private int id;
     private Integer memberId;
     private int cashierId;
@@ -90,7 +90,7 @@ public class OrderEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderEntity that = (OrderEntity) o;
+        ReceiptEntity that = (ReceiptEntity) o;
         return id == that.id &&
                 cashierId == that.cashierId &&
                 status == that.status &&
