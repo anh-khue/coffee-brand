@@ -19,11 +19,13 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
 @Service
 public class ImageService {
+    private static final String COBRA_IMAGES_FOLDER_ID = "1MNWE5ECjTs1FHSJPMsfRhDKnOJ9whUb0";
 
     private static final String APPLICATION_NAME = "Drive API Java Quickstart";
 
@@ -79,46 +81,18 @@ public class ImageService {
                 .build();
     }
 
-    public static String generateImageId() {
+    public String generateImageId(java.io.File image) {
         String fileId = null;
         try {
-            // Build a new authorized API client service.
             Drive service = getDriveService();
-
-            String folderId = "1MNWE5ECjTs1FHSJPMsfRhDKnOJ9whUb0";
             File fileMetadata = new File();
-            fileMetadata.setName("cappuccino.jpg");
-            fileMetadata.setParents(Collections.singletonList(folderId));
-            java.io.File filePath = new java.io.File("images/cappuccino.jpg");
-            FileContent mediaContent = new FileContent("image/jpeg", filePath);
+            fileMetadata.setName("image_" + (new Timestamp(System.currentTimeMillis())).getTime() + ".jpg");
+            fileMetadata.setParents(Collections.singletonList(COBRA_IMAGES_FOLDER_ID));
+            FileContent mediaContent = new FileContent("image/jpeg", image);
             File file = service.files().create(fileMetadata, mediaContent)
                     .setFields("id, parents")
                     .execute();
             fileId = file.getId();
-            System.out.println("File ID: " + fileId);
-
-//            File searchFile = service.files().get("1pHBBOK2V5ZYTWW_tLZ_-4hsKwfUX7ULS").execute();
-//            System.out.println(searchFile.getName());
-//            System.out.println(searchFile.getThumbnailLink());
-//            System.out.println(searchFile.getIconLink());
-//            System.out.println(searchFile.getWebContentLink());
-//            System.out.println(searchFile.getWebViewLink());
-//            System.out.println(searchFile.getMimeType());
-//
-//            // Print the names and IDs for up to 10 files.
-//            FileList result = service.files().list()
-//                    .setPageSize(10)
-//                    .setFields("nextPageToken, files(id, name)")
-//                    .execute();
-//            List<File> files = result.getFiles();
-//            if (files == null || files.size() == 0) {
-//                System.out.println("No files found.");
-//            } else {
-//                System.out.println("Files:");
-//                for (File file : files) {
-//                    System.out.printf("%s (%s)\n", file.getName(), file.getId());
-//                }
-//            }
         } catch (IOException e) {
             e.printStackTrace();
         }

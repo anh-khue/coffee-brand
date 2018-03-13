@@ -4,6 +4,7 @@ import io.cobra.catalogservice.model.Sustenance;
 import io.cobra.catalogservice.model.SustenanceHasIngredient;
 import io.cobra.catalogservice.repository.SustenanceHasIngredientRepository;
 import io.cobra.catalogservice.repository.SustenanceRepository;
+import io.cobra.catalogservice.service.ImageService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +16,14 @@ import java.util.List;
 public class SustenanceController {
     private final SustenanceRepository sustenanceRepository;
     private final SustenanceHasIngredientRepository sustenanceHasIngredientRepository;
+    private final ImageService imageService;
 
     public SustenanceController(SustenanceRepository sustenanceRepository,
-                                SustenanceHasIngredientRepository sustenanceHasIngredientRepository) {
+                                SustenanceHasIngredientRepository sustenanceHasIngredientRepository,
+                                ImageService imageService) {
         this.sustenanceRepository = sustenanceRepository;
         this.sustenanceHasIngredientRepository = sustenanceHasIngredientRepository;
+        this.imageService = imageService;
     }
 
     @GetMapping("/sustenance")
@@ -40,9 +44,7 @@ public class SustenanceController {
     @PostMapping(value = "/sustenance", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createSustenance(@RequestBody Sustenance sustenance, File image) {
         sustenance.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-
-        //DuyDPD: Get image ID then set to sustenance...
-
+        sustenance.setImageId(this.imageService.generateImageId(image));
         this.sustenanceRepository.save(sustenance);
     }
 }
