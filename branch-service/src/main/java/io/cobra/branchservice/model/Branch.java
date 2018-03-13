@@ -2,6 +2,7 @@ package io.cobra.branchservice.model;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.util.List;
 import java.util.Objects;
 
 @Entity

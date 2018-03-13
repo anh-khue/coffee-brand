@@ -1,6 +1,5 @@
 package io.cobra.branchservice.controller;
 
-import io.cobra.branchservice.constant.BranchConstants;
 import io.cobra.branchservice.model.Branch;
 import io.cobra.branchservice.model.Rating;
 import io.cobra.branchservice.service.BranchService;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static io.cobra.branchservice.constant.BranchConstants.*;
+import static io.cobra.branchservice.constant.BranchConstants.BRANCH_NOT_EXIST;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
 
@@ -38,6 +37,15 @@ public class BranchController {
         Optional<Branch> optionalBranch = branchService.getById(Integer.parseInt(id));
         return optionalBranch.map(status(OK)::body)
                              .orElseGet(status(NOT_FOUND)::build);
+    }
+    
+    @GetMapping(value = "/branches/{id}/images")
+    public ResponseEntity<List<String>> getImagesById(@PathVariable("id") String id) {
+        List<String> idList = branchService.retrieveImagesById(Integer.parseInt(id));
+        if (!idList.isEmpty()) {
+            return status(OK).body(idList);
+        }
+        return status(NO_CONTENT).build();
     }
     
     @PostMapping(value = "/branches", consumes = MediaType.APPLICATION_JSON_VALUE)

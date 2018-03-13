@@ -1,13 +1,14 @@
 package io.cobra.branchservice.service;
 
-import io.cobra.branchservice.googledrive.GoogleDriveService;
 import io.cobra.branchservice.model.Branch;
 import io.cobra.branchservice.model.Rating;
 import io.cobra.branchservice.repository.BranchRepository;
 import io.cobra.branchservice.repository.RatingRepository;
+import io.cobra.branchservice.service.googledrive.GoogleDriveService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -43,7 +44,7 @@ public class BranchService {
     public int create(Branch branch) {
         try {
             String driveFolderId = googleDriveService.createFolder(branch.getName()
-                                                                     + System.currentTimeMillis());
+                                                                   + System.currentTimeMillis());
             branch.setDriveFolderId(driveFolderId);
             
             branchRepository.save(branch);
@@ -69,6 +70,20 @@ public class BranchService {
         return BRANCH_NOT_EXIST;
     }
     
+    public List<String> retrieveImagesById(Integer branchId) {
+        try {
+            Optional<Branch> optionalBranch = getById(branchId);
+            if (optionalBranch.isPresent()) {
+                Branch branch = optionalBranch.get();
+                return googleDriveService.getChildFiles(branch.getDriveFolderId());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return new ArrayList<>();
+    }
+    
     private void updateRating(Branch branch) {
         List<Rating> ratings = ratingRepository.findByBranchId(branch.getId());
         
@@ -81,9 +96,5 @@ public class BranchService {
             branchRepository.save(branch);
             branchRepository.flush();
         });
-    }
-    
-    private String createDriveFolder(String branchName) {
-        return null;
     }
 }
