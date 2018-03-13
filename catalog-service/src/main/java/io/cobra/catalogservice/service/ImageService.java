@@ -27,6 +27,8 @@ import java.util.List;
 public class ImageService {
     private static final String COBRA_IMAGES_FOLDER_ID = "1MNWE5ECjTs1FHSJPMsfRhDKnOJ9whUb0";
 
+    private static final String JPG_JPEG_IMAGE_TYPE = "image/jpeg";
+
     private static final String APPLICATION_NAME = "Drive API Java Quickstart";
 
     private static final java.io.File DATA_STORE_DIR = new java.io.File(
@@ -52,14 +54,12 @@ public class ImageService {
         }
     }
 
-    public static Credential authorize() throws IOException {
-        // Load client secrets.
+    private static Credential authorize() throws IOException {
         InputStream in =
                 ImageService.class.getResourceAsStream("/client_secret.json");
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-        // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
                         HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
@@ -73,7 +73,7 @@ public class ImageService {
         return credential;
     }
 
-    public static Drive getDriveService() throws IOException {
+    private static Drive getDriveService() throws IOException {
         Credential credential = authorize();
         return new Drive.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
@@ -88,7 +88,7 @@ public class ImageService {
             File fileMetadata = new File();
             fileMetadata.setName("image_" + (new Timestamp(System.currentTimeMillis())).getTime() + ".jpg");
             fileMetadata.setParents(Collections.singletonList(COBRA_IMAGES_FOLDER_ID));
-            FileContent mediaContent = new FileContent("image/jpeg", image);
+            FileContent mediaContent = new FileContent(JPG_JPEG_IMAGE_TYPE, image);
             File file = service.files().create(fileMetadata, mediaContent)
                     .setFields("id, parents")
                     .execute();

@@ -1,6 +1,7 @@
 package io.cobra.catalogservice.service;
 
 import io.cobra.catalogservice.model.Sustenance;
+import io.cobra.catalogservice.repository.SustenanceRepository;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -8,22 +9,23 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.cobra.catalogservice.constant.ImportConstants.*;
+
 @Service
 public class ImportService {
-    private static final String HEADER_NAME = "Name";
-    private static final String HEADER_PRICE = "Price (VND)";
-    private static final String HEADER_DISCOUNT = "Discount (%)";
-    private static final String HEADER_UNIT = "Unit";
-    private static final String HEADER_TYPE = "Type (Select)";
+    private static final String DEFAULT_IMAGE_ID = "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m";
 
-    private static final int ROW_HEADERS_INDEX = 0;
-    private static final int ROW_DATA_INDEX = 1; //Skip title, headers...
-    private static final int CELL_DATA_END = 5;
+    private final SustenanceRepository sustenanceRepository;
 
-    public List<Sustenance> read(File file) {
+    public ImportService(SustenanceRepository sustenanceRepository) {
+        this.sustenanceRepository = sustenanceRepository;
+    }
+
+    private List<Sustenance> readData(File file) {
         List<Sustenance> sustenances = null;
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(file);
@@ -53,7 +55,7 @@ public class ImportService {
                             sustenance.setUnit((int) cell.getNumericCellValue());
                             break;
                         }
-                        case HEADER_TYPE: {
+                        case HEADER_TYPE_ID: {
                             sustenance.setTypeId((int) cell.getNumericCellValue());
                             break;
                         }
@@ -65,5 +67,14 @@ public class ImportService {
             e.printStackTrace();
         }
         return sustenances;
+    }
+
+    public void importData(File file) {
+        List<Sustenance> sustenances = readData(file);
+        for (Sustenance sustenance : sustenances) {
+            sustenance.setImageId(DEFAULT_IMAGE_ID);
+            sustenance.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+            this.sustenanceRepository.save(sustenance);
+        }
     }
 }

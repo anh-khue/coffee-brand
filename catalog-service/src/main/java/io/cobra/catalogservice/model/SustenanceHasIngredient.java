@@ -9,7 +9,7 @@ public class SustenanceHasIngredient {
     private int ingredientId;
     private int sustenanceId;
     private Ingredient ingredientByIngredientId;
-    private Sustenance sustenanceBySustenanceId;
+//    private Sustenance sustenanceBySustenanceId;
 
     @Id
     @Column(name = "ingredient_id", nullable = false)
@@ -61,13 +61,13 @@ public class SustenanceHasIngredient {
         this.ingredientByIngredientId = ingredientByIngredientId;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "sustenance_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-    public Sustenance getSustenanceBySustenanceId() {
-        return sustenanceBySustenanceId;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "sustenance_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+//    public Sustenance getSustenanceBySustenanceId() {
+//        return sustenanceBySustenanceId;
+//    }
 
-    public void setSustenanceBySustenanceId(Sustenance sustenanceBySustenanceId) {
-        this.sustenanceBySustenanceId = sustenanceBySustenanceId;
-    }
+//    public void setSustenanceBySustenanceId(Sustenance sustenanceBySustenanceId) {
+//        this.sustenanceBySustenanceId = sustenanceBySustenanceId;
+//    }
 }

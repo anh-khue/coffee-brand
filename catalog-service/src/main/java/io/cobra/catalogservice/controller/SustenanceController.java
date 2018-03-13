@@ -2,49 +2,43 @@ package io.cobra.catalogservice.controller;
 
 import io.cobra.catalogservice.model.Sustenance;
 import io.cobra.catalogservice.model.SustenanceHasIngredient;
-import io.cobra.catalogservice.repository.SustenanceHasIngredientRepository;
-import io.cobra.catalogservice.repository.SustenanceRepository;
-import io.cobra.catalogservice.service.ImageService;
+import io.cobra.catalogservice.service.SustenanceService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
-import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
 public class SustenanceController {
-    private final SustenanceRepository sustenanceRepository;
-    private final SustenanceHasIngredientRepository sustenanceHasIngredientRepository;
-    private final ImageService imageService;
+    private final SustenanceService sustenanceService;
 
-    public SustenanceController(SustenanceRepository sustenanceRepository,
-                                SustenanceHasIngredientRepository sustenanceHasIngredientRepository,
-                                ImageService imageService) {
-        this.sustenanceRepository = sustenanceRepository;
-        this.sustenanceHasIngredientRepository = sustenanceHasIngredientRepository;
-        this.imageService = imageService;
+    public SustenanceController(SustenanceService sustenanceService) {
+        this.sustenanceService = sustenanceService;
     }
 
     @GetMapping("/sustenance")
     public List<Sustenance> viewAllSustenance() {
-        return this.sustenanceRepository.findAll();
+        return this.sustenanceService.getAll();
     }
 
     @GetMapping("/sustenance/{id}")
     public Sustenance viewSustenanceById(@PathVariable("id") int id) {
-        return this.sustenanceRepository.findById(id);
+        return this.sustenanceService.getById(id);
     }
 
     @GetMapping("/sustenance/{id}/ingredients")
     public List<SustenanceHasIngredient> viewIngredientsBySustenanceId(@PathVariable("id") int sustenanceId) {
-        return this.sustenanceHasIngredientRepository.findBySustenanceId(sustenanceId);
+        return this.sustenanceService.getContainedIngredients(sustenanceId);
     }
 
     @PostMapping(value = "/sustenance", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createSustenance(@RequestBody Sustenance sustenance, File image) {
-        sustenance.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-        sustenance.setImageId(this.imageService.generateImageId(image));
-        this.sustenanceRepository.save(sustenance);
+        this.sustenanceService.create(sustenance, image);
+    }
+
+    @GetMapping("types/{id}/sustenance")
+    public List<Sustenance> viewSustenanceByTypeId(@PathVariable("id") int typeId) {
+        return this.sustenanceService.getByTypeId(typeId);
     }
 }

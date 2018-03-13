@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SustenanceRepository extends JpaRepository<Sustenance, Integer> {
     Sustenance findById(int id);
+
+    List<Sustenance> findByTypeId(int typeId);
 }
