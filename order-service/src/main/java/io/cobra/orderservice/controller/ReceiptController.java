@@ -1,7 +1,8 @@
 package io.cobra.orderservice.controller;
 
 
-import io.cobra.orderservice.model.ReceiptEntity;
+import io.cobra.orderservice.constant.Constant;
+import io.cobra.orderservice.model.Receipt;
 import io.cobra.orderservice.service.ReceiptService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,25 +21,36 @@ public class ReceiptController {
         this.receiptService = receiptService;
     }
 
-    @PostMapping(value = "/order", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void insertOrder(@RequestBody ReceiptEntity receiptEntity) {
-        receiptEntity.setCheckoutDate(Timestamp.valueOf(LocalDateTime.now()));
-        receiptEntity.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-        receiptService.createOrder(receiptEntity);
+    @PostMapping(value = "/receipt", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void insertOrder(@RequestBody Receipt receipt) {
+        receipt.setCheckoutDate(Timestamp.valueOf(LocalDateTime.now()));
+        receipt.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+        receipt.setStatus(Constant.ON_GOING);
+        receiptService.createReceipt(receipt);
     }
 
-    @GetMapping("/order")
-    public List<ReceiptEntity> viewAllSustenance() {
+    @GetMapping("/receipt")
+    public List<Receipt> viewAllReciept() {
         return this.receiptService.getAll();
     }
 
-    @GetMapping("/order/{id}")
-    public ReceiptEntity getOrderById(@PathVariable("id") int id) {
-        return this.receiptService.findOrderById(id);
+    @GetMapping("/receipt/{id}")
+    public Receipt getReceitById(@PathVariable("id") int id) {
+        return this.receiptService.findReceiptById(id);
     }
 
-    @PostMapping(value = "/order/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void removeReceipt(@PathVariable("id") int id){
+    @DeleteMapping(value = "/receipt/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void removeReceipt(@PathVariable("id") int id) {
         this.receiptService.deleteReceipt(id);
+    }
+
+    @PutMapping(value = "/receipt/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateReceipt(@RequestBody Receipt receipt) {
+        if (this.receiptService.findReceiptById(receipt.getId()) != null) {
+            receipt.setCheckoutDate(Timestamp.valueOf(LocalDateTime.now()));
+            receipt.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
+            receipt.setStatus(Constant.ON_GOING);
+            this.receiptService.createReceipt(receipt);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package io.cobra.orderservice.service;
 
-import io.cobra.orderservice.model.ReceiptEntity;
+import io.cobra.orderservice.model.Receipt;
 import io.cobra.orderservice.repository.ReceiptRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +15,20 @@ public class ReceiptService {
         this.receiptRepository = receiptRepository;
     }
 
-    public List<ReceiptEntity> getAll(){
+    public List<Receipt> getAll(){
         return this.receiptRepository.findAll();
     }
 
-    public void createOrder(ReceiptEntity receiptEntity){
-        this.receiptRepository.save(receiptEntity);
+    public void createReceipt(Receipt receipt){
+        this.receiptRepository.save(receipt);
     }
 
-    public ReceiptEntity findOrderById(int id){
+    public Receipt findReceiptById(int id){
         return this.receiptRepository.findById(id);
     }
 
     public void deleteReceipt(int id){
         this.receiptRepository.deleteById(id);
     }
+
 }

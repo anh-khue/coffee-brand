@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order_detail", schema = "Order_Coffee_Brand", catalog = "")
-public class OrderDetailEntity {
+@Table(name = "order_detail", schema = "Order_Coffee_Brand")
+public class OrderDetail {
     private int id;
     private int orderId;
     private int sustenanceId;
@@ -13,6 +13,8 @@ public class OrderDetailEntity {
     private int quantity;
     private Double discountRate;
     private double total;
+
+    private double memberDiscountRate;
 
     @Id
     @Column(name = "id")
@@ -88,7 +90,7 @@ public class OrderDetailEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderDetailEntity that = (OrderDetailEntity) o;
+        OrderDetail that = (OrderDetail) o;
         return id == that.id &&
                 orderId == that.orderId &&
                 sustenanceId == that.sustenanceId &&
@@ -101,6 +103,16 @@ public class OrderDetailEntity {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, orderId, sustenanceId, price, quantity, discountRate, total);
+        return Objects.hash(id, orderId, sustenanceId, price, quantity, discountRate, memberDiscountRate, total);
+    }
+
+    @Basic
+    @Column(name = "member_discount_rate")
+    public Double getMemberDiscountRate() {
+        return memberDiscountRate;
+    }
+
+    public void setMemberDiscountRate(Double memberDiscountRate) {
+        this.memberDiscountRate = memberDiscountRate;
     }
 }
