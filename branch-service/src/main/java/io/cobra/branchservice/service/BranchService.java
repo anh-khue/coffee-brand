@@ -81,14 +81,15 @@ public class BranchService {
         return new ArrayList<>();
     }
     
-    public void uploadImage(MultipartFile multipartFile, Integer branchId) {
+    public String uploadImage(MultipartFile multipartFile, Integer branchId)
+            throws BranchNotFoundException,
+                   IOException {
         
         File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        try {
-            multipartFile.transferTo(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Branch branch = getById(branchId)
+                                .orElseThrow(() -> new BranchNotFoundException(branchId));
+        multipartFile.transferTo(file);
+        return googleDriveService.uploadImage(file, branch.getDriveFolderId());
     }
     
     private void updateRating(Branch branch) {

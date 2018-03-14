@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
@@ -73,8 +74,14 @@ public class BranchController {
     @PostMapping(value = "/branches/{id}/images")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file,
                                          @PathVariable("id") String id) {
-        branchService.uploadImage(file, Integer.parseInt(id));
-        return ResponseEntity.status(CREATED).build();
+        try {
+            String uploadImageId = branchService.uploadImage(file, Integer.parseInt(id));
+            return ResponseEntity.status(CREATED).body(uploadImageId);
+        } catch (BranchNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND).build();
+        } catch (IOException e) {
+            return ResponseEntity.status(PRECONDITION_FAILED).build();
+        }
     }
     
 }

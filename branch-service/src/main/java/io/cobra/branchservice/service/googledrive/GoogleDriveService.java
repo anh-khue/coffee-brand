@@ -1,5 +1,6 @@
 package io.cobra.branchservice.service.googledrive;
 
+import com.google.api.client.http.FileContent;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
@@ -26,10 +27,10 @@ public class GoogleDriveService {
         }
     }
     
-    public String createFolder(String name) throws IOException {
+    public String createFolder(String folderName) throws IOException {
         File fileMetadata = new File();
         
-        fileMetadata.setName(name);
+        fileMetadata.setName(folderName);
         fileMetadata.setParents(Collections.singletonList(GOOGLE_DRIVE_IMAGES_FOLDER_ID));
         fileMetadata.setMimeType(MimeType.FOLDER);
         
@@ -58,5 +59,18 @@ public class GoogleDriveService {
         } while (pageToken != null);
         
         return idList;
+    }
+    
+    public String uploadImage(java.io.File image, String folderId) throws IOException {
+        File fileMetadata = new File();
+        
+        fileMetadata.setName(image.getName());
+        fileMetadata.setParents(Collections.singletonList(folderId));
+        
+        FileContent mediaContent = new FileContent("image/jpeg", image);
+        File file = googleDrive.files().create(fileMetadata, mediaContent)
+                               .setFields("id, parents")
+                               .execute();
+        return file.getId();
     }
 }
