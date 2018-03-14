@@ -1,19 +1,17 @@
 package io.cobra.branchservice.service;
 
+import io.cobra.branchservice.exception.BranchNotFoundException;
 import io.cobra.branchservice.model.Branch;
 import io.cobra.branchservice.model.Rating;
 import io.cobra.branchservice.repository.BranchRepository;
 import io.cobra.branchservice.repository.RatingRepository;
 import io.cobra.branchservice.service.googledrive.GoogleDriveService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.OptionalDouble;
-
-import static io.cobra.branchservice.constant.BranchConstants.BRANCH_NOT_EXIST;
+import java.util.*;
 
 @Service
 public class BranchService {
@@ -60,14 +58,13 @@ public class BranchService {
         branchRepository.deleteById(id);
     }
     
-    public Double rate(Rating rating) {
+    public Double rate(Rating rating) throws BranchNotFoundException {
         Optional<Branch> optionalBranch = branchRepository.findById(rating.getBranchId());
-        if (optionalBranch.isPresent()) {
+        return optionalBranch.map(branch -> {
             ratingService.rate(rating.getBranchId(), rating.getCustomerId(), rating.getStar());
-            updateRating(optionalBranch.get());
-            return optionalBranch.get().getRating();
-        }
-        return BRANCH_NOT_EXIST;
+            updateRating(branch);
+            return branch.getRating();
+        }).orElseThrow(() -> new BranchNotFoundException(rating.getBranchId()));
     }
     
     public List<String> retrieveImagesById(Integer branchId) {
@@ -82,6 +79,16 @@ public class BranchService {
         }
         
         return new ArrayList<>();
+    }
+    
+    public void uploadImage(MultipartFile multipartFile, Integer branchId) {
+        
+        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        try {
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     private void updateRating(Branch branch) {
