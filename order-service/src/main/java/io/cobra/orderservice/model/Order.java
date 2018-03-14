@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "receipt", schema = "Order_Coffee_Brand", catalog = "")
-public class Receipt {
+@Table(name = "orders", schema = "Order_Coffee_Brand", catalog = "")
+public class Order {
     private int id;
     private Integer memberId;
     private int cashierId;
@@ -90,7 +90,7 @@ public class Receipt {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Receipt that = (Receipt) o;
+        Order that = (Order) o;
         return id == that.id &&
                 cashierId == that.cashierId &&
                 status == that.status &&

@@ -39,7 +39,7 @@ public class OrderDetailService {
         this.orderDetailRepository.deleteById(id);
     }
 
-    public List<OrderDetail> getOrderDetailByReceiptId(int receiptId){
+    public List<OrderDetail> getOrderDetailByOrderId(int receiptId){
         return this.orderDetailRepository.findAllByOrderId(receiptId);
     }
 }

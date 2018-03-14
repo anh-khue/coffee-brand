@@ -1,9 +1,9 @@
 package io.cobra.orderservice.controller;
 
+import io.cobra.orderservice.model.Order;
 import io.cobra.orderservice.model.OrderDetail;
-import io.cobra.orderservice.model.Receipt;
 import io.cobra.orderservice.service.OrderDetailService;
-import io.cobra.orderservice.service.ReceiptService;
+import io.cobra.orderservice.service.OrderService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,11 +13,11 @@ import java.util.List;
 public class OrderDetailController {
 
     private final OrderDetailService orderDetailService;
-    private final ReceiptService receiptService;
+    private final OrderService orderService;
 
-    public OrderDetailController(OrderDetailService orderDetailService, ReceiptService receiptService) {
+    public OrderDetailController(OrderDetailService orderDetailService, OrderService orderService) {
         this.orderDetailService = orderDetailService;
-        this.receiptService = receiptService;
+        this.orderService = orderService;
     }
 
 
@@ -25,9 +25,19 @@ public class OrderDetailController {
     public void insetOrderDetail(@RequestBody OrderDetail orderDetail) {
         double total = 0;
         double discount = 0;
+        Order order = this.orderService.findById(orderDetail.getOrderId());
+        List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailByOrderId(orderDetail.getOrderId());
         total = orderDetail.getPrice() * orderDetail.getQuantity();
-        if (orderDetail.getDiscountRate() == 0 || orderDetail.getMemberDiscountRate() == 0) {
+
+        //total without discount
+        if (orderDetail.getMemberDiscountRate() == 0) {
             orderDetail.setTotal(total);
+            for (OrderDetail eachOrderDetail : orderDetailList) {
+                total += eachOrderDetail.getTotal();
+            }
+            order.setTotal(total);
+
+        //total with discount
         } else {
             if (orderDetail.getDiscountRate() > orderDetail.getMemberDiscountRate()) {
                 discount = orderDetail.getDiscountRate();
@@ -35,7 +45,13 @@ public class OrderDetailController {
                 discount = orderDetail.getMemberDiscountRate();
             }
             orderDetail.setTotal(total * discount);
+            for (OrderDetail eachOrderDetail : orderDetailList) {
+                total += eachOrderDetail.getTotal();
+            }
+            order.setTotal(total);
         }
+
+        this.orderService.create(order);
         this.orderDetailService.createOrderDetail(orderDetail);
     }
 
@@ -59,15 +75,15 @@ public class OrderDetailController {
         double total = 0;
         if (this.orderDetailService.getOrderDetailById(orderDetail.getId()) != null) {
             this.orderDetailService.updateOrderDetail(orderDetail);
-            Receipt receipt = this.receiptService.findReceiptById(orderDetail.getOrderId());
-            List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailByReceiptId(receipt.getId());
+            Order order = this.orderService.findById(orderDetail.getOrderId());
+            List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailByOrderId(order.getId());
 
-            //update receipt total
+            //update order total
             for (OrderDetail eachOrderDetail : orderDetailList) {
                 total += eachOrderDetail.getTotal();
             }
-            receipt.setTotal(total);
-            this.receiptService.updateReceipt(receipt);
+            order.setTotal(total);
+            this.orderService.update(order);
         }
     }
 
