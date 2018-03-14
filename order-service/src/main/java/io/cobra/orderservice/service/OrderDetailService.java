@@ -38,4 +38,8 @@ public class OrderDetailService {
     public void deleteOrderDetail(int id) {
         this.orderDetailRepository.deleteById(id);
     }
+
+    public List<OrderDetail> getOrderDetailByReceiptId(int receiptId){
+        return this.orderDetailRepository.findAllByOrderId(receiptId);
+    }
 }

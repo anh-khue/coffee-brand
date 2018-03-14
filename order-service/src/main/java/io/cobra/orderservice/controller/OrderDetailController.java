@@ -1,6 +1,7 @@
 package io.cobra.orderservice.controller;
 
 import io.cobra.orderservice.model.OrderDetail;
+import io.cobra.orderservice.model.Receipt;
 import io.cobra.orderservice.service.OrderDetailService;
 import io.cobra.orderservice.service.ReceiptService;
 import org.springframework.http.MediaType;
@@ -55,8 +56,19 @@ public class OrderDetailController {
 
     @PutMapping(value = "/order_detail/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateOrderDetail(@RequestBody OrderDetail orderDetail) {
+        double total = 0;
         if (this.orderDetailService.getOrderDetailById(orderDetail.getId()) != null) {
             this.orderDetailService.updateOrderDetail(orderDetail);
+            Receipt receipt = this.receiptService.findReceiptById(orderDetail.getOrderId());
+            List<OrderDetail> orderDetailList = this.orderDetailService.getOrderDetailByReceiptId(receipt.getId());
+
+            //update receipt total
+            for (OrderDetail eachOrderDetail : orderDetailList) {
+                total += eachOrderDetail.getTotal();
+            }
+            receipt.setTotal(total);
+            this.receiptService.updateReceipt(receipt);
         }
     }
+
 }

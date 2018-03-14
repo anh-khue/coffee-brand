@@ -12,4 +12,6 @@ public interface OrderDetailRepository extends JpaRepository<OrderDetail, Intege
     List<OrderDetail> findAll();
 
     OrderDetail findBySustenanceIdAndOrderId(int sustenanceId, int orderId);
+
+    List<OrderDetail> findAllByOrderId(int receiptId);
 }

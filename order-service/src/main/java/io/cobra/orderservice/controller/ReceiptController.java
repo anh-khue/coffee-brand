@@ -50,7 +50,7 @@ public class ReceiptController {
             receipt.setCheckoutDate(Timestamp.valueOf(LocalDateTime.now()));
             receipt.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
             receipt.setStatus(Constant.ON_GOING);
-            this.receiptService.createReceipt(receipt);
+            this.receiptService.updateReceipt(receipt);
         }
     }
 }

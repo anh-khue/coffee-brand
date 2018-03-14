@@ -31,4 +31,12 @@ public class ReceiptService {
         this.receiptRepository.deleteById(id);
     }
 
+    public void updateReceipt(Receipt receipt){
+        if(this.receiptRepository.
+                findByCashierIdAndMemberId(receipt.getCashierId()
+                        , receipt.getMemberId())!=null){
+            this.receiptRepository.save(receipt);
+        }
+    }
+
 }

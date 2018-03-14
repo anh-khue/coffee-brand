@@ -11,4 +11,6 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
 
     Receipt findById(int id);
 
+    Receipt findByCashierIdAndMemberId(int cashierId, int memberId);
+
 }
