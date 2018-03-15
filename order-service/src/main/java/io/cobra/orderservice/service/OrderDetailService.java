@@ -12,11 +12,8 @@ public class OrderDetailService {
     
     private final OrderDetailRepository orderDetailRepository;
     
-    private final OrderService orderService;
-    
-    public OrderDetailService(OrderDetailRepository orderDetailRepository, OrderService orderService) {
+    public OrderDetailService(OrderDetailRepository orderDetailRepository) {
         this.orderDetailRepository = orderDetailRepository;
-        this.orderService = orderService;
     }
     
     public List<OrderDetail> getAll() {
@@ -27,59 +24,38 @@ public class OrderDetailService {
         return this.orderDetailRepository.findById(id);
     }
     
-    public Integer create(OrderDetail orderDetail, Double memberDiscountRate) {
-        
-        Optional<OrderDetail> optionalDetail = orderDetailRepository
-                                                       .findByOrderIdAndSustenanceId(orderDetail.getOrderId(),
-                                                                                     orderDetail.getSustenanceId());
-        optionalDetail.map(foundOrderDetail -> {
-            foundOrderDetail.setQuantity(foundOrderDetail.getQuantity() + 1);
-            return foundOrderDetail.getId();
-        });
-        
-        orderDetailRepository.save(orderDetail);
-        orderDetailRepository.flush();
-        return orderDetail.getId();
-        
-//        Order order = this.orderService.getById(orderDetail.getOrderId()).get();
-//        List<OrderDetail> orderDetails = getByOrderId(order.getId());
-//        double total = orderDetail.getPrice() * orderDetail.getQuantity();
-//
-//        if (memberDiscountRate == 0) {
-//            orderDetail.setTotal(total);
-//            total = updateTotal(orderDetails, total);
-//            order.setTotal(total);
-//        } else {
-//            double discount = orderDetail.getDiscountRate() > memberDiscountRate ? orderDetail.getDiscountRate()
-//                                                                                 : memberDiscountRate;
-//            orderDetail.setTotal(total * discount);
-//            total = updateTotal(orderDetails, total);
-//            order.setTotal(total);
-//        }
-//
-//
-//        this.orderDetailRepository.save(orderDetail);
-    }
-    
-    private double updateTotal(List<OrderDetail> orderDetails, double total) {
-        for (OrderDetail eachOrderDetail : orderDetails) {
-            total += eachOrderDetail.getTotal();
-        }
-        return total;
-    }
-    
-    public void update(OrderDetail orderDetail) {
-        if (this.orderDetailRepository.findByOrderIdAndSustenanceId(orderDetail.getSustenanceId()
-                , orderDetail.getOrderId()) != null) {
-            this.orderDetailRepository.save(orderDetail);
-        }
+    public Integer create(OrderDetail orderDetail, double sustenanceDiscountRate, double memberDiscountRate) {
+        return orderDetailRepository.findByOrderIdAndSustenanceId(orderDetail.getOrderId(),
+                                                                  orderDetail.getSustenanceId())
+                                    .map(foundOrderDetail -> {
+                                        foundOrderDetail.setQuantity(foundOrderDetail.getQuantity() + 1);
+                                        updateTotal(foundOrderDetail);
+                                        return foundOrderDetail.getId();
+                                    })
+                                    .orElseGet(() -> {
+                                        double discountRate = sustenanceDiscountRate > memberDiscountRate ?
+                                                              sustenanceDiscountRate : memberDiscountRate;
+            
+                                        orderDetail.setDiscountRate(discountRate);
+                                        updateTotal(orderDetail);
+                                        orderDetailRepository.save(orderDetail);
+                                        orderDetailRepository.flush();
+                                        return orderDetail.getId();
+                                    });
     }
     
     public void delete(int id) {
         this.orderDetailRepository.deleteById(id);
     }
     
-    public List<OrderDetail> getByOrderId(int receiptId) {
+    List<OrderDetail> getByOrderId(int receiptId) {
         return this.orderDetailRepository.findByOrderId(receiptId);
+    }
+    
+    private void updateTotal(OrderDetail orderDetail) {
+        double total = orderDetail.getDiscountRate() != 0
+                       ? orderDetail.getPrice() * (((100 - orderDetail.getDiscountRate())) / 100) * orderDetail.getQuantity()
+                       : orderDetail.getPrice() * orderDetail.getQuantity();
+        orderDetail.setTotal(total);
     }
 }

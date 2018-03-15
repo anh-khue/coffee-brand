@@ -42,21 +42,44 @@ public class OrderController {
                                 .orElseGet(status(NOT_FOUND)::build);
     }
     
+    @GetMapping("/orders/{status}")
+    public ResponseEntity<List<Order>> getByStatus(@PathVariable("status") String status) {
+        List<Order> orders;
+        switch (status.toLowerCase()) {
+            case "checked_out":
+            case "cancelled":
+                orders = orderService.getByStatus(status.toLowerCase());
+                break;
+            default:
+                return status(NOT_ACCEPTABLE).build();
+        }
+        return !orders.isEmpty() ? status(OK).body(orders)
+                                 : status(NO_CONTENT).build();
+    }
+    
+    @GetMapping("/orders/{status}/today")
+    public ResponseEntity<List<Order>> getTodayByStatus(@PathVariable("status") String status) {
+        List<Order> orders;
+        switch (status.toLowerCase()) {
+            case "checked_out":
+            case "cancelled":
+                orders = orderService.getByStatusAndDate(status.toLowerCase(),
+                                                         Timestamp.valueOf(LocalDateTime.now()));
+                break;
+            default:
+                return status(NOT_ACCEPTABLE).build();
+        }
+        return !orders.isEmpty() ? status(OK).body(orders)
+                                 : status(NO_CONTENT).build();
+    }
+    
     @DeleteMapping(value = "/orders/{id}")
     @ResponseStatus(ACCEPTED)
     public void delete(@PathVariable("id") int id) {
         this.orderService.delete(id);
     }
-//
-//    @PutMapping(value = "/orders/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public void update(@RequestBody Order order, @PathVariable("id") String id) {
-//        if (this.orderService.getById(order.getId()) != null) {
-//            order.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
-//            this.orderService.update(order);
-//        }
-//    }
     
-    @PutMapping(value = "/orders/{id}/checkout", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/orders/{id}/checkout")
     public ResponseEntity checkout(@PathVariable("id") String id) {
         try {
             Double total = orderService.checkout(Integer.parseInt(id));
@@ -66,7 +89,7 @@ public class OrderController {
         }
     }
     
-    @PutMapping(value = "/orders/{id}/cancel", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/orders/{id}/cancel")
     public ResponseEntity cancel(@PathVariable("id") String id) {
         try {
             Integer status = orderService.cancel(Integer.parseInt(id));
