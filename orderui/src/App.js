@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Login from './components/Login'
-import Overview from './components/Overview'
+import DashBoard from './components/DashBoard'
 
 class App extends Component {
   constructor(props){
@@ -19,7 +19,7 @@ class App extends Component {
   render() {
     if(this.state.authorized){
       return (
-        <Overview handleLogout={(response) => this.handleSubmit(response)} />
+        <DashBoard handleLogout={(response) => this.handleSubmit(response)} />
       );
     }else{
       return (

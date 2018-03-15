@@ -58,7 +58,7 @@ export default class Login extends React.Component{
         this.setState({
             loading: true
         })
-        //simulate response from server
+        // assume it's valid
         let authorized = true
         
         //demo
