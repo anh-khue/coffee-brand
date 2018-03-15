@@ -11,6 +11,14 @@ public class SustenanceHasIngredient {
     private Ingredient ingredientByIngredientId;
 //    private Sustenance sustenanceBySustenanceId;
 
+    public SustenanceHasIngredient() {
+    }
+
+    public SustenanceHasIngredient(int ingredientId, int sustenanceId) {
+        this.ingredientId = ingredientId;
+        this.sustenanceId = sustenanceId;
+    }
+
     @Id
     @Column(name = "ingredient_id", nullable = false)
     public int getIngredientId() {

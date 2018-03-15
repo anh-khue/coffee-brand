@@ -4,8 +4,9 @@ import io.cobra.catalogservice.model.Sustenance;
 import io.cobra.catalogservice.model.SustenanceHasIngredient;
 import io.cobra.catalogservice.repository.SustenanceHasIngredientRepository;
 import io.cobra.catalogservice.repository.SustenanceRepository;
-import io.cobra.catalogservice.repository.TypeRepository;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -44,13 +45,36 @@ public class SustenanceService {
         return this.sustenanceRepository.findByTypeId(typeId);
     }
 
-    public void create(Sustenance sustenance, File image) {
-        if (!image.exists() || image.length() == 0) {
+    public void create(Sustenance sustenance, File image, List<Integer> ingredientIds) {
+        if (!image.exists()) {
             sustenance.setImageId(DEFAULT_IMAGE_ID);
         } else {
             sustenance.setImageId(this.imageService.generateImageId(image));
         }
         sustenance.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         this.sustenanceRepository.save(sustenance);
+        if (null != ingredientIds && !ingredientIds.isEmpty()) {
+            this.sustenanceRepository.flush();
+            setIngredients(sustenance.getId(), ingredientIds);
+        }
+    }
+
+    private void setIngredients(int sustenanceId, List<Integer> ingredientIds) {
+        for (int ingredientId : ingredientIds) {
+            this.sustenanceHasIngredientRepository.save(new SustenanceHasIngredient(ingredientId, sustenanceId));
+        }
+    }
+
+    public File handleMultipartFile(MultipartFile multipartFile) {
+        File file = new File(multipartFile.getOriginalFilename());
+        if (!multipartFile.isEmpty()) {
+            try {
+                byte[] bytes = multipartFile.getBytes();
+                FileUtils.writeByteArrayToFile(file, bytes);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
     }
 }

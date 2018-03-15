@@ -3,10 +3,14 @@ package io.cobra.catalogservice.controller;
 import io.cobra.catalogservice.model.Sustenance;
 import io.cobra.catalogservice.model.SustenanceHasIngredient;
 import io.cobra.catalogservice.service.SustenanceService;
+import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -33,8 +37,10 @@ public class SustenanceController {
     }
 
     @PostMapping(value = "/sustenance", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void createSustenance(@RequestBody Sustenance sustenance, File image) {
-        this.sustenanceService.create(sustenance, image);
+    public void createSustenance(@RequestBody Sustenance sustenance,
+                                 @RequestParam("file") MultipartFile image,
+                                 @RequestParam("ingredientIds") List<Integer> ingredientIds) {
+        this.sustenanceService.create(sustenance, this.sustenanceService.handleMultipartFile(image), ingredientIds);
     }
 
     @GetMapping("types/{id}/sustenance")
