@@ -1,2 +1,4 @@
-# coffee-brand
-Application for managing a coffee brand
+
+## Coffee Brand
+
+Project Coffee Brand using microservices, Spring, React and Android.
