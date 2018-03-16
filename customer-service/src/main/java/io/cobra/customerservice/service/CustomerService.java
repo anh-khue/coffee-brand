@@ -42,5 +42,8 @@ public class CustomerService {
         return this.customerRepository.findByEmail(emai);
     }
 
+    public Customer getByLevelId(int levelId){
+        return this.customerRepository.findByLevelId(levelId);
+    }
 
 }
