@@ -51,9 +51,9 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping(value = "/customer/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@PathVariable("id") int id){
-        if(this.customerService.getById(id)!=null){
+    @DeleteMapping(value = "/customer/{id}")
+    public void delete(@PathVariable("id") int id) {
+        if (this.customerService.getById(id) != null) {
             this.customerService.delete(id);
         }
     }
