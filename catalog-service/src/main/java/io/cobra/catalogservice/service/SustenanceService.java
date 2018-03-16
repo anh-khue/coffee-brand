@@ -53,6 +53,7 @@ public class SustenanceService {
         }
         sustenance.setCreatedDate(new Timestamp(System.currentTimeMillis()));
         this.sustenanceRepository.save(sustenance);
+        image.delete();
         if (null != ingredientIds && !ingredientIds.isEmpty()) {
             this.sustenanceRepository.flush();
             setIngredients(sustenance.getId(), ingredientIds);
