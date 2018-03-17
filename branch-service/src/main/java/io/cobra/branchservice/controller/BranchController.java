@@ -3,14 +3,19 @@ package io.cobra.branchservice.controller;
 import io.cobra.branchservice.exception.BranchNotFoundException;
 import io.cobra.branchservice.model.Branch;
 import io.cobra.branchservice.model.Rating;
+import io.cobra.branchservice.resource.BranchResource;
 import io.cobra.branchservice.service.BranchService;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.http.ResponseEntity.status;
@@ -26,9 +31,15 @@ public class BranchController {
     }
     
     @GetMapping(value = "/branches")
-    public ResponseEntity<List<Branch>> getAll() {
+    public ResponseEntity<Resources<BranchResource>> getAll() {
         List<Branch> branches = branchService.getAll();
-        return !branches.isEmpty() ? status(OK).body(branches)
+        List<BranchResource> branchResources = branches.stream().map(BranchResource::new).collect(Collectors.toList());
+        Resources<BranchResource> resources = new Resources<>(branchResources);
+        
+        String selfUri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUriString();
+        resources.add(new Link(selfUri, "self"));
+        
+        return !branches.isEmpty() ? status(OK).body(resources)
                                    : status(NO_CONTENT).build();
     }
     
@@ -39,9 +50,9 @@ public class BranchController {
     }
     
     @GetMapping(value = "/branches/{id}")
-    public ResponseEntity<Branch> getById(@PathVariable("id") String id) {
+    public ResponseEntity<BranchResource> getById(@PathVariable("id") String id) {
         return branchService.getById(Integer.parseInt(id))
-                            .map(status(OK)::body)
+                            .map(branch -> status(OK).body(new BranchResource(branch)))
                             .orElseGet(status(NOT_FOUND)::build);
     }
     
