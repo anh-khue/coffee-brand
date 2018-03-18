@@ -50,10 +50,10 @@ export default class DashBoard extends React.Component{
     render(){
         return(
             <Sidebar.Pushable as={Segment}>
-                <Sidebar as={Menu} id='side-bar' animation='push' width='wide' visible={this.state.sideBarVisible} icon='labeled' vertical inverted>
+                <Sidebar as={Menu} style={{backgroundColor: '#4680ff'}} id='side-bar' animation='push' width='wide' visible={this.state.sideBarVisible} icon='labeled' vertical inverted>
                     {
                         this.state.sideBarVisible?
-                        <Label color='teal' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
+                        <Label color='white' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
                         <Icon style={{cursor: 'pointer'}} name={this.state.sideBarVisible?'chevron left':'chevron right'}/>
                     </Label>:null
                     }
@@ -78,7 +78,7 @@ export default class DashBoard extends React.Component{
                         <Icon name='plus circle' />
                         Add new Order
                     </Menu.Item>
-                    <Menu.Item onClick={() => this.logout()} name='log out' style={{cursor: 'pointer', position: 'absolute', bottom: '0', width: '100%', borderTop: '1px solid #353535'}}>
+                    <Menu.Item onClick={() => this.logout()} name='log out' style={{cursor: 'pointer', position: 'absolute', bottom: '0', width: '100%', borderTop: '1px solid white'}}>
                         <Icon name='log out' flipped='horizontally' />
                         Logout
                     </Menu.Item>
@@ -86,7 +86,7 @@ export default class DashBoard extends React.Component{
                 <Sidebar.Pusher style={{backgroundColor: '#e1e4ea'}}>
                     {
                         !this.state.sideBarVisible?
-                            <Label color='teal' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='left' style={{cursor: 'pointer'}}>
+                            <Label color='white' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='left' style={{cursor: 'pointer'}}>
                                 <Icon style={{cursor: 'pointer'}} name={this.state.sideBarVisible?'chevron left':'chevron right'}/>
                             </Label>
                         :null

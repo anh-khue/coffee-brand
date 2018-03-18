@@ -43,7 +43,7 @@ class Overview extends React.Component {
                 <PieChart style={{ marginLeft: '50%', transform: 'translateX(50%)' }}>
                     <Pie data={this.props.data} innerRadius='50%' nameKey='name' dataKey='value' >
                         {
-                            this.props.data.map((entry, index) => <Cell key={this.compName+index} fill={this.colors[index % this.colors.length]} />)
+                            this.props.data.map((entry, index) => <Cell key={this.compName + index} fill={this.colors[index % this.colors.length]} />)
                         }
                     </Pie>
                     <text x='50%' y='60%' textAnchor='middle' fontSize='140'>7</text>
@@ -65,7 +65,8 @@ class NewOrder extends React.Component {
             animate: this.props.sideBarVisible,
             columns: this.props.sideBarVisible ? 3 : 4,
             data: [],
-            order: []
+            orders: [], // in orders array each element is the same in data with addition of field 'count'
+            orderId: undefined
         }
 
         //=============== FAKE DATA ====================
@@ -221,7 +222,7 @@ class NewOrder extends React.Component {
                 "typeId": 4
             }
         ]
-        
+
         this.compName = 'NewOrder'
 
         this.stickyRef
@@ -251,9 +252,9 @@ class NewOrder extends React.Component {
                 </Modal>
             )
         } else {
-            let customerName = (this.state.customerName==''? 'New Customer':this.state.customerName)
-            let total = this.state.order.reduce((acc, drink) => {
-                acc += drink.price - (drink.price*drink.discount/100)
+            let customerName = (this.state.customerName == '' ? 'New Customer' : this.state.customerName)
+            let total = this.state.orders.reduce((acc, drink) => {
+                acc += (drink.price - (drink.price * drink.discount / 100)) * drink.count
                 return acc
             }, 0)
             let processedData = []
@@ -278,14 +279,14 @@ class NewOrder extends React.Component {
                             {
                                 processedData.map((rowData, index) => {
                                     return (
-                                        <Grid.Row key={this.compName+index} columns={this.state.columns}>
+                                        <Grid.Row key={this.compName + index} columns={this.state.columns}>
                                             {
                                                 rowData.map((data, i) => {
                                                     return (
-                                                        <Grid.Column key={this.compName+'Sub'+i} >
+                                                        <Grid.Column key={this.compName + 'Sub' + i} >
                                                             {/* <Transition transitionOnMount visible={this.state.animate} onHide={() => this.onHideCardAnimation()} animation='pulse' duration={300}> */}
-                                                            <Card onClick={e => this.handleAddDrink(data.id)} >
-                                                                <Image style={{height: '200px'}} src={this.driveURL+data.imageId} />
+                                                            <Card onClick={e => this.handleAddDrink(data)} >
+                                                                <Image style={{ height: '200px' }} src={this.driveURL + data.imageId} />
                                                                 <Card.Content>
                                                                     <Card.Header>
                                                                         {data.name}
@@ -329,7 +330,7 @@ class NewOrder extends React.Component {
                                 <Grid>
                                     <Grid.Row columns={2}>
                                         <Grid.Column>
-                                            <Button color='blue' content='Checkout' fluid size='large' />
+                                            <Button onClick={() => this.handleCheckout()} color='blue' content='Checkout' fluid size='large' />
                                         </Grid.Column>
                                         <Grid.Column>
                                             <Label ribbon='right' content='Customer Bill' color='red' size='big' />
@@ -346,8 +347,10 @@ class NewOrder extends React.Component {
                                                 <span className="date">COBRA</span>
                                             </Card.Meta>
                                             <Card.Description>
-                                                <Input label='Customner' transparent disabled value={' '+customerName} />
-                                                <Input label='VND' transparent disabled value={' '+total} />
+                                                <Input style={{ float: 'right' }} label='Customner' transparent disabled value={' ' + customerName} />
+                                                <br />
+                                                <br />
+                                                <Input style={{ float: 'right' }} label='Total' transparent disabled value={' ' + Math.ceil(total)} />
                                             </Card.Description>
                                         </Card.Content>
                                     </Card>
@@ -356,21 +359,24 @@ class NewOrder extends React.Component {
                                 <div style={{ overflowY: 'scroll', height: '60%' }}>
                                     <Segment basic>
                                         {
-                                            this.state.order.map(drink => {
-                                                return(
+                                            this.state.orders.map(drink => {
+                                                return (
                                                     <Card>
                                                         <Card.Content>
                                                             <Card.Description>
-                                                                <Grid>
-                                                                    <Grid.Row columns={3}>
+                                                                <Grid relaxed>
+                                                                    <Grid.Row columns={4}>
                                                                         <Grid.Column>
                                                                             {drink.name}
                                                                         </Grid.Column>
-                                                                        <Grid.Column>
-                                                                            {'x'+drink.count}
+                                                                        <Grid.Column textAlign='center' >
+                                                                            {drink.count}
                                                                         </Grid.Column>
                                                                         <Grid.Column>
-                                                                            {drink.count*(drink.price - (drink.price*drink.discount/100))}
+                                                                            {Math.ceil(drink.count * (drink.price - (drink.price * drink.discount / 100))) + ' VND'}
+                                                                        </Grid.Column>
+                                                                        <Grid.Column textAlign='center' verticalAlign='middle' >
+                                                                            <Icon style={{ cursor: 'pointer' }} onClick={() => this.handleRemoveDrink(drink.id)} size='large' name='close' />
                                                                         </Grid.Column>
                                                                     </Grid.Row>
                                                                 </Grid>
@@ -390,34 +396,131 @@ class NewOrder extends React.Component {
         }
     }
 
-    handleAddDrink(id){
-        let drink = this.state.data.find(d => d.id == id)
-        let order = this.state.order
-        let exist = order.find(d => d.id == id)
-        if(exist){
-            order.map(d => {
-                if(d.id == exist.id){
-                    d.count += 1
-                }
+    handleCheckout() {
+        if (this.state.orderId) {
+            fetch('http://192.168.100.178:9999/cobra-order-service/orders/' + this.state.orderId + '/checkout', {
+                method: 'PUT'
+            }).then(res => {
+                return res.json()
+            }).then(json => {
+                console.log(json)
             })
-        }else{
-            drink.count = 1
-            order.push(drink)
         }
-        console.log(order)
+    }
+
+    handleUpdateDrink(id, sustenance) {
+        let orders = this.state.orders
+        let drink = orders.find(d => d.id == sustenance.id)
+        let orderDetail = {
+            customerDiscountRate: 10,
+            orderDetail: {
+                orderId: id,
+                price: sustenance.price,
+                quantity: drink.count,
+                sustenanceId: sustenance.id,
+            },
+            sustenanceDiscountRate: sustenance.discount
+        }
+        fetch('http://192.168.100.178:9999/cobra-order-service/order_details', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(orderDetail)
+        }).then(res => {
+            return res.json()
+        }).then(json => {
+            this.updateDrinkFromServer(json)
+        })
+    }
+
+    createEmptyOrder() {
+        let comp = this
+        fetch('http://192.168.100.178:9999/cobra-order-service/orders', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                cashierId: 1,
+                checkoutDate: null,
+                createdDate: null,
+                memberId: 1,
+                status: 0,
+                total: 0
+            })
+        }).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({ orderId: json.order.id })
+        })
+    }
+
+    handleRemoveDrink(id) {
+        let orders = this.state.orders
+        let toBeDeletedDrink = orders.find(d => d.id == id)
+        let index = orders.findIndex(d => d.id == id)
+        let orderDetailId = toBeDeletedDrink.orderDetailId
+        orders.splice(index, 1)
+        fetch('http://192.168.100.178:9999/cobra-order-service/order_details/'+orderDetailId, {
+            method: 'DELETE'
+        }).then(res => {
+            console.log(res.status)
+        })
+        this.setState({
+            orders: orders
+        })
+    }
+
+    updateDrinkFromServer(newOrder) {
+        let orders = this.state.orders
+        orders = orders.map(d => {
+            if (d.id == newOrder.sustenanceId) {
+                d.discount = newOrder.discountRate
+                d.orderDetailId = newOrder.id
+            }
+            return d
+        })
         this.setState(prevState => {
             return {
-                order: order
+                orders: orders
             }
         })
     }
 
-    componentDidMount(){
+    handleAddDrink(sustenance) {
+        if (this.state.orderId) {
+            let drink = this.state.data.find(d => d.id == sustenance.id)
+            let orders = this.state.orders
+            let exist = orders.find(d => d.id == sustenance.id)
+            if (exist) {
+                orders = orders.map(d => {
+                    if (d.id == exist.id) {
+                        d.count += 1
+                    }
+                    return d
+                })
+            } else {
+                drink.count = 1
+                orders.push(drink)
+            }
+            this.setState(prevState => {
+                return {
+                    orders: orders
+                }
+            })
+            this.handleUpdateDrink(this.state.orderId, sustenance)
+        }
+    }
+
+    componentDidMount() {
         let comp = this
         fetch('http://192.168.100.178:9999/cobra-catalog-service/sustenance').then(res => {
             return res.json()
         }).then(json => {
-            comp.setState({data: json})
+            comp.setState({ data: json })
         })
     }
 
@@ -452,6 +555,7 @@ class NewOrder extends React.Component {
 
     handleSubmitForm() {
         let customerName = this.state.customerName
+        this.createEmptyOrder()
         //this segment sends the customer name to server to validate
         // assume it's valid
         let response = true
