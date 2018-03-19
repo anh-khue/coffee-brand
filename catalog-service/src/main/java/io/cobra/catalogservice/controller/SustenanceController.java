@@ -3,17 +3,14 @@ package io.cobra.catalogservice.controller;
 import io.cobra.catalogservice.model.Sustenance;
 import io.cobra.catalogservice.model.SustenanceHasIngredient;
 import io.cobra.catalogservice.service.SustenanceService;
-import org.apache.commons.io.FileUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class SustenanceController {
     private final SustenanceService sustenanceService;
 
@@ -46,5 +43,13 @@ public class SustenanceController {
     @GetMapping("types/{id}/sustenance")
     public List<Sustenance> viewSustenanceByTypeId(@PathVariable("id") int typeId) {
         return this.sustenanceService.getByTypeId(typeId);
+    }
+
+    @PostMapping(value = "/sustenance/{id}")
+    public void modifySustenance(@PathVariable("id") int sustenanceId,
+                                 @RequestParam("price") double price,
+                                 @RequestParam("discount") double discount,
+                                 @RequestParam("file") MultipartFile image) {
+        this.sustenanceService.updateSustenance(sustenanceId, price, discount, image);
     }
 }

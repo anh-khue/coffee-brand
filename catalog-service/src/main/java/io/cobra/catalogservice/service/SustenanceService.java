@@ -78,4 +78,15 @@ public class SustenanceService {
         }
         return file;
     }
+
+    public void updateSustenance(int sustenanceId, double price, double discount, MultipartFile image) {
+        Sustenance sustenance = getById(sustenanceId);
+        sustenance.setPrice(price);
+        sustenance.setDiscount(discount);
+        File imageFile = handleMultipartFile(image);
+        if (imageFile.exists()) {
+            sustenance.setImageId(this.imageService.generateImageId(imageFile));
+        }
+        this.sustenanceRepository.save(sustenance);
+    }
 }
