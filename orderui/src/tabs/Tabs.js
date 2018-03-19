@@ -1,7 +1,8 @@
 import React from 'react'
-import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Container, Divider, Grid, Input } from 'semantic-ui-react'
+import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Container, Divider, Grid, Input, Accordion } from 'semantic-ui-react'
 import { Pie, PieChart, Cell, Bar, BarChart, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import coffeImg from '../images/coffee.jpg'
+import constant from '../constants'
 
 export default class TabRenderer extends React.Component {
     constructor(props) {
@@ -17,7 +18,7 @@ export default class TabRenderer extends React.Component {
                 break;
             case 1:
                 return (
-                    null
+                    <AllOrder />
                 )
                 break;
             case 2:
@@ -43,10 +44,10 @@ class Overview extends React.Component {
         return (
             <ResponsiveContainer width={500} height={500}>
                 <PieChart style={{ marginLeft: '50%', transform: 'translateX(50%)' }}>
-                    <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value' >
+                    <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value'>
                         <Cell stroke={'#8884d8'} />
                     </Pie>
-                    <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data}>
+                    <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data} nameKey='name' dataKey='value'>
                         <Cell stroke={'mediumaquamarine'} />
                     </Pie>
                     <text x='50%' y='60%' textAnchor='middle' fontSize='140'>7</text>
@@ -69,162 +70,10 @@ class NewOrder extends React.Component {
             columns: this.props.sideBarVisible ? 3 : 4,
             data: [],
             orders: [], // in orders array each element is the same in data with addition of field 'count'
-            orderId: undefined
+            orderId: undefined,
+            types: [],
+            typeIdToFilter: -1
         }
-
-        //=============== FAKE DATA ====================
-        this.data = [
-            {
-                "id": 1,
-                "name": "Black Coffee",
-                "price": 18000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 2,
-                "name": "Milk Coffee",
-                "price": 19000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 3,
-                "name": "Peach Tea",
-                "price": 23000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 5,
-                    "type": "Tea",
-                    "description": null
-                },
-                "typeId": 5
-            },
-            {
-                "id": 4,
-                "name": "Milk Tea",
-                "price": 18000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 5,
-                    "type": "Tea",
-                    "description": null
-                },
-                "typeId": 5
-            },
-            {
-                "id": 5,
-                "name": "Cream Puffin",
-                "price": 25000,
-                "discount": 0,
-                "unit": 4,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 1,
-                    "type": "Cake",
-                    "description": null
-                },
-                "typeId": 1
-            },
-            {
-                "id": 40,
-                "name": "Cappuccino",
-                "price": 30000,
-                "discount": 10,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 41,
-                "name": "Matcha Latte",
-                "price": 32000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 42,
-                "name": "Mint Soda",
-                "price": 28000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 4,
-                    "type": "Beverage",
-                    "description": null
-                },
-                "typeId": 4
-            },
-            {
-                "id": 43,
-                "name": "Blue Soda",
-                "price": 30000,
-                "discount": 5,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 4,
-                    "type": "Beverage",
-                    "description": null
-                },
-                "typeId": 4
-            },
-            {
-                "id": 44,
-                "name": "Strawberry Soda",
-                "price": 28000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 4,
-                    "type": "Beverage",
-                    "description": null
-                },
-                "typeId": 4
-            }
-        ]
 
         this.compName = 'NewOrder'
 
@@ -261,7 +110,7 @@ class NewOrder extends React.Component {
                 return acc
             }, 0)
             let processedData = []
-            let rawData = this.state.data
+            let rawData = this.state.data.filter(d => d.showOnFilter)
             rawData.reduce((acc, current, i) => {
                 acc.push(current)
                 if (acc.length % (this.state.columns) == 0) {
@@ -276,25 +125,16 @@ class NewOrder extends React.Component {
                 <div>
                     <Segment style={{ width: '50%', marginLeft: '1.5%', float: 'left' }} >
                         <Grid>
-                            <Grid.Row columns={6}>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 1</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 2</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 3</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 4</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 5</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 6</Label>
-                                </Grid.Column>
+                            <Grid.Row columns={this.state.types.length}>
+                                {
+                                    this.state.types.map(type => {
+                                        return (
+                                            <Grid.Column>
+                                                <Label style={this.state.typeIdToFilter==type.id?{color: 'white', backgroundColor: 'red'}:null} onClick={() => this.handleFilter(type.id)} as='a' tag>{type.type}</Label>
+                                            </Grid.Column>
+                                        )
+                                    })
+                                }
                             </Grid.Row>
                         </Grid>
                     </Segment>
@@ -423,9 +263,35 @@ class NewOrder extends React.Component {
         }
     }
 
+    handleFilter(typeId) {
+        let id = typeId
+        let data = this.state.data
+        if (this.state.typeIdToFilter != id) {
+            data = data.map(d => {
+                if (d.typeByTypeId.id == id) {
+                    d.showOnFilter = true
+                } else {
+                    d.showOnFilter = false
+                }
+                return d
+            })
+        } else {
+            id = -1
+            data = data.map(d => {
+                d.showOnFilter = true
+                return d
+            })
+        }
+        this.setState({
+            data: data,
+            typeIdToFilter: id
+        })
+    }
+
     handleCheckout() {
         if (this.state.orderId) {
-            fetch('http://192.168.100.178:9999/cobra-order-service/orders/' + this.state.orderId + '/checkout', {
+            let url = constant.service.domain + constant.service.order.name + constant.service.order.all
+            fetch(url + '/' + this.state.orderId + '/checkout', {
                 method: 'PUT'
             }).then(res => {
                 return res.json()
@@ -448,7 +314,8 @@ class NewOrder extends React.Component {
             },
             sustenanceDiscountRate: sustenance.discount
         }
-        fetch('http://192.168.100.178:9999/cobra-order-service/order_details', {
+        let url = constant.service.domain + constant.service.orderDetail.name + constant.service.orderDetail.all
+        fetch(url, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -464,7 +331,8 @@ class NewOrder extends React.Component {
 
     createEmptyOrder() {
         let comp = this
-        fetch('http://192.168.100.178:9999/cobra-order-service/orders', {
+        let url = constant.service.domain + constant.service.order.name + constant.service.order.all
+        fetch(url, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -491,7 +359,8 @@ class NewOrder extends React.Component {
         let index = orders.findIndex(d => d.id == id)
         let orderDetailId = toBeDeletedDrink.orderDetailId
         orders.splice(index, 1)
-        fetch('http://192.168.100.178:9999/cobra-order-service/order_details/' + orderDetailId, {
+        let url = constant.service.domain + constant.service.orderDetail.name + constant.service.orderDetail.all
+        fetch(url + '/' + orderDetailId, {
             method: 'DELETE'
         }).then(res => {
             console.log(res.status)
@@ -544,10 +413,21 @@ class NewOrder extends React.Component {
 
     componentDidMount() {
         let comp = this
-        fetch('http://192.168.100.178:9999/cobra-catalog-service/sustenance').then(res => {
+        let urlAllSustenance = constant.service.domain + constant.service.catalog.name + constant.service.catalog.all
+        fetch(urlAllSustenance).then(res => {
             return res.json()
         }).then(json => {
+            json = json.map(d => {
+                d.showOnFilter = true
+                return d
+            })
             comp.setState({ data: json })
+        })
+        let urlAllTypes = constant.service.domain + constant.service.type.name + constant.service.type.all
+        fetch(urlAllTypes).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({ types: json })
         })
     }
 
@@ -582,7 +462,7 @@ class NewOrder extends React.Component {
 
     handleSubmitForm() {
         let customerName = this.state.customerName
-        this.createEmptyOrder()
+        // this.createEmptyOrder()
         //this segment sends the customer name to server to validate
         // assume it's valid
         let response = true
@@ -602,5 +482,40 @@ class NewOrder extends React.Component {
 
     close() {
         this.props.handleCloseModal()
+    }
+}
+
+class AllOrder extends React.Component {
+    constructor(props){
+        super(props)
+
+        this.state={
+            activeIndex: 0
+        }
+    }
+
+    render(){
+        return(
+            <Accordion style={{ width: '70%', marginLeft: '1.5%', float: 'left' }}>
+                <Accordion.Title active={this.state.activeIndex==0} index={0} onClick={() => this.setState({activeIndex: 0})} >
+                    <Segment>
+                        aaa
+                    </Segment>
+                </Accordion.Title>
+                <Accordion.Content active={this.state.activeIndex==0} >
+                    <Transition visible={this.state.activeIndex==0} animation='scale' duration={{hide: 1, show: 400}} >
+                        <Segment >
+                            bbb
+                        </Segment>
+                    </Transition>
+                </Accordion.Content>
+                <Accordion.Title active={this.state.activeIndex==1} index={1} onClick={() => this.setState({activeIndex: 1})} >
+                    ccc
+                </Accordion.Title>
+                <Accordion.Content active={this.state.activeIndex==1} >
+                    ddd
+                </Accordion.Content>
+            </Accordion>
+        )
     }
 }

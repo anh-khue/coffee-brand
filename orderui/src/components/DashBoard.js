@@ -53,7 +53,7 @@ export default class DashBoard extends React.Component{
                 <Sidebar as={Menu} style={{backgroundColor: '#4680ff'}} id='side-bar' animation='push' width='wide' visible={this.state.sideBarVisible} icon='labeled' vertical inverted>
                     {
                         this.state.sideBarVisible?
-                        <Label color='white' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
+                        <Label onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
                         <Icon style={{cursor: 'pointer'}} name={this.state.sideBarVisible?'chevron left':'chevron right'}/>
                     </Label>:null
                     }
