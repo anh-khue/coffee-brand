@@ -7,11 +7,12 @@ import io.cobra.orderservice.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static io.cobra.orderservice.constant.OrderConstant.*;
 
@@ -40,54 +41,71 @@ public class OrderService {
         return new ArrayList<>();
     }
     
-    public List<Order> getByStatusAndDate(String status, Timestamp date) {
-        switch (status) {
-            case "checked_out":
-                return orderRepository.findByStatus(CHECKED_OUT).stream()
-                                      .filter(order -> order.getCheckoutDate() == date)
-                                      .collect(Collectors.toList());
-            case "cancelled":
-                return orderRepository.findByStatus(CANCELLED).stream()
-                                      .filter(order -> order.getCreatedDate() == date)
-                                      .collect(Collectors.toList());
-        }
-        return new ArrayList<>();
+    public List<Order> getCheckoutByDate(Timestamp date) {
+        Timestamp nextDay = getStartOfNextDay(date);
+        
+        return orderRepository.findByCheckoutDateBetween(date, nextDay);
+    }
+    
+    public List<Order> getCheckoutToday() {
+        return orderRepository.findByCheckoutDateBetween(Timestamp.valueOf(LocalDate.now().atStartOfDay()),
+                                                         Timestamp.valueOf(LocalDateTime.now()));
+    }
+    
+    private Timestamp getStartOfDate(Timestamp date) {
+        Calendar calendar = Calendar.getInstance();
+        
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        
+        return new Timestamp(calendar.getTimeInMillis());
+    }
+    
+    private Timestamp getStartOfNextDay(Timestamp date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(getStartOfDate(date));
+        calendar.add(Calendar.DATE, 1);
+        
+        return new Timestamp(calendar.getTimeInMillis());
     }
     
     public Optional<Order> getById(int id) {
         return this.orderRepository.findById(id);
     }
     
-    public Integer create(Order order) {
+    public Order create(Order order) {
         order.setCreatedDate(Timestamp.valueOf(LocalDateTime.now()));
         order.setStatus(ON_GOING);
         
         this.orderRepository.save(order);
         this.orderRepository.flush();
         
-        return order.getId();
+        return order;
     }
     
     public void delete(int id) {
         this.orderRepository.deleteById(id);
     }
     
-    public Double checkout(int orderId) throws OrderNotFoundException {
+    public Order checkout(int orderId) throws OrderNotFoundException {
         return getById(orderId).map(order -> {
             order.setCheckoutDate(Timestamp.valueOf(LocalDateTime.now()));
             order.setStatus(CHECKED_OUT);
             orderRepository.save(order);
             
-            return order.getTotal();
+            return order;
         }).orElseThrow(() -> new OrderNotFoundException(orderId));
     }
     
-    public Integer cancel(int orderId) throws OrderNotFoundException {
+    public Order cancel(int orderId) throws OrderNotFoundException {
         return getById(orderId).map(order -> {
             order.setStatus(CANCELLED);
             orderRepository.save(order);
             
-            return order.getStatus();
+            return order;
         }).orElseThrow(() -> new OrderNotFoundException(orderId));
     }
     

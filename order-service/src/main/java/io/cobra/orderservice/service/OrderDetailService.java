@@ -16,21 +16,17 @@ public class OrderDetailService {
         this.orderDetailRepository = orderDetailRepository;
     }
     
-    public List<OrderDetail> getAll() {
-        return this.orderDetailRepository.findAll();
-    }
-    
     public Optional<OrderDetail> getById(int id) {
         return this.orderDetailRepository.findById(id);
     }
     
-    public Integer create(OrderDetail orderDetail, double sustenanceDiscountRate, double memberDiscountRate) {
+    public OrderDetail create(OrderDetail orderDetail, double sustenanceDiscountRate, double memberDiscountRate) {
         return orderDetailRepository.findByOrderIdAndSustenanceId(orderDetail.getOrderId(),
                                                                   orderDetail.getSustenanceId())
                                     .map(foundOrderDetail -> {
                                         foundOrderDetail.setQuantity(foundOrderDetail.getQuantity() + 1);
                                         updateTotal(foundOrderDetail);
-                                        return foundOrderDetail.getId();
+                                        return foundOrderDetail;
                                     })
                                     .orElseGet(() -> {
                                         double discountRate = sustenanceDiscountRate > memberDiscountRate ?
@@ -40,7 +36,7 @@ public class OrderDetailService {
                                         updateTotal(orderDetail);
                                         orderDetailRepository.save(orderDetail);
                                         orderDetailRepository.flush();
-                                        return orderDetail.getId();
+                                        return orderDetail;
                                     });
     }
     
@@ -48,7 +44,7 @@ public class OrderDetailService {
         this.orderDetailRepository.deleteById(id);
     }
     
-    List<OrderDetail> getByOrderId(int receiptId) {
+    public List<OrderDetail> getByOrderId(int receiptId) {
         return this.orderDetailRepository.findByOrderId(receiptId);
     }
     
