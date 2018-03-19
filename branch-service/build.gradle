@@ -29,25 +29,24 @@ ext {
 }
 
 dependencies {
-//    Spring Framework
+//  Spring Boot
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile('org.springframework.boot:spring-boot-starter-hateoas:2.0.0.RELEASE')
 
-//    Spring Cloud
+//  Spring Cloud
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
 
-//    MySQL
+//  MySQL
     runtime('mysql:mysql-connector-java')
 
-//    Google Drive API
+//  Google Drive
     compile 'com.google.api-client:google-api-client:1.23.0'
     compile('com.google.oauth-client:google-oauth-client-jetty:1.23.0') {
         exclude group: 'javax.servlet'
     }
     compile 'com.google.apis:google-api-services-drive:v3-rev105-1.23.0'
 
-//    Swagger
+//  Swagger
     compile 'io.springfox:springfox-swagger2:2.8.0'
     compile 'io.springfox:springfox-swagger-ui:2.8.0'
 
