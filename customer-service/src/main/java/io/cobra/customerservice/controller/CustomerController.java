@@ -1,7 +1,7 @@
 package io.cobra.customerservice.controller;
 
 import io.cobra.customerservice.model.Customer;
-import io.cobra.customerservice.model.Levels;
+import io.cobra.customerservice.model.Level;
 import io.cobra.customerservice.service.CustomerService;
 import io.cobra.customerservice.service.LevelService;
 import org.springframework.http.MediaType;
@@ -34,8 +34,8 @@ public class CustomerController {
     public void create(@RequestBody Customer customer) {
         if (this.customerService.getById(customer.getId()) == null
                 && this.customerService.getByEmail(customer.getEmail()) == null) {
-            Levels levels = levelService.getById(customer.getLevelId());
-            customer.setDiscountRate(levels.getDiscountRate());
+            Level level = levelService.getById(customer.getLevelId());
+            customer.setDiscountRate(level.getDiscountRate());
             this.customerService.create(customer);
 
         }
@@ -45,8 +45,8 @@ public class CustomerController {
     public void update(@RequestBody Customer customer) {
         if (this.customerService.getById(customer.getId()) != null
                 && this.customerService.getByEmail(customer.getEmail()) == null) {
-            Levels levels = this.levelService.getById(customer.getLevelId());
-            customer.setDiscountRate(levels.getDiscountRate());
+            Level level = this.levelService.getById(customer.getLevelId());
+            customer.setDiscountRate(level.getDiscountRate());
             this.customerService.update(customer);
         }
     }

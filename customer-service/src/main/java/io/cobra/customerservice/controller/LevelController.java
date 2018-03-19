@@ -1,7 +1,7 @@
 package io.cobra.customerservice.controller;
 
 import io.cobra.customerservice.model.Customer;
-import io.cobra.customerservice.model.Levels;
+import io.cobra.customerservice.model.Level;
 import io.cobra.customerservice.service.CustomerService;
 import io.cobra.customerservice.service.LevelService;
 import org.springframework.http.MediaType;
@@ -21,26 +21,26 @@ public class LevelController {
     }
 
     @GetMapping("/level/{id}")
-    public Levels getById(@PathVariable("id") int id) {
+    public Level getById(@PathVariable("id") int id) {
         return this.levelService.getById(id);
     }
 
     @GetMapping("/level")
-    public List<Levels> getAll() {
+    public List<Level> getAll() {
         return this.levelService.getAll();
     }
 
     @PostMapping(value = "/level", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void create(@RequestBody Levels levels) {
-        this.levelService.create(levels);
+    public void create(@RequestBody Level level) {
+        this.levelService.create(level);
     }
 
     @PutMapping(value = "/level/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody Levels levels) {
-        if (this.levelService.getById(levels.getId()) != null) {
-            this.levelService.update(levels);
-            Customer customer = this.customerService.getByLevelId(levels.getId());
-            customer.setDiscountRate(levels.getDiscountRate());
+    public void update(@RequestBody Level level) {
+        if (this.levelService.getById(level.getId()) != null) {
+            this.levelService.update(level);
+            Customer customer = this.customerService.getByLevelId(level.getId());
+            customer.setDiscountRate(level.getDiscountRate());
             this.customerService.update(customer);
         }
     }

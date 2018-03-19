@@ -1,15 +1,13 @@
 package io.cobra.customerservice.repository;
 
-import io.cobra.customerservice.model.Levels;
+import io.cobra.customerservice.model.Level;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface LevelRepository extends JpaRepository<Levels, Integer> {
-
-    Levels findById(int id);
-
-    List<Levels> findAll();
-
-    Void deleteById(int id);
+public interface LevelRepository extends JpaRepository<Level, Integer> {
+    
+    Level findById(int id);
+    
+    List<Level> findAll();
 }

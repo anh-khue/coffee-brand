@@ -1,6 +1,6 @@
 package io.cobra.customerservice.service;
 
-import io.cobra.customerservice.model.Levels;
+import io.cobra.customerservice.model.Level;
 import io.cobra.customerservice.repository.LevelRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,21 +15,21 @@ public class LevelService {
         this.levelRepository = levelRepository;
     }
 
-    public Levels getById(int id){
+    public Level getById(int id){
         return this.levelRepository.findById(id);
     }
 
-    public List<Levels> getAll(){
+    public List<Level> getAll(){
         return this.levelRepository.findAll();
     }
 
-    public void create(Levels levels){
-        this.levelRepository.save(levels);
+    public void create(Level level){
+        this.levelRepository.save(level);
     }
 
-    public void update(Levels levels){
-        if(this.levelRepository.findById(levels.getId())!=null){
-            this.levelRepository.save(levels);
+    public void update(Level level){
+        if(this.levelRepository.findById(level.getId()) != null){
+            this.levelRepository.save(level);
         }
     }
 }
