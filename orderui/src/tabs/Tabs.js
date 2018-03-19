@@ -34,6 +34,8 @@ class Overview extends React.Component {
 
         this.compName = 'Overview'
 
+        this.data = [{ name: 360, value: 360 }]
+
         this.colors = ['#E9C46A', '#E76F51', '#59F8E8', '#941C2F', '#03191E', '#1EFC1E', '#2A9D8F']
     }
 
@@ -41,10 +43,11 @@ class Overview extends React.Component {
         return (
             <ResponsiveContainer width={500} height={500}>
                 <PieChart style={{ marginLeft: '50%', transform: 'translateX(50%)' }}>
-                    <Pie data={this.props.data} innerRadius='50%' nameKey='name' dataKey='value' >
-                        {
-                            this.props.data.map((entry, index) => <Cell key={this.compName + index} fill={this.colors[index % this.colors.length]} />)
-                        }
+                    <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value' >
+                        <Cell stroke={'#8884d8'} />
+                    </Pie>
+                    <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data}>
+                        <Cell stroke={'mediumaquamarine'} />
                     </Pie>
                     <text x='50%' y='60%' textAnchor='middle' fontSize='140'>7</text>
                 </PieChart>
@@ -270,7 +273,31 @@ class NewOrder extends React.Component {
                 return acc
             }, [])
             return (
-                <div >
+                <div>
+                    <Segment style={{ width: '50%', marginLeft: '1.5%', float: 'left' }} >
+                        <Grid>
+                            <Grid.Row columns={6}>
+                                <Grid.Column>
+                                    <Label as='a' tag>Type 1</Label>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Label as='a' tag>Type 2</Label>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Label as='a' tag>Type 3</Label>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Label as='a' tag>Type 4</Label>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Label as='a' tag>Type 5</Label>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <Label as='a' tag>Type 6</Label>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Segment>
                     <Segment id='list-drink' style={{
                         width: '50%', height: (window.innerHeight - (window.innerHeight / 6)), float: 'left', marginLeft: '1.5%',
                         overflowY: 'scroll'
@@ -325,7 +352,7 @@ class NewOrder extends React.Component {
                     </Segment>
                     <Transition visible={this.props.sideBarVisible} onStart={() => this.onCompleteBillAnimation()}
                         onHide={() => this.onHideBillAnimation()} animation='fly left' duration={this.props.sideBarVisible ? 1000 : 10}>
-                        <Sticky context={this.stickyRef} id='bill' style={{ marginRight: this.props.offsetWidth, marginTop: window.innerHeight / 12 }}>
+                        <Sticky context={this.stickyRef} id='bill' style={{ marginRight: this.props.offsetWidth, marginTop: window.innerHeight / 30 }}>
                             <Segment raised style={{ height: (window.innerHeight - (window.innerHeight / 6)) }} compact floated='right'>
                                 <Grid>
                                     <Grid.Row columns={2}>
@@ -464,7 +491,7 @@ class NewOrder extends React.Component {
         let index = orders.findIndex(d => d.id == id)
         let orderDetailId = toBeDeletedDrink.orderDetailId
         orders.splice(index, 1)
-        fetch('http://192.168.100.178:9999/cobra-order-service/order_details/'+orderDetailId, {
+        fetch('http://192.168.100.178:9999/cobra-order-service/order_details/' + orderDetailId, {
             method: 'DELETE'
         }).then(res => {
             console.log(res.status)
