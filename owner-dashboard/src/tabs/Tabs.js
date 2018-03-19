@@ -1,6 +1,6 @@
 import React from 'react'
-import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Container, Divider, Grid, Input } from 'semantic-ui-react'
-import { Pie, PieChart, Cell, Bar, BarChart, XAxis, YAxis, ResponsiveContainer } from 'recharts'
+import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Divider, Grid, Input, Statistic } from 'semantic-ui-react'
+import { LineChart, CartesianGrid, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import coffeImg from '../images/coffee.jpg'
 
 export default class TabRenderer extends React.Component {
@@ -34,24 +34,115 @@ class Overview extends React.Component {
 
         this.compName = 'Overview'
 
-        this.data = [{ name: 360, value: 360 }]
+        this.data = [
+            {
+                date: '14-03',
+                sale: 3636
+            },
+            {
+                date: '15-03',
+                sale: 6054
+            },
+            {
+                date: '16-03',
+                sale: 7203
+            },
+            {
+                date: '17-03',
+                sale: 8799
+            },
+            {
+                date: '18-03',
+                sale: 6968
+            },
+            {
+                date: '19-03',
+                sale: 7184
+            },
+            {
+                date: '20-03',
+                sale: 5604
+            }
+        ]
 
         this.colors = ['#E9C46A', '#E76F51', '#59F8E8', '#941C2F', '#03191E', '#1EFC1E', '#2A9D8F']
     }
 
     render() {
         return (
-            <ResponsiveContainer width={500} height={500}>
-                <PieChart style={{ marginLeft: '50%', transform: 'translateX(50%)' }}>
-                    <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value' >
-                        <Cell stroke={'#8884d8'} />
-                    </Pie>
-                    <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data}>
-                        <Cell stroke={'mediumaquamarine'} />
-                    </Pie>
-                    <text x='50%' y='60%' textAnchor='middle' fontSize='140'>7</text>
-                </PieChart>
-            </ResponsiveContainer>
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Segment style={{ width: '70%', marginTop: '1.5%', marginLeft: '1.5%' }}>
+                            <Grid>
+                                <Grid.Row columns={3} divided>
+                                    <Grid.Column textAlign='center' >
+                                        <Statistic>
+                                            <Statistic.Value>
+                                                <Icon name='checkmark box' />
+                                                100
+                                            </Statistic.Value>
+                                            <Statistic.Label>Orders Sold</Statistic.Label>
+                                        </Statistic>
+                                    </Grid.Column>
+                                    <Grid.Column textAlign='center'>
+                                        <Statistic>
+                                            <Statistic.Value>
+                                                <Icon name='user circle outline' />
+                                                500
+                                            </Statistic.Value>
+                                            <Statistic.Label>Customers</Statistic.Label>
+                                        </Statistic>
+                                    </Grid.Column>
+                                    <Grid.Column textAlign='center'>
+                                        <Statistic>
+                                            <Statistic.Value>
+                                                <Icon name='marker' />
+                                                4
+                                            </Statistic.Value>
+                                            <Statistic.Label>Branches</Statistic.Label>
+                                        </Statistic>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Segment>
+                    </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row style={{ height: (window.innerHeight - (window.innerHeight / 5)) }} >
+                    <Grid.Column>
+                        <Segment style={{ width: '70%', height: '100%', marginLeft: '1.5%' }}>
+                            <Grid>
+                                <Grid.Row>
+                                    <Grid.Column>
+                                        <Header size='huge' style={{marginTop: '1%', marginLeft: '1%'}} >
+                                            <Icon name='line chart'/>
+                                            <Header.Content>
+                                                Revenue of nearest 7 days
+                                            </Header.Content>
+                                        </Header>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row style={{height: (window.innerHeight - (window.innerHeight / 3))}}>
+                                    <Grid.Column>
+                                        <ResponsiveContainer>
+                                            <LineChart data={this.data}>
+                                                <XAxis dataKey={'date'}>
+                                                </XAxis>
+                                                <YAxis />
+                                                <CartesianGrid strokeDasharray={'3 3'} />
+                                                <Line dataKey={'sale'} stroke={'red'} />
+                                            </LineChart>
+                                        </ResponsiveContainer>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+
+                        </Segment>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+
         )
     }
 
@@ -604,3 +695,4 @@ class NewOrder extends React.Component {
         this.props.handleCloseModal()
     }
 }
+

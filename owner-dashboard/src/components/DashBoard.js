@@ -71,12 +71,20 @@ export default class DashBoard extends React.Component{
                         Overview
                     </Menu.Item>
                     <Menu.Item onClick={() => this.switchTab(1)} name='list ul' active={this.state.active==1} style={{cursor: 'pointer'}}>
-                        <Icon name='list ul' />
-                        Show all Orders
+                        <Icon name='marker' />
+                        Manage branches
                     </Menu.Item>
                     <Menu.Item onClick={() => this.switchTab(2)} name='plus circle' active={this.state.active==2} style={{cursor: 'pointer'}}>
-                        <Icon name='plus circle' />
-                        Add new Order
+                        <Icon name='food' />
+                        Manage sustenance
+                    </Menu.Item>
+                    <Menu.Item onClick={() => this.switchTab(3)} name='plus circle' active={this.state.active==2} style={{cursor: 'pointer'}}>
+                        <Icon name='checkmark box' />
+                        Manage orders
+                    </Menu.Item>
+                    <Menu.Item onClick={() => this.switchTab(4)} name='plus circle' active={this.state.active==2} style={{cursor: 'pointer'}}>
+                        <Icon name='users' />
+                        Manage staff
                     </Menu.Item>
                     <Menu.Item onClick={() => this.logout()} name='log out' style={{cursor: 'pointer', position: 'absolute', bottom: '0', width: '100%', borderTop: '1px solid white'}}>
                         <Icon name='log out' flipped='horizontally' />
