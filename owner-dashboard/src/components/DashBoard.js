@@ -53,7 +53,7 @@ export default class DashBoard extends React.Component{
                 <Sidebar as={Menu} style={{backgroundColor: '#4680ff'}} id='side-bar' animation='push' width='wide' visible={this.state.sideBarVisible} icon='labeled' vertical inverted>
                     {
                         this.state.sideBarVisible?
-                        <Label color='white' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
+                        <Label onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
                         <Icon style={{cursor: 'pointer'}} name={this.state.sideBarVisible?'chevron left':'chevron right'}/>
                     </Label>:null
                     }
@@ -78,13 +78,9 @@ export default class DashBoard extends React.Component{
                         <Icon name='food' />
                         Manage sustenance
                     </Menu.Item>
-                    <Menu.Item onClick={() => this.switchTab(3)} name='plus circle' active={this.state.active==2} style={{cursor: 'pointer'}}>
+                    <Menu.Item onClick={() => this.switchTab(3)} name='plus circle' active={this.state.active==3} style={{cursor: 'pointer'}}>
                         <Icon name='checkmark box' />
                         Manage orders
-                    </Menu.Item>
-                    <Menu.Item onClick={() => this.switchTab(4)} name='plus circle' active={this.state.active==2} style={{cursor: 'pointer'}}>
-                        <Icon name='users' />
-                        Manage staff
                     </Menu.Item>
                     <Menu.Item onClick={() => this.logout()} name='log out' style={{cursor: 'pointer', position: 'absolute', bottom: '0', width: '100%', borderTop: '1px solid white'}}>
                         <Icon name='log out' flipped='horizontally' />
@@ -94,7 +90,7 @@ export default class DashBoard extends React.Component{
                 <Sidebar.Pusher style={{backgroundColor: '#e1e4ea'}}>
                     {
                         !this.state.sideBarVisible?
-                            <Label color='white' onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='left' style={{cursor: 'pointer'}}>
+                            <Label onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='left' style={{cursor: 'pointer'}}>
                                 <Icon style={{cursor: 'pointer'}} name={this.state.sideBarVisible?'chevron left':'chevron right'}/>
                             </Label>
                         :null

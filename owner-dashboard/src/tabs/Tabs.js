@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Divider, Grid, Input, Statistic } from 'semantic-ui-react'
+import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Divider, Grid, Input, Statistic, Accordion, Table, Pagination } from 'semantic-ui-react'
 import { LineChart, CartesianGrid, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import coffeImg from '../images/coffee.jpg'
 
@@ -12,17 +12,19 @@ export default class TabRenderer extends React.Component {
         switch (this.props.info.active) {
             case 0:
                 return (
-                    <Overview data={this.props.info.data} />
+                    <Overview data={this.props.info.data} sideBarVisible={this.props.info.sideBarVisible} />
                 )
                 break;
             case 1:
                 return (
-                    null
+                    <ManageBranches sideBarVisible={this.props.info.sideBarVisible} />
                 )
                 break;
             case 2:
-                return <NewOrder handleCloseModal={this.props.info.handleCloseModal} offsetWidth={this.props.info.offsetWidth}
-                    sideBarVisible={this.props.info.sideBarVisible} />
+                return <ManageSustenance />
+                break;
+            case 3:
+                return (null)
                 break;
         }
     }
@@ -69,11 +71,12 @@ class Overview extends React.Component {
     }
 
     render() {
+        let responsiveWidth = this.props.sideBarVisible ? '70%' : '95%'
         return (
             <Grid>
                 <Grid.Row>
                     <Grid.Column>
-                        <Segment style={{ width: '70%', marginTop: '1.5%', marginLeft: '1.5%' }}>
+                        <Segment style={{ width: responsiveWidth, marginTop: '1.5%', marginLeft: '1.5%' }}>
                             <Grid>
                                 <Grid.Row columns={3} divided>
                                     <Grid.Column textAlign='center' >
@@ -111,19 +114,19 @@ class Overview extends React.Component {
 
                 <Grid.Row style={{ height: (window.innerHeight - (window.innerHeight / 5)) }} >
                     <Grid.Column>
-                        <Segment style={{ width: '70%', height: '100%', marginLeft: '1.5%' }}>
+                        <Segment style={{ width: responsiveWidth, height: '100%', marginLeft: '1.5%' }}>
                             <Grid>
                                 <Grid.Row>
                                     <Grid.Column>
-                                        <Header size='huge' style={{marginTop: '1%', marginLeft: '1%'}} >
-                                            <Icon name='line chart'/>
+                                        <Header size='huge' style={{ marginTop: '1%', marginLeft: '1%' }} >
+                                            <Icon name='line chart' />
                                             <Header.Content>
                                                 Revenue of nearest 7 days
                                             </Header.Content>
                                         </Header>
                                     </Grid.Column>
                                 </Grid.Row>
-                                <Grid.Row style={{height: (window.innerHeight - (window.innerHeight / 3))}}>
+                                <Grid.Row style={{ height: (window.innerHeight - (window.innerHeight / 3)) }}>
                                     <Grid.Column>
                                         <ResponsiveContainer>
                                             <LineChart data={this.data}>
@@ -131,7 +134,7 @@ class Overview extends React.Component {
                                                 </XAxis>
                                                 <YAxis />
                                                 <CartesianGrid strokeDasharray={'3 3'} />
-                                                <Line dataKey={'sale'} stroke={'red'} />
+                                                <Line dataKey={'sale'} stroke={'red'} strokeWidth={2} />
                                             </LineChart>
                                         </ResponsiveContainer>
                                     </Grid.Column>
@@ -148,551 +151,206 @@ class Overview extends React.Component {
 
 }
 
-class NewOrder extends React.Component {
+class ManageBranches extends React.Component {
     constructor(props) {
         super(props)
 
-        this.driveURL = 'https://drive.google.com/uc?id='
         this.state = {
-            open: true,
-            customerName: '',
-            animate: this.props.sideBarVisible,
-            columns: this.props.sideBarVisible ? 3 : 4,
-            data: [],
-            orders: [], // in orders array each element is the same in data with addition of field 'count'
-            orderId: undefined
+            activeAccordion: -1,
+            branches: [],
+            employees: [
+                {
+                    id: 1,
+                    accountId: 4,
+                    role: 'MANAGER',
+                    firstName: 'Tuan',
+                    lastName: 'Dao',
+                    dateOfBirth: '1997-03-06T00:40:34.000+0000',
+                    email: 'nhatdao@gmail.com',
+                    phone: '0123456789',
+                    branchId: 1
+                },
+                {
+                    id: 2,
+                    accountId: 2,
+                    role: 'CASHIER',
+                    firstName: 'Nhat',
+                    lastName: 'Nguyen Quang',
+                    dateOfBirth: '1990-03-19T00:40:34.000+0000',
+                    email: 'nhatnguyenquang@gmail.com',
+                    phone: '9876543210',
+                    branchId: 2
+                },
+                {
+                    id: 3,
+                    accountId: 5,
+                    role: 'WAITER/WAITRESS',
+                    firstName: 'Cuong',
+                    lastName: 'Mai Vu',
+                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                    email: 'cuongmai@gmail.com',
+                    phone: '9876543210',
+                    branchId: 2
+                }
+            ],
+            isEditing: false
         }
 
-        //=============== FAKE DATA ====================
-        this.data = [
-            {
-                "id": 1,
-                "name": "Black Coffee",
-                "price": 18000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 2,
-                "name": "Milk Coffee",
-                "price": 19000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 3,
-                "name": "Peach Tea",
-                "price": 23000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 5,
-                    "type": "Tea",
-                    "description": null
-                },
-                "typeId": 5
-            },
-            {
-                "id": 4,
-                "name": "Milk Tea",
-                "price": 18000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 5,
-                    "type": "Tea",
-                    "description": null
-                },
-                "typeId": 5
-            },
-            {
-                "id": 5,
-                "name": "Cream Puffin",
-                "price": 25000,
-                "discount": 0,
-                "unit": 4,
-                "createdDate": null,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 1,
-                    "type": "Cake",
-                    "description": null
-                },
-                "typeId": 1
-            },
-            {
-                "id": 40,
-                "name": "Cappuccino",
-                "price": 30000,
-                "discount": 10,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 41,
-                "name": "Matcha Latte",
-                "price": 32000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 3,
-                    "type": "Coffee",
-                    "description": null
-                },
-                "typeId": 3
-            },
-            {
-                "id": 42,
-                "name": "Mint Soda",
-                "price": 28000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 4,
-                    "type": "Beverage",
-                    "description": null
-                },
-                "typeId": 4
-            },
-            {
-                "id": 43,
-                "name": "Blue Soda",
-                "price": 30000,
-                "discount": 5,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 4,
-                    "type": "Beverage",
-                    "description": null
-                },
-                "typeId": 4
-            },
-            {
-                "id": 44,
-                "name": "Strawberry Soda",
-                "price": 28000,
-                "discount": 0,
-                "unit": 1,
-                "createdDate": 1521022952000,
-                "imageId": "1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m",
-                "typeByTypeId": {
-                    "id": 4,
-                    "type": "Beverage",
-                    "description": null
-                },
-                "typeId": 4
-            }
-        ]
-
-        this.compName = 'NewOrder'
-
-        this.stickyRef
     }
 
     render() {
-        if (this.state.open) {
-            return (
-                <Modal open={this.state.open} closeOnDimmerClick={false} closeOnDocumentClick={false} closeIcon onClose={() => this.close()}>
-                    <Header as='h2'>
-                        <Icon size='small' name='wordpress forms' />
-                        <Header.Content>
-                            Please enter customer's information
-                        </Header.Content>
-                    </Header>
-                    <Modal.Content>
-                        <Form size='huge'>
-                            <Form.Field>
-                                <label>Customer's name</label>
-                                <input placeholder="Left blank if it's new customer..." type='text' onChange={(e) => this.handleChange(e)} />
-                            </Form.Field>
-                        </Form>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button color='blue' content='Proceed' onClick={() => this.handleSubmitForm()} />
-                    </Modal.Actions>
-                </Modal>
-            )
-        } else {
-            let customerName = (this.state.customerName == '' ? 'New Customer' : this.state.customerName)
-            let total = this.state.orders.reduce((acc, drink) => {
-                acc += (drink.price - (drink.price * drink.discount / 100)) * drink.count
-                return acc
-            }, 0)
-            let processedData = []
-            let rawData = this.state.data
-            rawData.reduce((acc, current, i) => {
-                acc.push(current)
-                if (acc.length % (this.state.columns) == 0) {
-                    processedData.push(acc)
-                    acc = []
-                } else if ((i + 1) == rawData.length) {
-                    processedData.push(acc)
-                }
-                return acc
-            }, [])
-            return (
-                <div>
-                    <Segment style={{ width: '50%', marginLeft: '1.5%', float: 'left' }} >
+        let responsiveWidth = this.props.sideBarVisible ? '70%' : '95%'
+        return (
+            <Accordion style={{ width: responsiveWidth, marginLeft: '1.5%', marginTop: '1.5%' }} >
+                <Accordion.Title active={this.state.activeAccordion == 0} index={0} onClick={() => this.handleSwitchAccordion(0)}>
+                    <Segment style={{ borderBottom: this.state.activeAccordion == 0 ? '2px solid blue' : '' }} raised={this.state.activeAccordion == 0} >
                         <Grid>
-                            <Grid.Row columns={6}>
+                            <Grid.Row verticalAlign='middle' columns={2}>
                                 <Grid.Column>
-                                    <Label as='a' tag>Type 1</Label>
+                                    <Header size='large' >
+                                        <Icon name='marker' size='big' />
+                                        <Header.Content>
+                                            Chi nhanh 1
+                                            <Header.Subheader>
+                                                11 Nguyen Oanh
+                                            </Header.Subheader>
+                                        </Header.Content>
+                                    </Header>
                                 </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 2</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 3</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 4</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 5</Label>
-                                </Grid.Column>
-                                <Grid.Column>
-                                    <Label as='a' tag>Type 6</Label>
+                                <Grid.Column >
+                                    <Header floated='right' size='large'>
+                                        <Icon name='info circle' />
+                                        <Header.Content>
+                                            Dao Tuan
+                                            <Header.Subheader>
+                                                Branch Manager
+                                            </Header.Subheader>
+                                        </Header.Content>
+                                    </Header>
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
                     </Segment>
-                    <Segment id='list-drink' style={{
-                        width: '50%', height: (window.innerHeight - (window.innerHeight / 6)), float: 'left', marginLeft: '1.5%',
-                        overflowY: 'scroll'
-                    }} >
-                        <Grid>
-                            {
-                                processedData.map((rowData, index) => {
-                                    return (
-                                        <Grid.Row key={this.compName + index} columns={this.state.columns}>
-                                            {
-                                                rowData.map((data, i) => {
-                                                    return (
-                                                        <Grid.Column key={this.compName + 'Sub' + i} >
-                                                            {/* <Transition transitionOnMount visible={this.state.animate} onHide={() => this.onHideCardAnimation()} animation='pulse' duration={300}> */}
-                                                            <Card onClick={e => this.handleAddDrink(data)} >
-                                                                <Image style={{ height: '200px' }} src={this.driveURL + data.imageId} />
-                                                                <Card.Content>
-                                                                    <Card.Header>
-                                                                        {data.name}
-                                                                        {
-                                                                            data.discount != 0 ?
-                                                                                (<Label color='red' icon='percent' corner='right' />)
-                                                                                : null
-                                                                        }
-                                                                    </Card.Header>
-                                                                    <Card.Meta>
-                                                                        <span className="date">
-                                                                            {data.typeByTypeId.type}
-                                                                        </span>
-                                                                    </Card.Meta>
-                                                                </Card.Content>
-                                                                <Card.Content extra>
-                                                                    <Icon name='money' />
-                                                                    {data.price}
+                </Accordion.Title>
+                <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeAccordion == 0}>
+                    <Transition animation='scale' visible={this.state.activeAccordion == 0} duration={{ hide: 1, show: 500 }} >
+                        <Segment >
+                            <Grid>
+                                <Grid.Row>
+                                    <Grid.Column>
+                                        <Table celled>
+                                            <Table.Header>
+                                                <Table.Row>
+                                                    <Table.HeaderCell>Employee</Table.HeaderCell>
+                                                    <Table.HeaderCell>DOB</Table.HeaderCell>
+                                                    <Table.HeaderCell>Email</Table.HeaderCell>
+                                                    <Table.HeaderCell>Phone</Table.HeaderCell>
+                                                    <Table.HeaderCell>Action</Table.HeaderCell>
+                                                </Table.Row>
+                                            </Table.Header>
+                                            <Table.Body>
+                                                {
+                                                    this.state.employees.map(emp => {
+                                                        return (
+                                                            <Table.Row>
+                                                                <Table.Cell>
+                                                                    <Header>
+                                                                        <Icon name='user' />
+                                                                        <Header.Content>
+                                                                            {emp.lastName+' '+emp.firstName}
+                                                                            <Header.Subheader>
+                                                                                {emp.role}
+                                                                            </Header.Subheader>
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Table.Cell>
+                                                                <Table.Cell>
                                                                     {
-                                                                        data.discount != 0 ?
-                                                                            (' - ' + data.discount + '% = ' + (data.price - (data.price * data.discount / 100)))
-                                                                            : null
+                                                                        (new Date(emp.dateOfBirth)).toLocaleDateString('vi-VN')
                                                                     }
-                                                                </Card.Content>
-                                                            </Card>
-                                                            {/* </Transition> */}
-                                                        </Grid.Column>
-                                                    )
-                                                })
-                                            }
-                                        </Grid.Row>
-                                    )
-                                })
-                            }
-                        </Grid>
-                    </Segment>
-                    <Transition visible={this.props.sideBarVisible} onStart={() => this.onCompleteBillAnimation()}
-                        onHide={() => this.onHideBillAnimation()} animation='fly left' duration={this.props.sideBarVisible ? 1000 : 10}>
-                        <Sticky context={this.stickyRef} id='bill' style={{ marginRight: this.props.offsetWidth, marginTop: window.innerHeight / 30 }}>
-                            <Segment raised style={{ height: (window.innerHeight - (window.innerHeight / 6)) }} compact floated='right'>
-                                <Grid>
-                                    <Grid.Row columns={2}>
-                                        <Grid.Column>
-                                            <Button onClick={() => this.handleCheckout()} color='blue' content='Checkout' fluid size='large' />
-                                        </Grid.Column>
-                                        <Grid.Column>
-                                            <Label ribbon='right' content='Customer Bill' color='red' size='big' />
-                                        </Grid.Column>
-                                    </Grid.Row>
-                                </Grid>
-                                <Segment basic>
-                                    <Card>
-                                        <Card.Content textAlign='center'>
-                                            <Card.Header>
-                                                Bill No.123
-                                            </Card.Header>
-                                            <Card.Meta>
-                                                <span className="date">COBRA</span>
-                                            </Card.Meta>
-                                            <Card.Description>
-                                                <Input style={{ float: 'right' }} label='Customner' transparent disabled value={' ' + customerName} />
-                                                <br />
-                                                <br />
-                                                <Input style={{ float: 'right' }} label='Total' transparent disabled value={' ' + Math.ceil(total)} />
-                                            </Card.Description>
-                                        </Card.Content>
-                                    </Card>
-                                </Segment>
-                                <Divider style={{ backgroundColor: 'lightgrey' }} />
-                                <div style={{ overflowY: 'scroll', height: '60%' }}>
-                                    <Segment basic>
-                                        {
-                                            this.state.orders.map(drink => {
-                                                return (
-                                                    <Card>
-                                                        <Card.Content>
-                                                            <Card.Description>
-                                                                <Grid relaxed>
-                                                                    <Grid.Row columns={4}>
-                                                                        <Grid.Column>
-                                                                            {drink.name}
-                                                                        </Grid.Column>
-                                                                        <Grid.Column textAlign='center' >
-                                                                            {drink.count}
-                                                                        </Grid.Column>
-                                                                        <Grid.Column>
-                                                                            {Math.ceil(drink.count * (drink.price - (drink.price * drink.discount / 100))) + ' VND'}
-                                                                        </Grid.Column>
-                                                                        <Grid.Column textAlign='center' verticalAlign='middle' >
-                                                                            <Icon style={{ cursor: 'pointer' }} onClick={() => this.handleRemoveDrink(drink.id)} size='large' name='close' />
-                                                                        </Grid.Column>
-                                                                    </Grid.Row>
-                                                                </Grid>
-                                                            </Card.Description>
-                                                        </Card.Content>
-                                                    </Card>
-                                                )
-                                            })
-                                        }
-                                    </Segment>
-                                </div>
-                            </Segment>
-                        </Sticky>
+                                                                </Table.Cell>
+                                                                <Table.Cell>
+                                                                    {emp.email}
+                                                                </Table.Cell>
+                                                                <Table.Cell>
+                                                                    {emp.phone}
+                                                                </Table.Cell>
+                                                                <Table.Cell>
+                                                                    <Button compact>Edit</Button>
+                                                                    <Button compact color='red' >Delete</Button>
+                                                                </Table.Cell>
+                                                            </Table.Row>
+                                                        )
+                                                    })
+                                                }
+                                            </Table.Body>
+                                            <Table.Footer>
+                                                <Table.Row>
+                                                    <Table.HeaderCell colSpan={4}>
+                                                        <Pagination defaultActivePage={1} totalPages={2} />
+                                                    </Table.HeaderCell>
+                                                    <Table.HeaderCell colSpan={1}>
+                                                        <Button color='blue'>
+                                                            <Icon name='add user' />
+                                                            Add Employee
+                                                        </Button>
+                                                    </Table.HeaderCell>
+                                                </Table.Row>
+                                            </Table.Footer>
+                                        </Table>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Segment>
                     </Transition>
-                </div>
-            )
-        }
+                </Accordion.Content>
+                <Accordion.Title active={this.state.activeAccordion == 1} index={1} onClick={() => this.handleSwitchAccordion(1)}>
+                    <Segment>
+                        c
+                    </Segment>
+                </Accordion.Title>
+                <Accordion.Content style={{ width: '90%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeAccordion == 1}>
+                    <Transition animation='scale' visible={this.state.activeAccordion == 1} duration={{ hide: 1, show: 500 }} >
+                        <Segment>
+                            d
+                        </Segment>
+                    </Transition>
+                </Accordion.Content>
+            </Accordion>
+        )
     }
 
-    handleCheckout() {
-        if (this.state.orderId) {
-            fetch('http://192.168.100.178:9999/cobra-order-service/orders/' + this.state.orderId + '/checkout', {
-                method: 'PUT'
-            }).then(res => {
-                return res.json()
-            }).then(json => {
-                console.log(json)
-            })
-        }
-    }
-
-    handleUpdateDrink(id, sustenance) {
-        let orders = this.state.orders
-        let drink = orders.find(d => d.id == sustenance.id)
-        let orderDetail = {
-            customerDiscountRate: 10,
-            orderDetail: {
-                orderId: id,
-                price: sustenance.price,
-                quantity: drink.count,
-                sustenanceId: sustenance.id,
-            },
-            sustenanceDiscountRate: sustenance.discount
-        }
-        fetch('http://192.168.100.178:9999/cobra-order-service/order_details', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(orderDetail)
-        }).then(res => {
-            return res.json()
-        }).then(json => {
-            this.updateDrinkFromServer(json)
-        })
-    }
-
-    createEmptyOrder() {
-        let comp = this
-        fetch('http://192.168.100.178:9999/cobra-order-service/orders', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                cashierId: 1,
-                checkoutDate: null,
-                createdDate: null,
-                memberId: 1,
-                status: 0,
-                total: 0
-            })
-        }).then(res => {
-            return res.json()
-        }).then(json => {
-            this.setState({ orderId: json.order.id })
-        })
-    }
-
-    handleRemoveDrink(id) {
-        let orders = this.state.orders
-        let toBeDeletedDrink = orders.find(d => d.id == id)
-        let index = orders.findIndex(d => d.id == id)
-        let orderDetailId = toBeDeletedDrink.orderDetailId
-        orders.splice(index, 1)
-        fetch('http://192.168.100.178:9999/cobra-order-service/order_details/' + orderDetailId, {
-            method: 'DELETE'
-        }).then(res => {
-            console.log(res.status)
-        })
-        this.setState({
-            orders: orders
-        })
-    }
-
-    updateDrinkFromServer(newOrder) {
-        let orders = this.state.orders
-        orders = orders.map(d => {
-            if (d.id == newOrder.sustenanceId) {
-                d.discount = newOrder.discountRate
-                d.orderDetailId = newOrder.id
-            }
-            return d
-        })
+    handleSwitchAccordion(index) {
         this.setState(prevState => {
             return {
-                orders: orders
+                activeAccordion: prevState.activeAccordion == index ? -1 : index
             }
         })
     }
 
-    handleAddDrink(sustenance) {
-        if (this.state.orderId) {
-            let drink = this.state.data.find(d => d.id == sustenance.id)
-            let orders = this.state.orders
-            let exist = orders.find(d => d.id == sustenance.id)
-            if (exist) {
-                orders = orders.map(d => {
-                    if (d.id == exist.id) {
-                        d.count += 1
-                    }
-                    return d
-                })
-            } else {
-                drink.count = 1
-                orders.push(drink)
-            }
-            this.setState(prevState => {
-                return {
-                    orders: orders
-                }
-            })
-            this.handleUpdateDrink(this.state.orderId, sustenance)
+    handleEdit(){
+        
+    }
+}
+
+class ManageSustenance extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            data: []
         }
+
+        this.compName = 'ManageSustenance'
     }
 
-    componentDidMount() {
-        let comp = this
-        fetch('http://192.168.100.178:9999/cobra-catalog-service/sustenance').then(res => {
-            return res.json()
-        }).then(json => {
-            comp.setState({ data: json })
-        })
+    render() {
+
+        return (
+            null
+        )
     }
 
-    onHideCardAnimation() {
-        this.setState({
-            animate: !this.state.animate
-        })
-    }
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            animate: !this.state.animate,
-            columns: nextProps.sideBarVisible ? 3 : 4
-        })
-        let segmentListDrink = document.getElementById('list-drink')
-        segmentListDrink.style.width = nextProps.sideBarVisible ? '50%' : '73%'
-    }
-
-    onCompleteBillAnimation() {
-        if (this.props.sideBarVisible) {
-            document.getElementById('bill').style.marginRight = this.props.offsetWidth + 'px'
-        }
-    }
-
-    onHideBillAnimation() {
-        if (!this.props.sideBarVisible) {
-            document.getElementById('bill').style.marginRight = '0px'
-            document.getElementById('bill').style.visibility = 'visible'
-            document.getElementById('bill').style.display = 'block'
-        }
-    }
-
-    handleSubmitForm() {
-        let customerName = this.state.customerName
-        this.createEmptyOrder()
-        //this segment sends the customer name to server to validate
-        // assume it's valid
-        let response = true
-
-        // => go to drinks menu
-        this.setState({
-            open: false
-        })
-
-    }
-
-    handleChange(e) {
-        this.setState({
-            customerName: e.target.value
-        })
-    }
-
-    close() {
-        this.props.handleCloseModal()
-    }
 }
 
