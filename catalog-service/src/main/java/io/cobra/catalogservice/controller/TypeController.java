@@ -2,6 +2,7 @@ package io.cobra.catalogservice.controller;
 
 import io.cobra.catalogservice.model.Type;
 import io.cobra.catalogservice.service.TypeService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class TypeController {
     private final TypeService typeService;
 

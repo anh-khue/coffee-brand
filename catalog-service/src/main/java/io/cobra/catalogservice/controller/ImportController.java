@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import static io.cobra.catalogservice.constant.ImportConstants.ROW_HEADERS_INDEX;
 
 @Controller
+@CrossOrigin
 public class ImportController {
 //    private static final String DEFAULT_EXCEL_TEMPLATE_FILE_NAME = "Template_Import_Sustenance.xlsm";
 

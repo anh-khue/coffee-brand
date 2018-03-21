@@ -9,7 +9,6 @@ public class SustenanceHasIngredient {
     private int ingredientId;
     private int sustenanceId;
     private Ingredient ingredientByIngredientId;
-//    private Sustenance sustenanceBySustenanceId;
 
     public SustenanceHasIngredient() {
     }
@@ -68,14 +67,4 @@ public class SustenanceHasIngredient {
     public void setIngredientByIngredientId(Ingredient ingredientByIngredientId) {
         this.ingredientByIngredientId = ingredientByIngredientId;
     }
-
-//    @ManyToOne
-//    @JoinColumn(name = "sustenance_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
-//    public Sustenance getSustenanceBySustenanceId() {
-//        return sustenanceBySustenanceId;
-//    }
-
-//    public void setSustenanceBySustenanceId(Sustenance sustenanceBySustenanceId) {
-//        this.sustenanceBySustenanceId = sustenanceBySustenanceId;
-//    }
 }

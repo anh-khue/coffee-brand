@@ -45,7 +45,7 @@ public class SustenanceController {
         return this.sustenanceService.getByTypeId(typeId);
     }
 
-    @PostMapping(value = "/sustenance/{id}")
+    @PutMapping(value = "/sustenance/{id}")
     public void modifySustenance(@PathVariable("id") int sustenanceId,
                                  @RequestParam("price") double price,
                                  @RequestParam("discount") double discount,

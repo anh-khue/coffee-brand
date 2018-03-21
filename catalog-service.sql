@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `ingredient`;
 CREATE TABLE `ingredient` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ingredient` varchar(45) NOT NULL,
-  `description` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ingredient_UNIQUE` (`ingredient`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,7 +36,7 @@ CREATE TABLE `ingredient` (
 
 LOCK TABLES `ingredient` WRITE;
 /*!40000 ALTER TABLE `ingredient` DISABLE KEYS */;
-INSERT INTO `ingredient` VALUES (1,'Coffee',NULL),(2,'Milk',NULL),(3,'Sugar',NULL),(4,'Matcha',NULL),(5,'Cocoa',NULL),(6,'Condensed Milk',NULL),(7,'Soda',NULL),(8,'Blueberry Syrup',NULL),(9,'Apple Syrup',NULL),(10,'Strawberry Syrup',NULL),(11,'Mint Syrup',NULL),(12,'Chocolate',NULL),(13,'Cream',NULL),(14,'Oreo',NULL),(15,'Milo',NULL),(16,'Tea',NULL),(17,'Peach',NULL);
+INSERT INTO `ingredient` VALUES (9,'Apple Syrup'),(8,'Blueberry Syrup'),(12,'Chocolate'),(5,'Cocoa'),(1,'Coffee'),(6,'Condensed Milk'),(13,'Cream'),(4,'Matcha'),(2,'Milk'),(15,'Milo'),(11,'Mint Syrup'),(14,'Oreo'),(17,'Peach'),(7,'Soda'),(10,'Strawberry Syrup'),(3,'Sugar'),(16,'Tea');
 /*!40000 ALTER TABLE `ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -53,14 +53,13 @@ CREATE TABLE `sustenance` (
   `price` float NOT NULL,
   `discount` float NOT NULL DEFAULT '0',
   `unit` int(11) NOT NULL DEFAULT '1',
-  `type_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL DEFAULT '1',
   `created_date` datetime DEFAULT NULL,
-  `modified_date` datetime DEFAULT NULL,
   `image_id` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sustenance_type_idx` (`type_id`),
   CONSTRAINT `fk_sustenance_type` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +68,7 @@ CREATE TABLE `sustenance` (
 
 LOCK TABLES `sustenance` WRITE;
 /*!40000 ALTER TABLE `sustenance` DISABLE KEYS */;
-INSERT INTO `sustenance` VALUES (1,'Black Coffee',18000,0,1,3,NULL,NULL,NULL),(2,'Milk Coffee',19000,0,1,3,NULL,NULL,NULL),(3,'Peach Tea',23000,0,1,5,NULL,NULL,NULL),(4,'Milk Tea',18000,0,1,5,NULL,NULL,NULL),(5,'Cream Puffin',25000,0,4,1,NULL,NULL,NULL);
+INSERT INTO `sustenance` VALUES (1,'Black Coffee',18000,0,1,3,'2018-03-08 14:12:25','1ggCyyLjCu6yqDBbLnZllOpgkFmSFySmw'),(2,'Milk Coffee',19000,0,1,3,'2018-03-08 14:12:25','1ggCyyLjCu6yqDBbLnZllOpgkFmSFySmw'),(3,'Peach Tea',23000,0,1,5,'2018-03-08 14:12:25','1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m'),(4,'Milk Tea',18000,0,1,5,'2018-03-08 14:12:25','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(5,'Cream Puffin',25000,0,4,1,'2018-03-08 14:12:25','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(110,'Cappuccino',30000,10,1,3,'2018-03-15 22:17:49','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(111,'Matcha Latte',32000,0,1,3,'2018-03-15 22:17:49','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(112,'Mint Soda',28000,0,1,4,'2018-03-15 22:17:49','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(113,'Blue Soda',30000,5,1,4,'2018-03-15 22:17:49','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(114,'Strawberry Soda',28000,0,1,4,'2018-03-15 22:17:49','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(115,'Milk Shake',25000,0,1,6,'2018-03-15 22:17:49','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(123,'Espresso',22000,0,1,3,'2018-03-19 13:36:22','1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m'),(124,'Americano',25000,0,1,3,'2018-03-19 13:36:22','1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m'),(125,'Latte',30000,0,1,3,'2018-03-19 13:36:22','1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m'),(126,'Matcha Cheese Cake',38000,5,1,1,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(127,'Blueberry Cheese Cake',38000,5,1,1,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(128,'Cocoa Cheese Cake',38000,5,1,1,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(129,'Traditional Cheese Cake',32000,5,1,1,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(130,'Hotdog',35000,0,1,2,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(131,'Beef Hamburger',38000,0,1,2,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4'),(132,'Vietnamese Traditional Bread',25000,0,1,2,'2018-03-19 13:36:22','1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4');
 /*!40000 ALTER TABLE `sustenance` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,7 +96,7 @@ CREATE TABLE `sustenance_has_ingredient` (
 
 LOCK TABLES `sustenance_has_ingredient` WRITE;
 /*!40000 ALTER TABLE `sustenance_has_ingredient` DISABLE KEYS */;
-INSERT INTO `sustenance_has_ingredient` VALUES (1,1),(3,1),(1,2),(2,2),(3,2),(6,2),(3,3),(16,3),(17,3),(2,4),(3,4),(16,4);
+INSERT INTO `sustenance_has_ingredient` VALUES (1,1),(3,1),(1,2),(2,2),(3,2),(6,2),(3,3),(16,3),(17,3),(2,4),(3,4),(16,4),(1,110),(2,110),(3,110),(6,110),(12,110),(2,111),(3,111),(4,111),(6,111),(3,112),(7,112),(11,112),(3,113),(7,113),(8,113),(11,113),(3,114),(7,114),(10,114),(2,115),(3,115),(6,115),(13,115);
 /*!40000 ALTER TABLE `sustenance_has_ingredient` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,8 +110,8 @@ DROP TABLE IF EXISTS `type`;
 CREATE TABLE `type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(45) NOT NULL,
-  `description` text,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `type_UNIQUE` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,7 +121,7 @@ CREATE TABLE `type` (
 
 LOCK TABLES `type` WRITE;
 /*!40000 ALTER TABLE `type` DISABLE KEYS */;
-INSERT INTO `type` VALUES (1,'Cake',NULL),(2,'Snack',NULL),(3,'Coffee',NULL),(4,'Beverage',NULL),(5,'Tea',NULL),(6,'Milk',NULL);
+INSERT INTO `type` VALUES (4,'Beverage'),(1,'Cake'),(3,'Coffee'),(6,'Milk'),(2,'Snack'),(5,'Tea');
 /*!40000 ALTER TABLE `type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -135,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-12  9:09:44
+-- Dump completed on 2018-03-21 13:16:27

@@ -11,20 +11,11 @@ public class Sustenance {
     private double discount;
     private int unit;
     private Timestamp createdDate;
-//    private Timestamp modifiedDate;
     private String imageId;
     private Type typeByTypeId;
     private int typeId;
 
     public Sustenance() {
-    }
-
-    public Sustenance(String name, double price, double discount, int unit, int typeId) {
-        this.name = name;
-        this.price = price;
-        this.discount = discount;
-        this.unit = unit;
-        this.typeId = typeId;
     }
 
     @Id
@@ -88,16 +79,6 @@ public class Sustenance {
         this.createdDate = createdDate;
     }
 
-//    @Basic
-//    @Column(name = "modified_date", nullable = true)
-//    public Timestamp getModifiedDate() {
-//        return modifiedDate;
-//    }
-
-//    public void setModifiedDate(Timestamp modifiedDate) {
-//        this.modifiedDate = modifiedDate;
-//    }
-
     @Basic
     @Column(name = "image_id", nullable = true, length = 45)
     public String getImageId() {
@@ -121,7 +102,6 @@ public class Sustenance {
         if (unit != that.unit) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
         if (createdDate != null ? !createdDate.equals(that.createdDate) : that.createdDate != null) return false;
-//        if (modifiedDate != null ? !modifiedDate.equals(that.modifiedDate) : that.modifiedDate != null) return false;
         if (imageId != null ? !imageId.equals(that.imageId) : that.imageId != null) return false;
 
         return true;
@@ -139,7 +119,6 @@ public class Sustenance {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + unit;
         result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
-//        result = 31 * result + (modifiedDate != null ? modifiedDate.hashCode() : 0);
         result = 31 * result + (imageId != null ? imageId.hashCode() : 0);
         return result;
     }
