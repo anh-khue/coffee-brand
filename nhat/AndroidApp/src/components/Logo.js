@@ -6,8 +6,8 @@ export default class Logo extends React.Component {
     render(){
         return(
             <View style={styles.container}>
-                <Image style={{width: 200, height: 200}}
-                    source={require('../images/logo.png')}/>
+                <Image style={{width: 320, height: 320}}
+                    source={require('../images/cobra-icon-v2.png')}/>
             </View>        
         )
     }

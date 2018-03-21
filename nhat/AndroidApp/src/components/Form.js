@@ -29,23 +29,24 @@ const styles = StyleSheet.create({
     },
     inputBox:{
         width:300,
-        backgroundColor:'#99abb4',
+        backgroundColor:'#8b6b61',
         borderRadius: 25,
         paddingHorizontal: 16,
-        paddingVertical:5,
+        paddingVertical:12,
         fontSize: 16,
         color: '#ffffff',
         marginVertical: 10  
     },
     buttonText: {
        fontSize:16,
-       fontWeight:'500',
-       color:'#ffffff',
+       
+       fontWeight:'bold',
+       color:'#321911',
        textAlign:'center' 
     },
     button: {
         width:300,
-        backgroundColor:'#4680ff',
+        backgroundColor:'#ffffff',
         borderRadius: 25, 
         marginVertical: 10,
         paddingVertical: 12,

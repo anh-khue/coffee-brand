@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Alert, Label, Form, Item, Input, Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, Thumbnail } from 'native-base';
+import { Image, StyleSheet, StatusBar } from 'react-native';
+import abc from '../images/logo.png'
 
-export default class Branch extends Component {
+export default class User extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: true };
+        this.state = { loading: true, nav: false, info: false };
     }
 
     async componentWillMount() {
@@ -21,36 +23,65 @@ export default class Branch extends Component {
             return <Expo.AppLoading />;
         }
         return (
-            <Container>
-                <Header>
-                    {/* <Left>
-                        <Button transparent>
-                            <Icon name='menu' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Header</Title>
-                    </Body>
-                    <Right /> */}
-                </Header>
-                <Content>
-                    <Text>
-                        This is Content Section
-                    </Text>
-                </Content>
-                <Footer>
-                    <FooterTab>
-                        <Button vertical active>
-                            <Icon name="navigate" />
-                            <Text>Navigate</Text>
-                        </Button>
-                        <Button vertical>
-                            <Icon active name="person" />
-                            <Text>Information</Text>
-                        </Button>
-                    </FooterTab>
-                </Footer>
-            </Container>
+            <Content scrollEnabled={false}>
+                <Card style={{ flex: 0 }}>
+                    <CardItem>
+                        <Left>
+                            <Body>
+                                <Left><Icon name="logo-github" /></Left>
+                                <Right><Text>Nhat Nguyen</Text></Right>
+                                <Right><Text>Member</Text></Right>
+                            </Body>
+                        </Left>
+                    </CardItem>
+                    <CardItem>
+                        <Container>
+                            <Form>
+                                <Item fixedLabel>
+                                    <Label>Username</Label>
+                                    <Input />
+                                </Item>
+                                <Item fixedLabel>
+                                    <Label>Firstname</Label>
+                                    <Input />
+                                </Item>
+                                <Item fixedLabel>
+                                    <Label>Lastname</Label>
+                                    <Input />
+                                </Item>
+                                <Item fixedLabel>
+                                    <Label>Password</Label>
+                                    <Input />
+                                </Item>
+                            </Form>
+                            <CardItem>
+                                <Left>
+                                    <Button transparent textStyle={{ color: '#87838B' }}>
+                                        <Icon style={{ color: 'orange' }} name="paw" />
+                                        <Text style={{ color: 'orange', fontSize: 16 }}>1,926 point</Text>
+                                    </Button>
+                                </Left>
+                            </CardItem>
+                        </Container>
+                    </CardItem>
+                </Card>
+            </Content>
+
         );
     }
 }
+const styles = StyleSheet.create({
+    header: {
+        textAlign: 'center',
+        color: '#ffffff',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        marginTop: StatusBar.currentHeight
+    },
+    button: {
+        color: '#8d8d8d'
+    },
+    buttonPress: {
+        color: '#ffffff'
+    }
+});

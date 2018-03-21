@@ -5,7 +5,7 @@ import Form from '../components/Form';
 import Home from './Home';
 
 
-export default class App extends React.Component {
+export default class Login extends React.Component {
     constructor(props) {
         super(props)
 
@@ -46,7 +46,7 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
     container: {
         //   flex: 1,
-        backgroundColor: '#ffffff',
+        backgroundColor: '#5d4037',
         alignItems: 'center',
         justifyContent: 'center'
     }
