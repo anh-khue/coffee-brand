@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.sql.Timestamp;
@@ -24,13 +25,18 @@ public class ImportService {
     private final SustenanceRepository sustenanceRepository;
     private final SustenanceHasIngredientRepository sustenanceHasIngredientRepository;
 
+    private final SustenanceService sustenanceService;
+
     public ImportService(SustenanceRepository sustenanceRepository,
-                         SustenanceHasIngredientRepository sustenanceHasIngredientRepository) {
+                         SustenanceHasIngredientRepository sustenanceHasIngredientRepository,
+                         SustenanceService sustenanceService) {
         this.sustenanceRepository = sustenanceRepository;
         this.sustenanceHasIngredientRepository = sustenanceHasIngredientRepository;
+        this.sustenanceService = sustenanceService;
     }
 
-    public void importData(File file) {
+    public void importData(MultipartFile excel) {
+        File file = this.sustenanceService.handleMultipartFile(excel);
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(file);
             Sheet sheet = workbook.getSheetAt(0);
@@ -105,6 +111,7 @@ public class ImportService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        file.delete();
     }
 
     private void setIngredients(int sustenanceId, String ingredientIdsString) {

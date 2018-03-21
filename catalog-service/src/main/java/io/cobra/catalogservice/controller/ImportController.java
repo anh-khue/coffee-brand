@@ -22,19 +22,14 @@ import static io.cobra.catalogservice.constant.ImportConstants.ROW_HEADERS_INDEX
 @Controller
 @CrossOrigin
 public class ImportController {
-//    private static final String DEFAULT_EXCEL_TEMPLATE_FILE_NAME = "Template_Import_Sustenance.xlsm";
-
     private final ImportService importService;
-    private final SustenanceService sustenanceService;
 
-    public ImportController(ImportService importService,
-                            SustenanceService sustenanceService) {
+    public ImportController(ImportService importService) {
         this.importService = importService;
-        this.sustenanceService = sustenanceService;
     }
 
     @PostMapping("/import")
     public void createSustenanceFromExcel(@RequestParam("file") MultipartFile excel) {
-        this.importService.importData(this.sustenanceService.handleMultipartFile(excel));
+        this.importService.importData(excel);
     }
 }
