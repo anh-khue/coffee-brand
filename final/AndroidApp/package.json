@@ -1,5 +1,5 @@
 {
-  "name": "GeoLocation",
+  "name": "AndroidApp",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -21,11 +21,12 @@
   "dependencies": {
     "@expo/vector-icons": "^6.3.1",
     "expo": "^25.0.0",
+    "geolib": "^2.0.24",
     "native-base": "^2.3.10",
     "react": "16.2.0",
     "react-native": "0.52.0",
     "react-native-maps-directions": "^1.6.0",
     "react-native-star-rating": "^1.0.9",
-    "react-navigation": "^1.5.8"
+    "react-navigation": "^1.5.7"
   }
 }

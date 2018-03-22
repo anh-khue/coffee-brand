@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
+import { Container } from 'native-base';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import geolib from 'geolib';
 
-import map_marker_icon from './images/map-marker-red.png';
-import current_location_icon from './images/current-location.png';
+import map_marker_icon from '../images/map-marker-red.png';
+import current_location_icon from '../images/current-location.png';
 
 const DEFAULT_LATITUDE = 10.854130;
 const DEFAULT_LONGITUDE = 106.628859;
@@ -15,9 +16,9 @@ const GOOGLE_MAPS_APIKEY = 'AIzaSyD7wXi2cuD6R3PBTuSOVSnNJ3BIU6dPFwQ';
 
 const BRANCH_ADDRESSES_API_URL = 'http://192.168.100.39:9999/cobra-branch-service/branches';
 
-import Branch from './Branch';
+import Branch from '../components/Branch';
 
-export default class App extends React.Component {
+export default class Location extends React.Component {
 
   constructor(props) {
     super(props);
@@ -85,7 +86,8 @@ export default class App extends React.Component {
     if (!this.state.goToBranch) {
 
       return (
-        <View style={{ flex: 1 }}>
+
+        <Container style={{ flex: 1 }}>
 
           <MapView style={{ flex: 1 }} region={this.state.marker}>
 
@@ -131,7 +133,7 @@ export default class App extends React.Component {
 
           </MapView>
 
-        </View>
+        </Container>
       );
 
     } else {
