@@ -158,11 +158,10 @@ class Overview extends React.Component {
 
     componentWillMount(){
         let urlOrderByDate = constants.service.domain+constants.service.order.name+constants.service.order.date
-        let pattern = new RegExp('/', 'g')
-        for(let i=6; i>=1; i--){
+        for(let i=5; i>=0; i--){
             let d = new Date()
             d.setDate(d.getDate() - i)
-            let date = d.toLocaleDateString('vi-VN').replace(pattern, '-')
+            let date = d.toISOString().substr(0, 10)
             let url = urlOrderByDate.replace('{date}', date+' 00:00:00')
             fetch(url).then(res => {
                 return res.json()
