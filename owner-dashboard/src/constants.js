@@ -5,7 +5,8 @@ let constant = {
             name: 'cobra-catalog-service/',
             all: 'sustenance',
             importExcel: 'import',
-            edit: 'sustenance/{id}'
+            edit: 'sustenance/{id}',
+            importImage: 'sustenance/{id}/image'
         },
         branch:{
             name: 'cobra-branch-service/',

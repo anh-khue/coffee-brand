@@ -17,7 +17,8 @@ class App extends Component {
   }
 
   render() {
-    if(this.state.authorized){
+    let isLoggedIn = localStorage.getItem('isLoggedIn')
+    if(this.state.authorized || isLoggedIn == 'true'){
       return (
         <DashBoard handleLogout={(response) => this.handleSubmit(response)} />
       );

@@ -369,9 +369,9 @@ class ManageBranches extends React.Component {
                                                             </Statistic.Value>
                                                             <Statistic.Label>
                                                                 {
-                                                                    (Math.round(branch.rating*2)/2).toFixed(1)
+                                                                    (Math.round(branch.rating * 2) / 2).toFixed(1)
                                                                 }
-                                                        </Statistic.Label>
+                                                            </Statistic.Label>
                                                         </Statistic>
                                                     </Grid.Column>
                                                     {/* <Grid.Column>
@@ -465,7 +465,7 @@ class ManageBranches extends React.Component {
                                                                                                                     }
                                                                                                                     <Header.Subheader>
                                                                                                                         {
-                                                                                                                                (emp.role)
+                                                                                                                            (emp.role)
                                                                                                                         }
                                                                                                                     </Header.Subheader>
                                                                                                                 </Header.Content>
@@ -550,9 +550,9 @@ class ManageBranches extends React.Component {
         )
     }
 
-    componentWillMount(){
-        let urlBranches = constants.service.domain+constants.service.branch.name+constants.service.branch.all
-        let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.all
+    componentWillMount() {
+        let urlBranches = constants.service.domain + constants.service.branch.name + constants.service.branch.all
+        let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
         fetch(urlBranches).then(res => {
             return res.json()
         }).then(json => {
@@ -1050,61 +1050,64 @@ class ManageSustenance extends React.Component {
         let responsiveWidth = this.props.sideBarVisible ? '70%' : '95%'
         return (
             <div style={{ overflowY: 'scroll', height: '100%' }}>
-                <Accordion style={{ width: responsiveWidth, marginLeft: '1.5%', marginTop: '1.5%' }} >
-                    {
-                        this.state.types.map((type, index) => {
-                            let sustenanceOfThisType = this.state.sustenance.filter(s => s.typeByTypeId.id == type.id)
-                            return (
-                                <div>
-                                    <Accordion.Title active={this.state.activeAccordion == index} index={index} onClick={() => this.handleSwitchAccordion(index)}>
-                                        <Segment style={{ borderBottom: this.state.activeAccordion == index ? '2px solid blue' : '' }} raised={this.state.activeAccordion == index} >
-                                            <Grid>
-                                                <Grid.Row verticalAlign='middle' columns={'equal'}>
-                                                    <Grid.Column width={9}>
-                                                        <Header size='large'>
-                                                            <Icon name='food' size='big' />
-                                                            <Header.Content>
-                                                                {type.type}
-                                                                <Header.Subheader>
-                                                                    {type.description == null ? '' : type.description}
-                                                                </Header.Subheader>
-                                                            </Header.Content>
-                                                        </Header>
-                                                    </Grid.Column>
-                                                    <Grid.Column textAlign='center'>
-                                                        <Statistic floated='right'>
-                                                            <Statistic.Value>
-                                                                {
-                                                                    (this.state.sustenance.filter(s => s.typeByTypeId.id == type.id)).length
-                                                                }
-                                                            </Statistic.Value>
-                                                            <Statistic.Label>
-                                                                Items
+                <Grid style={{ width: responsiveWidth, marginLeft: '1.5%', marginTop: '1.5%' }} >
+                    <Grid.Row columns={2}>
+                        <Grid.Column width={14}>
+                            <Accordion>
+                                {
+                                    this.state.types.map((type, index) => {
+                                        let sustenanceOfThisType = this.state.sustenance.filter(s => s.typeByTypeId.id == type.id)
+                                        return (
+                                            <div>
+                                                <Accordion.Title active={this.state.activeAccordion == index} index={index} onClick={() => this.handleSwitchAccordion(index)}>
+                                                    <Segment style={{ borderBottom: this.state.activeAccordion == index ? '2px solid blue' : '' }} raised={this.state.activeAccordion == index} >
+                                                        <Grid>
+                                                            <Grid.Row verticalAlign='middle' columns={'equal'}>
+                                                                <Grid.Column width={9}>
+                                                                    <Header size='large'>
+                                                                        <Icon name='food' size='big' />
+                                                                        <Header.Content>
+                                                                            {type.type}
+                                                                            <Header.Subheader>
+                                                                                {type.description == null ? '' : type.description}
+                                                                            </Header.Subheader>
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column textAlign='center'>
+                                                                    <Statistic floated='right'>
+                                                                        <Statistic.Value>
+                                                                            {
+                                                                                (this.state.sustenance.filter(s => s.typeByTypeId.id == type.id)).length
+                                                                            }
+                                                                        </Statistic.Value>
+                                                                        <Statistic.Label>
+                                                                            Items
                                                             </Statistic.Label>
-                                                        </Statistic>
-                                                    </Grid.Column>
-                                                </Grid.Row>
-                                            </Grid>
-                                        </Segment>
-                                    </Accordion.Title>
-                                    {
-                                        sustenanceOfThisType.map((sustenance, i) => {
-                                            return (
-                                                <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
-                                                    <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
-                                                        <Accordion.Title active={this.state.activeSubAccordion == i} index={i} onClick={() => this.handleSwitchSubAccordion(i)}>
-                                                            <Segment style={{ borderBottom: this.state.activeSubAccordion == i ? '2px solid red' : '' }} raised={this.state.activeSubAccordion == i} >
-                                                                <Grid>
-                                                                    <Grid.Row verticalAlign='middle' columns={'equal'}>
-                                                                        <Grid.Column width={9}>
-                                                                            <Header size='large' >
-                                                                                <Header.Content>
-                                                                                    {sustenance.name}
-                                                                                </Header.Content>
-                                                                            </Header>
-                                                                        </Grid.Column>
-                                                                        <Grid.Column textAlign='center'>
-                                                                            {/* <Statistic floated='right'>
+                                                                    </Statistic>
+                                                                </Grid.Column>
+                                                            </Grid.Row>
+                                                        </Grid>
+                                                    </Segment>
+                                                </Accordion.Title>
+                                                {
+                                                    sustenanceOfThisType.map((sustenance, i) => {
+                                                        return (
+                                                            <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
+                                                                <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
+                                                                    <Accordion.Title active={this.state.activeSubAccordion == i} index={i} onClick={() => this.handleSwitchSubAccordion(i)}>
+                                                                        <Segment style={{ borderBottom: this.state.activeSubAccordion == i ? '2px solid red' : '' }} raised={this.state.activeSubAccordion == i} >
+                                                                            <Grid>
+                                                                                <Grid.Row verticalAlign='middle' columns={'equal'}>
+                                                                                    <Grid.Column width={9}>
+                                                                                        <Header size='large' >
+                                                                                            <Header.Content>
+                                                                                                {sustenance.name}
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column textAlign='center'>
+                                                                                        {/* <Statistic floated='right'>
                                                                 <Statistic.Value>
                                                                     {
                                                                         (this.state.sustenance.filter(s => s.typeByTypeId.id == type.id)).length
@@ -1114,76 +1117,82 @@ class ManageSustenance extends React.Component {
                                                                     Items
                             </Statistic.Label>
                                                             </Statistic> */}
-                                                                        </Grid.Column>
-                                                                    </Grid.Row>
-                                                                </Grid>
-                                                            </Segment>
-                                                        </Accordion.Title>
-                                                    </Transition>
-                                                    <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeSubAccordion == i}>
-                                                        <Transition animation='scale' visible={this.state.activeSubAccordion == i} duration={{ hide: 1, show: 350 }}>
-                                                            <Segment >
-                                                                <Grid>
-                                                                    <Grid.Row columns={2}>
-                                                                        <Grid.Column>
-                                                                            <Image src={this.state.sustenanceImage ? this.state.sustenanceImage.url : this.driveURL + sustenance.imageId} />
-                                                                            <input type='file' onChange={() => this.handleLoadImage()} style={{ display: 'none', visibility: 'hidden' }} id='sustenance-image' />
-                                                                        </Grid.Column>
-                                                                        <Grid.Column>
-                                                                            <Form size='huge'>
-                                                                                <Form.Field>
-                                                                                    <label>Name</label>
-                                                                                    <input value={sustenance.name} />
-                                                                                </Form.Field>
-                                                                                <Form.Field>
-                                                                                    <label>Price</label>
-                                                                                    <Input placeholder={sustenance.price} labelPosition='right'>
-                                                                                        <input id='sustenance-price' />
-                                                                                        <Label>VND</Label>
-                                                                                    </Input>
-                                                                                </Form.Field>
-                                                                                <Form.Field>
-                                                                                    <label>Discount</label>
-                                                                                    <Input placeholder={sustenance.discount} labelPosition='right'>
-                                                                                        <input id='sustenance-discount' />
-                                                                                        <Label>%</Label>
-                                                                                    </Input>
-                                                                                </Form.Field>
-                                                                                <Button onClick={() => this.handleEditSustenance(sustenance.id)} color='green' size='big'>Save</Button>
-                                                                                {
-                                                                                    this.state.sustenanceImage ?
-                                                                                        (<Button onClick={() => this.handleUploadImage()} icon color='blue' size='big' labelPosition='right'>
-                                                                                            <Icon name='cloud upload' />
-                                                                                            Upload sustenance image
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                            </Grid>
+                                                                        </Segment>
+                                                                    </Accordion.Title>
+                                                                </Transition>
+                                                                <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeSubAccordion == i}>
+                                                                    <Transition animation='scale' visible={this.state.activeSubAccordion == i} duration={{ hide: 1, show: 350 }}>
+                                                                        <Segment >
+                                                                            <Grid>
+                                                                                <Grid.Row columns={2}>
+                                                                                    <Grid.Column>
+                                                                                        <Image src={this.state.sustenanceImage ? this.state.sustenanceImage.url : this.driveURL + sustenance.imageId} />
+                                                                                        <input type='file' onChange={() => this.handleLoadImage()} style={{ display: 'none', visibility: 'hidden' }} id='sustenance-image' />
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column>
+                                                                                        <Form size='huge'>
+                                                                                            <Form.Field>
+                                                                                                <label>Name</label>
+                                                                                                <input value={sustenance.name} />
+                                                                                            </Form.Field>
+                                                                                            <Form.Field>
+                                                                                                <label>Price</label>
+                                                                                                <Input placeholder={sustenance.price} labelPosition='right'>
+                                                                                                    <input onChange={(e) => this.setState({ sustenancePrice: e.target.value })} />
+                                                                                                    <Label>VND</Label>
+                                                                                                </Input>
+                                                                                            </Form.Field>
+                                                                                            <Form.Field>
+                                                                                                <label>Discount</label>
+                                                                                                <Input placeholder={sustenance.discount} labelPosition='right'>
+                                                                                                    <input onChange={(e) => this.setState({ sustenanceDiscount: e.target.value })} />
+                                                                                                    <Label>%</Label>
+                                                                                                </Input>
+                                                                                            </Form.Field>
+                                                                                            <Button onClick={() => this.handleEditSustenance(sustenance.id)} color='green' size='big'>Save</Button>
+                                                                                            {
+                                                                                                this.state.sustenanceImage ?
+                                                                                                    (<Button onClick={() => this.handleUploadImage(sustenance.id)} icon color='blue' size='big' labelPosition='right'>
+                                                                                                        <Icon name='cloud upload' />
+                                                                                                        Upload sustenance image
                                                                                             </Button>) :
-                                                                                        (<Button onClick={() => this.handleSelectImage()} icon color='blue' size='big' labelPosition='right'>
-                                                                                            <Icon name='image' />
-                                                                                            Choose image
+                                                                                                    (<Button onClick={() => this.handleSelectImage()} icon color='blue' size='big' labelPosition='right'>
+                                                                                                        <Icon name='image' />
+                                                                                                        Choose image
                                                                                              </Button>)
-                                                                                }
-                                                                            </Form>
-                                                                        </Grid.Column>
-                                                                    </Grid.Row>
-                                                                </Grid>
-                                                            </Segment>
-                                                        </Transition>
-                                                    </Accordion.Content>
-                                                </Accordion.Content>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            )
-                        })
-                    }
-                </Accordion>
+                                                                                            }
+                                                                                        </Form>
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                            </Grid>
+                                                                        </Segment>
+                                                                    </Transition>
+                                                                </Accordion.Content>
+                                                            </Accordion.Content>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </Accordion>
+                        </Grid.Column>
+                        <Grid.Column width={2}>
+                                
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
             </div>
         )
     }
 
-    componentWillMount(){
-        let urlSustenance = constants.service.domain+constants.service.catalog.name+constants.service.catalog.all
-        let urlTypes = constants.service.domain+constants.service.type.name+constants.service.type.all
+    componentWillMount() {
+        let urlSustenance = constants.service.domain + constants.service.catalog.name + constants.service.catalog.all
+        let urlTypes = constants.service.domain + constants.service.type.name + constants.service.type.all
 
         fetch(urlSustenance).then(res => {
             return res.json()
@@ -1202,8 +1211,17 @@ class ManageSustenance extends React.Component {
         })
     }
 
-    handleUploadImage() {
-
+    handleUploadImage(id) {
+        let urlSustenanceImage = constants.service.domain + constants.service.catalog.name + constants.service.catalog.importImage
+        urlSustenanceImage = urlSustenanceImage.replace('{id}', id)
+        let formData = new FormData()
+        formData.append('file', this.state.sustenanceImage.file)
+        fetch(urlSustenanceImage, {
+            method: 'POST',
+            body: formData
+        }).then(res => {
+            console.log(res.status)
+        })
     }
 
     handleSelectImage() {
@@ -1229,17 +1247,23 @@ class ManageSustenance extends React.Component {
     }
 
     handleEditSustenance(id) {
-        let price = document.getElementById('sustenance-price').value
-        let discount = document.getElementById('sustenance-discount').value
+        let price = this.state.sustenancePrice
+        let discount = this.state.sustenanceDiscount
         let url = constants.service.domain + constants.service.catalog.name + constants.service.catalog.edit
         url = url.replace('{id}', id)
-        // fetch(url, {
-        //     method: 'PUT',
-        //     headers:{
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify
-        // })
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                price: price,
+                discount: discount
+            })
+        }).then(res => {
+            console.log(res.status)
+        })
     }
 
     handleSwitchAccordion(index) {
@@ -1305,7 +1329,7 @@ class ManageOrders extends React.Component {
                                                                         <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
                                                                             {
-                                                                                cashier.lastName +' '+ cashier.firstName+
+                                                                                cashier.lastName + ' ' + cashier.firstName +
                                                                                 (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
                                                                             }
                                                                         </Header.Content>
@@ -1433,13 +1457,20 @@ class ManageOrders extends React.Component {
 
     componentWillMount() {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
-        let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.all
+        let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
+        let urlAccounts = constants.service.domain + constants.service.account.name + constants.service.account.get
+        urlAccounts = urlAccounts.replace('{id}', id)
 
         fetch(urlOrders).then(res => {
             return res.json()
-        }).then(json => {
+        }).then(orders => {
+            fetch(urlAccounts).then(res => {
+                return res.json()
+            }).then(account => {
+                
+            })
             this.setState({
-                orders: json
+                orders: orders
             })
         })
         fetch(urlEmployees).then(res => {
@@ -1451,19 +1482,13 @@ class ManageOrders extends React.Component {
         })
     }
 
-    getAccountByAccountId(id){
-        let urlAccounts = constants.service.domain+constants.service.account.name+constants.service.account.get
-        urlAccounts = urlAccounts.replace('{id}', id)
-        fetch(urlAccounts).then(res => {
-            return res.json()
-        }).then(json => {
-           this.account = json
-        })
+    getAccountByAccountId(id) {
+        
     }
 
 
-    getOrderDetailsByOrderId(id){
-        let urlOrderDetails = constants.service.domain+constants.service.orderDetail.name+constants.service.orderDetail.get
+    getOrderDetailsByOrderId(id) {
+        let urlOrderDetails = constants.service.domain + constants.service.orderDetail.name + constants.service.orderDetail.get
         let orders = this.state.orders
         orders.map(order => {
             let url = urlOrderDetails.replace('{id}', order.order.id)

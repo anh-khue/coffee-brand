@@ -94,6 +94,7 @@ export default class Login extends React.Component{
         })
         // assume it's valid
         let authorized = true
+        localStorage.setItem('isLoggedIn', 'true')
         
         //demo
         setTimeout(() => {
