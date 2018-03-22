@@ -1,6 +1,6 @@
 let constant = {
     service:{
-        domain: 'http://192.168.100.39:9999/',
+        domain: 'http://192.168.1.6:9999/',
         catalog: {
             name: 'cobra-catalog-service/',
             all: 'sustenance',

@@ -1321,27 +1321,36 @@ class ManageOrders extends React.Component {
                                                     <Segment style={{ borderBottom: this.state.activeAccordion == index ? '2px solid blue' : '' }} raised={this.state.activeAccordion == index} >
                                                         <Grid>
                                                             <Grid.Row verticalAlign='middle' >
-                                                                <Grid.Column width={10}>
+                                                                <Grid.Column width={6}>
                                                                     <Header size='large'>
                                                                         <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
                                                                             {
-                                                                                order.id + ' ' +
+                                                                                order.id
+                                                                            }
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={4}>
+                                                                    <Header size='large'>
+                                                                        <Icon name='calendar' size='big' />
+                                                                        <Header.Content>
+                                                                            {
                                                                                 (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
                                                                             }
                                                                         </Header.Content>
                                                                     </Header>
                                                                 </Grid.Column>
-                                                                {/* <Grid.Column textAlign='center' width={6}>
+                                                                <Grid.Column textAlign='center' width={6}>
                                                                     <Statistic floated='right'>
                                                                         <Statistic.Value>
-                                                                            a
+                                                                            {order.total}
                                                                         </Statistic.Value>
                                                                         <Statistic.Label>
-                                                                            Items
+                                                                            Total
                                                                 </Statistic.Label>
                                                                     </Statistic>
-                                                                </Grid.Column> */}
+                                                                </Grid.Column>
                                                             </Grid.Row>
                                                         </Grid>
                                                     </Segment>
@@ -1437,7 +1446,7 @@ class ManageOrders extends React.Component {
                 orderdetails: json
             })
         })
-        
+
         fetch(urlEmployees).then(res => {
             return res.json()
         }).then(json => {
