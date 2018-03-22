@@ -12,7 +12,10 @@ export default class Login extends React.Component {
         this.handleLogin.bind(this)
 
         this.state = {
-            authenticated: false
+            authenticated: false,
+            user: {
+
+            }
         }
     }
     render() {
@@ -21,23 +24,43 @@ export default class Login extends React.Component {
                 <View style={styles.container}>
                     <View style={styles.container}>
                         <Logo />
-                        <Form handleLogin={() => this.handleLogin()} />
+                        <Form handleLogin={(email, password) => this.handleLogin(email, password)} />
                     </View>
                 </View>
             )
         } else {
             return (
-                <Home />
+                <Home user={this.state.user} />
             )
         }
 
 
     }
 
-    handleLogin() {
-        this.setState({
-            authenticated: true
+    handleLogin(email, password) {
+        console.log(email)
+        console.log(password)
+        fetch('http://192.168.1.6:8001/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        }).then(res => {
+            if (res.status === 200) {
+                return res.json()
+            }
+        }).then(json => {
+            console.log(json)
+            this.setState({
+                authenticated: true,
+                user: json
+            })
         })
+
     }
 
 }

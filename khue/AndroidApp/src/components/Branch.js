@@ -38,13 +38,28 @@ export default class Branch extends Component {
     }
 
     onStarRatingPress(rating) {
+        fetch('http://192.168.1.6:8000/branches/1', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                branchId: 1,
+                customerId: 3,
+                id: 0,
+                star: 2
+            })
+        })
+        .then(res => {
+            console.log(res.status)
+        })
         this.setState({
             starCount: rating
         });
     }
 
     async componentWillMount() {
-        
+
 
         await Expo.Font.loadAsync({
             Roboto: require("native-base/Fonts/Roboto.ttf"),
@@ -52,22 +67,23 @@ export default class Branch extends Component {
             Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
         });
 
-        // await fetch('http://192.168.100.127:9999/cobra-branch-service/branches/1')
-        //     .then(res => {
-        //         return res.json()
-        //     })
-        //     .then(json => {
-        //         console.log(json)
-        //         this.setState({
-        //             starCount: parseInt(json.rating),
-        //             branchName: json.name,
-        //             branchAddress: json.address,
-        //             coverUrl: googleDriveImageUrl + json.coverImageId,
-        //             loading: false
-        //         })
-        //         console.log(this.state.coverUrl)
-        //     });
-        fetch('http://192.168.100.127:9999/cobra-branch-service/branches/1/images')
+        fetch('http://192.168.1.6:8000/branches/1')
+            .then(res => {
+                return res.json()
+            })
+            .then(json => {
+                console.log(json)
+                this.setState({
+                    starCount: parseFloat(json.rating),
+                    branchName: json.name,
+                    branchAddress: json.address,
+                    coverUrl: googleDriveImageUrl + json.coverImageId,
+                    // loading: false
+                })
+                console.log(this.state.coverUrl)
+            });
+
+        fetch('http://192.168.1.6:8000/branches/1/images')
             .then(res => {
                 return res.json()
             }).then(json => {
@@ -78,10 +94,11 @@ export default class Branch extends Component {
                         text: 'a',
                         name: 'a',
                         image: {
-                            URI: googleDriveImageUrl + coverURL
+                            uri: googleDriveImageUrl + coverURL
                         }
                     }
                 })
+                console.log(cards)
                 this.setState({
                     cards: cards,
                     loading: false
@@ -116,7 +133,7 @@ export default class Branch extends Component {
                 <Content>
                     <Card style={{ marginTop: 10 }}>
                         <CardItem cardBody>
-                            <Image source={{uri: this.state.coverUrl}} style={{ height: 200, width: null, flex: 1 }} />
+                            <Image source={{ uri: this.state.coverUrl }} style={{ height: 200, width: null, flex: 1 }} />
                         </CardItem>
                         <CardItem>
                             {/* <Thumbnail source={require('../images/logo.png')}/> */}
@@ -147,7 +164,7 @@ export default class Branch extends Component {
                             renderItem={item =>
                                 <Card style={{ elevation: 3 }}>
                                     <CardItem cardBody>
-                                        <Image style={{ height: 300, flex: 1 }} source={item.image} />
+                                        <Image source={{ uri: item.image.uri }} style={{ height: 300, flex: 1 }} />
                                     </CardItem>
                                 </Card>
                             }

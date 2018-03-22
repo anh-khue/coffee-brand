@@ -28,9 +28,7 @@ export default class Fragment extends Component {
                 <Header style={{ backgroundColor: '#8b6b61' }}>
                     <Text style={styles.header} >COBRA</Text>
                 </Header>
-                {
-                    this.state.nav
-                        ? <UserInfo /> : <User />}
+                {this.state.nav ? <UserInfo /> : <User user={this.props.user}/>}
                 <Footer style={{ backgroundColor: '#896a60' }}>
                     <FooterTab style={{ backgroundColor: '#301810' }}>
                         <Button vertical onPress={() => {

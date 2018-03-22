@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Alert, Label, Form, Item, Input, Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text, Card, CardItem, Thumbnail } from 'native-base';
 import { Image, StyleSheet, StatusBar } from 'react-native';
-import abc from '../images/logo.png'
 
 export default class User extends Component {
     constructor(props) {
         super(props);
-        this.state = { loading: true, nav: false, info: false };
+        this.state = { 
+            loading: true, 
+            nav: false, 
+            info: false,
+            user: this.props.user
+        };
     }
 
     async componentWillMount() {
@@ -29,8 +33,8 @@ export default class User extends Component {
                         <Left>
                             <Body>
                                 <Left><Icon name="logo-github" /></Left>
-                                <Right><Text>Nhat Nguyen</Text></Right>
-                                <Right><Text>Member</Text></Right>
+                                <Right><Text>{this.state.user.email}</Text></Right>
+                                <Right><Text>{this.state.user.role.name}</Text></Right>
                             </Body>
                         </Left>
                     </CardItem>
@@ -39,7 +43,7 @@ export default class User extends Component {
                             <Form>
                                 <Item fixedLabel>
                                     <Label>Username</Label>
-                                    <Input />
+                                    <Input value={this.state.user.email} />
                                 </Item>
                                 <Item fixedLabel>
                                     <Label>Firstname</Label>
@@ -51,7 +55,7 @@ export default class User extends Component {
                                 </Item>
                                 <Item fixedLabel>
                                     <Label>Password</Label>
-                                    <Input />
+                                    <Input value={this.state.user.password}/>
                                 </Item>
                             </Form>
                             <CardItem>

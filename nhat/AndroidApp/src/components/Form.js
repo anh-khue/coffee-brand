@@ -2,22 +2,38 @@ import React from 'react';
 import {StyleSheet, Text, View, StatusBar, TextInput, TouchableOpacity} from 'react-native';
 
 export default class Form extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+
     render(){
         return(
             <View style={styles.container}>
                 <TextInput style={styles.inputBox} 
                     underlineColorAndroid='rgba(0,0,0,0)' 
                     placeholder="Username"
+                    onChangeText={(e) => this.handleOnChange(e, 'email')}
                     placeholderTextColor="#ffffff"/>
                 <TextInput style={styles.inputBox} 
                     underlineColorAndroid='rgba(0,0,0,0)' 
                     placeholder="Password"
+                    onChangeText={(e) => this.handleOnChange(e, 'password')}
                     placeholderTextColor="#ffffff"/>
                 <TouchableOpacity style={styles.button}>
-                    <Text onPress={() => this.props.handleLogin()} style={styles.buttonText}>Login</Text>
+                    <Text onPress={() => this.props.handleLogin(this.state.email, this.state.password)} style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
             </View>        
         )
+    }
+
+    handleOnChange(e, field) {
+        this.setState({
+            [field]: e
+        })
     }
 }
 
