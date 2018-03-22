@@ -1,11 +1,20 @@
 let constant = {
     service:{
-        domain: 'http://192.168.100.127:9999/',
+        domain: 'http://192.168.100.39:9999/',
         catalog: {
             name: 'cobra-catalog-service/',
             all: 'sustenance',
             importExcel: 'import',
             edit: 'sustenance/{id}'
+        },
+        branch:{
+            name: 'cobra-branch-service/',
+            all: 'branches'
+
+        },
+        employee:{
+            name: 'cobra-employee-service/',
+            all: 'employees'
         },
         order:{
             name: 'cobra-order-service/',
@@ -14,7 +23,7 @@ let constant = {
         },
         orderDetail:{
             name: 'cobra-order-service/',
-            all: 'order_details'
+            get: 'order_details/{id}'
         },
         type: {
             name: 'cobra-catalog-service/',
@@ -27,6 +36,10 @@ let constant = {
         import:{
             name: 'cobra-branch-service/',
             branchImage: 'branches/{id}/images',
+        },
+        account:{
+            name: 'cobra-auth-service/',
+            get: 'accounts/{id}'
         }
     }
 }

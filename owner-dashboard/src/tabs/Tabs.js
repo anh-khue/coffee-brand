@@ -162,140 +162,140 @@ class ManageBranches extends React.Component {
             activeAccordion: -1,
             activeImageUpload: false,
             branches: [
-                {
-                    id: 1,
-                    name: 'Innovation',
-                    address: 'Innovation Building, Quang Trung Software City, District 12, Ho Chi Minh City',
-                    latitude: 10.852899551391602,
-                    longitude: 106.62899780273438,
-                    openingHour: '07:00:00',
-                    closingHour: '21:00:00',
-                    driveFolderId: null,
-                    rating: 4
-                },
-                {
-                    id: 2,
-                    name: 'Gen Pacific',
-                    address: 'Gen Pacific Building, Quang Trung Software City, District 12, Ho Chi Minh City',
-                    latitude: 10.852499961853027,
-                    longitude: 106.62699890136719,
-                    openingHour: '07:00:00',
-                    closingHour: '21:00:00',
-                    driveFolderId: null,
-                    rating: 4
-                },
-                {
-                    id: 7,
-                    name: 'Anna',
-                    address: 'Anna Building, Quang Trung Software City, District 12, Ho Chi Minh City',
-                    latitude: 10.853992,
-                    longitude: 106.625619,
-                    openingHour: '07:00:00',
-                    closingHour: '22:00:00',
-                    driveFolderId: '1lkIQZV0zovBXjohfKn_cs5if4j_jZuYS',
-                    rating: 3
-                },
-                {
-                    id: 8,
-                    name: 'Moda Nguyen Oanh',
-                    address: '11 Nguyen Oanh, District Go Vap, Ho Chi Minh City',
-                    latitude: 10.827909469604492,
-                    longitude: 106.67930603027344,
-                    openingHour: '06:00:00',
-                    closingHour: '02:30:00',
-                    driveFolderId: null,
-                    rating: 0
-                }
+                // {
+                //     id: 1,
+                //     name: 'Innovation',
+                //     address: 'Innovation Building, Quang Trung Software City, District 12, Ho Chi Minh City',
+                //     latitude: 10.852899551391602,
+                //     longitude: 106.62899780273438,
+                //     openingHour: '07:00:00',
+                //     closingHour: '21:00:00',
+                //     driveFolderId: null,
+                //     rating: 4
+                // },
+                // {
+                //     id: 2,
+                //     name: 'Gen Pacific',
+                //     address: 'Gen Pacific Building, Quang Trung Software City, District 12, Ho Chi Minh City',
+                //     latitude: 10.852499961853027,
+                //     longitude: 106.62699890136719,
+                //     openingHour: '07:00:00',
+                //     closingHour: '21:00:00',
+                //     driveFolderId: null,
+                //     rating: 4
+                // },
+                // {
+                //     id: 7,
+                //     name: 'Anna',
+                //     address: 'Anna Building, Quang Trung Software City, District 12, Ho Chi Minh City',
+                //     latitude: 10.853992,
+                //     longitude: 106.625619,
+                //     openingHour: '07:00:00',
+                //     closingHour: '22:00:00',
+                //     driveFolderId: '1lkIQZV0zovBXjohfKn_cs5if4j_jZuYS',
+                //     rating: 3
+                // },
+                // {
+                //     id: 8,
+                //     name: 'Moda Nguyen Oanh',
+                //     address: '11 Nguyen Oanh, District Go Vap, Ho Chi Minh City',
+                //     latitude: 10.827909469604492,
+                //     longitude: 106.67930603027344,
+                //     openingHour: '06:00:00',
+                //     closingHour: '02:30:00',
+                //     driveFolderId: null,
+                //     rating: 0
+                // }
             ],
             employees: [
-                {
-                    id: 1,
-                    accountId: 4,
-                    role: 'MANAGER',
-                    firstName: 'Tuan',
-                    lastName: 'Dao',
-                    dateOfBirth: '1997-03-06T00:40:34.000+0000',
-                    email: 'nhatdao@gmail.com',
-                    phone: '0123456789',
-                    branchId: 1
-                },
-                {
-                    id: 2,
-                    accountId: 2,
-                    role: 'CASHIER',
-                    firstName: 'Nhat',
-                    lastName: 'Nguyen Quang',
-                    dateOfBirth: '1990-03-19T00:40:34.000+0000',
-                    email: 'nhatnguyenquang@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                },
-                {
-                    id: 3,
-                    accountId: 5,
-                    role: 'WAITER/WAITRESS',
-                    firstName: 'Cuong',
-                    lastName: 'Mai Vu',
-                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
-                    email: 'cuongmai@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                },
-                {
-                    id: 4,
-                    accountId: 5,
-                    role: 'WAITER/WAITRESS',
-                    firstName: 'a',
-                    lastName: 'Mai Vu',
-                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
-                    email: 'cuongmai@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                },
-                {
-                    id: 5,
-                    accountId: 5,
-                    role: 'WAITER/WAITRESS',
-                    firstName: 'b',
-                    lastName: 'Mai Vu',
-                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
-                    email: 'cuongmai@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                },
-                {
-                    id: 6,
-                    accountId: 5,
-                    role: 'WAITER/WAITRESS',
-                    firstName: 'c',
-                    lastName: 'Mai Vu',
-                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
-                    email: 'cuongmai@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                },
-                {
-                    id: 7,
-                    accountId: 5,
-                    role: 'WAITER/WAITRESS',
-                    firstName: 'd',
-                    lastName: 'Mai Vu',
-                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
-                    email: 'cuongmai@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                },
-                {
-                    id: 8,
-                    accountId: 5,
-                    role: 'WAITER/WAITRESS',
-                    firstName: 'e',
-                    lastName: 'Mai Vu',
-                    dateOfBirth: '1997-11-24T00:40:34.000+0000',
-                    email: 'cuongmai@gmail.com',
-                    phone: '9876543210',
-                    branchId: 2
-                }
+                // {
+                //     id: 1,
+                //     accountId: 4,
+                //     role: 'MANAGER',
+                //     firstName: 'Tuan',
+                //     lastName: 'Dao',
+                //     dateOfBirth: '1997-03-06T00:40:34.000+0000',
+                //     email: 'nhatdao@gmail.com',
+                //     phone: '0123456789',
+                //     branchId: 1
+                // },
+                // {
+                //     id: 2,
+                //     accountId: 2,
+                //     role: 'CASHIER',
+                //     firstName: 'Nhat',
+                //     lastName: 'Nguyen Quang',
+                //     dateOfBirth: '1990-03-19T00:40:34.000+0000',
+                //     email: 'nhatnguyenquang@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // },
+                // {
+                //     id: 3,
+                //     accountId: 5,
+                //     role: 'WAITER/WAITRESS',
+                //     firstName: 'Cuong',
+                //     lastName: 'Mai Vu',
+                //     dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                //     email: 'cuongmai@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // },
+                // {
+                //     id: 4,
+                //     accountId: 5,
+                //     role: 'WAITER/WAITRESS',
+                //     firstName: 'a',
+                //     lastName: 'Mai Vu',
+                //     dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                //     email: 'cuongmai@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // },
+                // {
+                //     id: 5,
+                //     accountId: 5,
+                //     role: 'WAITER/WAITRESS',
+                //     firstName: 'b',
+                //     lastName: 'Mai Vu',
+                //     dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                //     email: 'cuongmai@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // },
+                // {
+                //     id: 6,
+                //     accountId: 5,
+                //     role: 'WAITER/WAITRESS',
+                //     firstName: 'c',
+                //     lastName: 'Mai Vu',
+                //     dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                //     email: 'cuongmai@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // },
+                // {
+                //     id: 7,
+                //     accountId: 5,
+                //     role: 'WAITER/WAITRESS',
+                //     firstName: 'd',
+                //     lastName: 'Mai Vu',
+                //     dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                //     email: 'cuongmai@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // },
+                // {
+                //     id: 8,
+                //     accountId: 5,
+                //     role: 'WAITER/WAITRESS',
+                //     firstName: 'e',
+                //     lastName: 'Mai Vu',
+                //     dateOfBirth: '1997-11-24T00:40:34.000+0000',
+                //     email: 'cuongmai@gmail.com',
+                //     phone: '9876543210',
+                //     branchId: 2
+                // }
             ],
             editingEmpId: -1,
             activePage: 1,
@@ -368,7 +368,9 @@ class ManageBranches extends React.Component {
                                                                 <Rating disabled maxRating={5} defaultRating={branch.rating} icon='star' size='huge' />
                                                             </Statistic.Value>
                                                             <Statistic.Label>
-                                                                Rating
+                                                                {
+                                                                    (Math.round(branch.rating*2)/2).toFixed(1)
+                                                                }
                                                         </Statistic.Label>
                                                         </Statistic>
                                                     </Grid.Column>
@@ -463,9 +465,7 @@ class ManageBranches extends React.Component {
                                                                                                                     }
                                                                                                                     <Header.Subheader>
                                                                                                                         {
-                                                                                                                            (this.state.editingEmpId != emp.id) ?
                                                                                                                                 (emp.role)
-                                                                                                                                : (<Input id='empRole' size='mini' placeholder={emp.role} />)
                                                                                                                         }
                                                                                                                     </Header.Subheader>
                                                                                                                 </Header.Content>
@@ -535,7 +535,6 @@ class ManageBranches extends React.Component {
                                                                         </Table.Footer>
                                                                     </Table>)
                                                             }
-
                                                         </Grid.Column>
                                                     </Grid.Row>
                                                 </Grid>
@@ -549,6 +548,25 @@ class ManageBranches extends React.Component {
                 </Accordion>
             </div>
         )
+    }
+
+    componentWillMount(){
+        let urlBranches = constants.service.domain+constants.service.branch.name+constants.service.branch.all
+        let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.all
+        fetch(urlBranches).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                branches: json
+            })
+        })
+        fetch(urlEmployees).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                employees: json
+            })
+        })
     }
 
     handleUploadImage(branchId) {
@@ -670,353 +688,353 @@ class ManageSustenance extends React.Component {
 
         this.state = {
             sustenance: [
-                {
-                    id: 1,
-                    name: 'Black Coffee',
-                    price: 18000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: null,
-                    imageId: '1ggCyyLjCu6yqDBbLnZllOpgkFmSFySmw',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 2,
-                    name: 'Milk Coffee',
-                    price: 19000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: null,
-                    imageId: '1ggCyyLjCu6yqDBbLnZllOpgkFmSFySmw',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 3,
-                    name: 'Peach Tea',
-                    price: 23000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: null,
-                    imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
-                    typeByTypeId: {
-                        id: 5,
-                        type: 'Tea',
-                        description: null
-                    },
-                    typeId: 5
-                },
-                {
-                    id: 4,
-                    name: 'Milk Tea',
-                    price: 18000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: null,
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 5,
-                        type: 'Tea',
-                        description: null
-                    },
-                    typeId: 5
-                },
-                {
-                    id: 5,
-                    name: 'Cream Puffin',
-                    price: 25000,
-                    discount: 0,
-                    unit: 4,
-                    createdDate: null,
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 1,
-                        type: 'Cake',
-                        description: null
-                    },
-                    typeId: 1
-                },
-                {
-                    id: 110,
-                    name: 'Cappuccino',
-                    price: 30000,
-                    discount: 10,
-                    unit: 1,
-                    createdDate: '2018-03-15T15:17:49.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 111,
-                    name: 'Matcha Latte',
-                    price: 32000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-15T15:17:49.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 112,
-                    name: 'Mint Soda',
-                    price: 28000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-15T15:17:49.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 4,
-                        type: 'Beverage',
-                        description: null
-                    },
-                    typeId: 4
-                },
-                {
-                    id: 113,
-                    name: 'Blue Soda',
-                    price: 30000,
-                    discount: 5,
-                    unit: 1,
-                    createdDate: '2018-03-15T15:17:49.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 4,
-                        type: 'Beverage',
-                        description: null
-                    },
-                    typeId: 4
-                },
-                {
-                    id: 114,
-                    name: 'Strawberry Soda',
-                    price: 28000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-15T15:17:49.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 4,
-                        type: 'Beverage',
-                        description: null
-                    },
-                    typeId: 4
-                },
-                {
-                    id: 115,
-                    name: 'Milk Shake',
-                    price: 25000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-15T15:17:49.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 6,
-                        type: 'Milk',
-                        description: null
-                    },
-                    typeId: 6
-                },
-                {
-                    id: 123,
-                    name: 'Espresso',
-                    price: 22000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 124,
-                    name: 'Americano',
-                    price: 25000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 125,
-                    name: 'Latte',
-                    price: 30000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
-                    typeByTypeId: {
-                        id: 3,
-                        type: 'Coffee',
-                        description: null
-                    },
-                    typeId: 3
-                },
-                {
-                    id: 126,
-                    name: 'Matcha Cheese Cake',
-                    price: 38000,
-                    discount: 5,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 1,
-                        type: 'Cake',
-                        description: null
-                    },
-                    typeId: 1
-                },
-                {
-                    id: 127,
-                    name: 'Blueberry Cheese Cake',
-                    price: 38000,
-                    discount: 5,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 1,
-                        type: 'Cake',
-                        description: null
-                    },
-                    typeId: 1
-                },
-                {
-                    id: 128,
-                    name: 'Cocoa Cheese Cake',
-                    price: 38000,
-                    discount: 5,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 1,
-                        type: 'Cake',
-                        description: null
-                    },
-                    typeId: 1
-                },
-                {
-                    id: 129,
-                    name: 'Traditional Cheese Cake',
-                    price: 32000,
-                    discount: 5,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 1,
-                        type: 'Cake',
-                        description: null
-                    },
-                    typeId: 1
-                },
-                {
-                    id: 130,
-                    name: 'Hotdog',
-                    price: 35000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 2,
-                        type: 'Snack',
-                        description: null
-                    },
-                    typeId: 2
-                },
-                {
-                    id: 131,
-                    name: 'Beef Hamburger',
-                    price: 38000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 2,
-                        type: 'Snack',
-                        description: null
-                    },
-                    typeId: 2
-                },
-                {
-                    id: 132,
-                    name: 'Vietnamese Traditional Bread',
-                    price: 25000,
-                    discount: 0,
-                    unit: 1,
-                    createdDate: '2018-03-19T06:36:22.000+0000',
-                    imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
-                    typeByTypeId: {
-                        id: 2,
-                        type: 'Snack',
-                        description: null
-                    },
-                    typeId: 2
-                }
+                // {
+                //     id: 1,
+                //     name: 'Black Coffee',
+                //     price: 18000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: null,
+                //     imageId: '1ggCyyLjCu6yqDBbLnZllOpgkFmSFySmw',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 2,
+                //     name: 'Milk Coffee',
+                //     price: 19000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: null,
+                //     imageId: '1ggCyyLjCu6yqDBbLnZllOpgkFmSFySmw',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 3,
+                //     name: 'Peach Tea',
+                //     price: 23000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: null,
+                //     imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
+                //     typeByTypeId: {
+                //         id: 5,
+                //         type: 'Tea',
+                //         description: null
+                //     },
+                //     typeId: 5
+                // },
+                // {
+                //     id: 4,
+                //     name: 'Milk Tea',
+                //     price: 18000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: null,
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 5,
+                //         type: 'Tea',
+                //         description: null
+                //     },
+                //     typeId: 5
+                // },
+                // {
+                //     id: 5,
+                //     name: 'Cream Puffin',
+                //     price: 25000,
+                //     discount: 0,
+                //     unit: 4,
+                //     createdDate: null,
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 1,
+                //         type: 'Cake',
+                //         description: null
+                //     },
+                //     typeId: 1
+                // },
+                // {
+                //     id: 110,
+                //     name: 'Cappuccino',
+                //     price: 30000,
+                //     discount: 10,
+                //     unit: 1,
+                //     createdDate: '2018-03-15T15:17:49.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 111,
+                //     name: 'Matcha Latte',
+                //     price: 32000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-15T15:17:49.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 112,
+                //     name: 'Mint Soda',
+                //     price: 28000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-15T15:17:49.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 4,
+                //         type: 'Beverage',
+                //         description: null
+                //     },
+                //     typeId: 4
+                // },
+                // {
+                //     id: 113,
+                //     name: 'Blue Soda',
+                //     price: 30000,
+                //     discount: 5,
+                //     unit: 1,
+                //     createdDate: '2018-03-15T15:17:49.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 4,
+                //         type: 'Beverage',
+                //         description: null
+                //     },
+                //     typeId: 4
+                // },
+                // {
+                //     id: 114,
+                //     name: 'Strawberry Soda',
+                //     price: 28000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-15T15:17:49.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 4,
+                //         type: 'Beverage',
+                //         description: null
+                //     },
+                //     typeId: 4
+                // },
+                // {
+                //     id: 115,
+                //     name: 'Milk Shake',
+                //     price: 25000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-15T15:17:49.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 6,
+                //         type: 'Milk',
+                //         description: null
+                //     },
+                //     typeId: 6
+                // },
+                // {
+                //     id: 123,
+                //     name: 'Espresso',
+                //     price: 22000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 124,
+                //     name: 'Americano',
+                //     price: 25000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 125,
+                //     name: 'Latte',
+                //     price: 30000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1YUXMKALEWNtEV1ek2K5TY5lAFDVt1R5m',
+                //     typeByTypeId: {
+                //         id: 3,
+                //         type: 'Coffee',
+                //         description: null
+                //     },
+                //     typeId: 3
+                // },
+                // {
+                //     id: 126,
+                //     name: 'Matcha Cheese Cake',
+                //     price: 38000,
+                //     discount: 5,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 1,
+                //         type: 'Cake',
+                //         description: null
+                //     },
+                //     typeId: 1
+                // },
+                // {
+                //     id: 127,
+                //     name: 'Blueberry Cheese Cake',
+                //     price: 38000,
+                //     discount: 5,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 1,
+                //         type: 'Cake',
+                //         description: null
+                //     },
+                //     typeId: 1
+                // },
+                // {
+                //     id: 128,
+                //     name: 'Cocoa Cheese Cake',
+                //     price: 38000,
+                //     discount: 5,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 1,
+                //         type: 'Cake',
+                //         description: null
+                //     },
+                //     typeId: 1
+                // },
+                // {
+                //     id: 129,
+                //     name: 'Traditional Cheese Cake',
+                //     price: 32000,
+                //     discount: 5,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 1,
+                //         type: 'Cake',
+                //         description: null
+                //     },
+                //     typeId: 1
+                // },
+                // {
+                //     id: 130,
+                //     name: 'Hotdog',
+                //     price: 35000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 2,
+                //         type: 'Snack',
+                //         description: null
+                //     },
+                //     typeId: 2
+                // },
+                // {
+                //     id: 131,
+                //     name: 'Beef Hamburger',
+                //     price: 38000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 2,
+                //         type: 'Snack',
+                //         description: null
+                //     },
+                //     typeId: 2
+                // },
+                // {
+                //     id: 132,
+                //     name: 'Vietnamese Traditional Bread',
+                //     price: 25000,
+                //     discount: 0,
+                //     unit: 1,
+                //     createdDate: '2018-03-19T06:36:22.000+0000',
+                //     imageId: '1PKGovKY8dl6Qigk0MzDQ0OH_m8u6SVe4',
+                //     typeByTypeId: {
+                //         id: 2,
+                //         type: 'Snack',
+                //         description: null
+                //     },
+                //     typeId: 2
+                // }
             ],
             types: [
-                {
-                    id: 1,
-                    type: 'Cake',
-                    description: null
-                },
-                {
-                    id: 2,
-                    type: 'Snack',
-                    description: null
-                },
-                {
-                    id: 3,
-                    type: 'Coffee',
-                    description: null
-                },
-                {
-                    id: 4,
-                    type: 'Beverage',
-                    description: null
-                },
-                {
-                    id: 5,
-                    type: 'Tea',
-                    description: null
-                },
-                {
-                    id: 6,
-                    type: 'Milk',
-                    description: null
-                }
+                // {
+                //     id: 1,
+                //     type: 'Cake',
+                //     description: null
+                // },
+                // {
+                //     id: 2,
+                //     type: 'Snack',
+                //     description: null
+                // },
+                // {
+                //     id: 3,
+                //     type: 'Coffee',
+                //     description: null
+                // },
+                // {
+                //     id: 4,
+                //     type: 'Beverage',
+                //     description: null
+                // },
+                // {
+                //     id: 5,
+                //     type: 'Tea',
+                //     description: null
+                // },
+                // {
+                //     id: 6,
+                //     type: 'Milk',
+                //     description: null
+                // }
             ],
             activeAccordion: -1,
             activeSubAccordion: -1,
@@ -1163,6 +1181,27 @@ class ManageSustenance extends React.Component {
         )
     }
 
+    componentWillMount(){
+        let urlSustenance = constants.service.domain+constants.service.catalog.name+constants.service.catalog.all
+        let urlTypes = constants.service.domain+constants.service.type.name+constants.service.type.all
+
+        fetch(urlSustenance).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                sustenance: json
+            })
+        })
+
+        fetch(urlTypes).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                types: json
+            })
+        })
+    }
+
     handleUploadImage() {
 
     }
@@ -1231,9 +1270,12 @@ class ManageOrders extends React.Component {
         this.state = {
             orders: [],
             orderdetails: [],
+            employees: [],
             activeAccordion: -1,
-            activeSubAccordion: -1
+            activeSubAccordion: -1,
         }
+
+        this.account = undefined
     }
 
     render() {
@@ -1242,27 +1284,34 @@ class ManageOrders extends React.Component {
             <div style={{ overflowY: 'scroll', height: '100%' }}>
                 <Grid style={{ width: responsiveWidth, marginLeft: '1.5%', marginTop: '1.5%' }} >
                     <Grid.Row columns={2}>
-                        <Grid.Column>
+                        <Grid.Column width={14}>
                             <Accordion>
                                 {
                                     this.state.orders.map((customOrder, index) => {
                                         let order = customOrder.order
+                                        this.getAccountByAccountId(order.cashierId)
+                                        let account = this.account
+                                        let cashier = this.state.employees.filter(emp => emp.accountId == account.id && emp.role == account.role.name)
+                                        console.log(cashier, account)
                                         let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id)
                                         return (
                                             <div>
                                                 <Accordion.Title active={this.state.activeAccordion == index} index={index} onClick={() => this.handleSwitchAccordion(index)}>
                                                     <Segment style={{ borderBottom: this.state.activeAccordion == index ? '2px solid blue' : '' }} raised={this.state.activeAccordion == index} >
                                                         <Grid>
-                                                            <Grid.Row verticalAlign='middle' columns={'equal'}>
-                                                                <Grid.Column width={9}>
+                                                            <Grid.Row verticalAlign='middle' >
+                                                                <Grid.Column width={10}>
                                                                     <Header size='large'>
-                                                                        <Icon name='checkmark' size='big' />
+                                                                        <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
-                                                                            {order.checkoutDate}
+                                                                            {
+                                                                                cashier.lastName +' '+ cashier.firstName+
+                                                                                (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
+                                                                            }
                                                                         </Header.Content>
                                                                     </Header>
                                                                 </Grid.Column>
-                                                                <Grid.Column textAlign='center'>
+                                                                <Grid.Column textAlign='center' width={6}>
                                                                     <Statistic floated='right'>
                                                                         <Statistic.Value>
                                                                             a
@@ -1355,7 +1404,7 @@ class ManageOrders extends React.Component {
                                 }
                             </Accordion>
                         </Grid.Column>
-                        <Grid.Column>
+                        <Grid.Column width={2}>
                             <Input type='date' />
                         </Grid.Column>
                     </Grid.Row>
@@ -1384,19 +1433,44 @@ class ManageOrders extends React.Component {
 
     componentWillMount() {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
-        let urlOrderDetails = constants.service.domain+constants.service.orderDetail.name+constants.service.orderDetail.all
-        let orders = []
+        let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.all
+
         fetch(urlOrders).then(res => {
             return res.json()
         }).then(json => {
-            orders = json
+            this.setState({
+                orders: json
+            })
         })
-        fetch(urlOrderDetails).then(res => {
+        fetch(urlEmployees).then(res => {
             return res.json()
         }).then(json => {
             this.setState({
-                orders: orders,
-                orderdetails: json
+                employees: json
+            })
+        })
+    }
+
+    getAccountByAccountId(id){
+        let urlAccounts = constants.service.domain+constants.service.account.name+constants.service.account.get
+        urlAccounts = urlAccounts.replace('{id}', id)
+        fetch(urlAccounts).then(res => {
+            return res.json()
+        }).then(json => {
+           this.account = json
+        })
+    }
+
+
+    getOrderDetailsByOrderId(id){
+        let urlOrderDetails = constants.service.domain+constants.service.orderDetail.name+constants.service.orderDetail.get
+        let orders = this.state.orders
+        orders.map(order => {
+            let url = urlOrderDetails.replace('{id}', order.order.id)
+            fetch(url).then(res => {
+                return res.json()
+            }).then(json => {
+                console.log(json)
             })
         })
     }
