@@ -50,7 +50,7 @@ export default class DashBoard extends React.Component{
     render(){
         return(
             <Sidebar.Pushable as={Segment}>
-                <Sidebar as={Menu} style={{backgroundColor: '#4680ff'}} id='side-bar' animation='push' width='wide' visible={this.state.sideBarVisible} icon='labeled' vertical inverted>
+                <Sidebar as={Menu} style={{backgroundColor: '#321911'}} id='side-bar' animation='push' width='wide' visible={this.state.sideBarVisible} icon='labeled' vertical inverted>
                     {
                         this.state.sideBarVisible?
                         <Label onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='right' style={{cursor: 'pointer'}}>
@@ -82,12 +82,12 @@ export default class DashBoard extends React.Component{
                         <Icon name='checkmark box' />
                         Manage orders
                     </Menu.Item>
-                    <Menu.Item onClick={() => this.logout()} name='log out' style={{cursor: 'pointer', position: 'absolute', bottom: '0', width: '100%', borderTop: '1px solid white'}}>
+                    <Menu.Item onClick={() => this.logout()} name='log out' style={{cursor: 'pointer', position: 'absolute', bottom: '0', width: '100%', borderTop: '1px solid #8b6b61'}}>
                         <Icon name='log out' flipped='horizontally' />
                         Logout
                     </Menu.Item>
                 </Sidebar>
-                <Sidebar.Pusher style={{backgroundColor: '#e1e4ea'}}>
+                <Sidebar.Pusher style={{backgroundColor: '#e1e4ea', height: window.innerHeight}}>
                     {
                         !this.state.sideBarVisible?
                             <Label onClick={() => this.toggleSidebar(this.state.sideBarVisible)} corner='left' style={{cursor: 'pointer'}}>
