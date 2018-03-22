@@ -42,11 +42,44 @@ class Overview extends React.Component {
 
         this.data = [{ name: 360, value: 360 }]
 
+        this.barData = [
+            {
+                name: 'Black Coffee',
+                occurence: 150
+            },
+            {
+                name: 'Peach Tea',
+                occurence: 90
+            },
+            {
+                name: 'Mint Soda',
+                occurence: 37
+            },
+            {
+                name: 'Blueberry Cheese Cake',
+                occurence: 61
+            },
+            {
+                name: 'Beef Hamburger',
+                occurence: 23
+            }
+        ]
+
         this.colors = ['#E9C46A', '#E76F51', '#59F8E8', '#941C2F', '#03191E', '#1EFC1E', '#2A9D8F']
     }
 
     render() {
         let responsiveWidth = this.props.sideBarVisible ? '75%' : '95%'
+        let barData = this.barData.sort((a, b) => {
+            if(a.occurence > b.occurence){
+                return -1
+            }else if(a.occurence < b.occurence){
+                return 1
+            }else{
+                return 0
+            }
+        })
+        console.log(barData)
         return (
             <Grid>
                 <Grid.Row>
@@ -125,14 +158,10 @@ class Overview extends React.Component {
                                     </Grid.Column>
                                     <Grid.Column>
                                         <ResponsiveContainer>
-                                            <BarChart>
-                                                {/* <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value'>
-                                                    <Cell stroke={'#8884d8'} />
-                                                </Pie>
-                                                <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data} nameKey='name' dataKey='value'>
-                                                    <Cell stroke={'mediumaquamarine'} />
-                                                </Pie>
-                                                <text x='50%' y='60%' textAnchor='middle' fontSize='140'>{this.state.orders.length}</text> */}
+                                            <BarChart data={barData}>
+                                                <XAxis dataKey='name'/>
+                                                <YAxis />
+                                                <Bar fill='#33cec3' dataKey='occurence'/>
                                             </BarChart>
                                         </ResponsiveContainer>
                                     </Grid.Column>
