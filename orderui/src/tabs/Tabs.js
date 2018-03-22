@@ -1,8 +1,9 @@
 import React from 'react'
-import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Container, Divider, Grid, Input, Accordion } from 'semantic-ui-react'
+import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Container, Divider, Grid, Input, Accordion, Statistic } from 'semantic-ui-react'
 import { Pie, PieChart, Cell, Bar, BarChart, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import coffeImg from '../images/coffee.jpg'
 import constant from '../constants'
+import constants from '../constants';
 
 export default class TabRenderer extends React.Component {
     constructor(props) {
@@ -13,17 +14,17 @@ export default class TabRenderer extends React.Component {
         switch (this.props.info.active) {
             case 0:
                 return (
-                    <Overview data={this.props.info.data} />
+                    <Overview data={this.props.info.data} sideBarVisible={this.props.info.sideBarVisible} />
                 )
                 break;
             case 1:
                 return (
-                    <AllOrder />
+                    <AllOrder sideBarVisible={this.props.info.sideBarVisible} />
                 )
                 break;
             case 2:
                 return <NewOrder handleCloseModal={this.props.info.handleCloseModal} offsetWidth={this.props.info.offsetWidth}
-                    sideBarVisible={this.props.info.sideBarVisible} />
+                    sideBarVisible={this.props.info.sideBarVisible} cashier={this.props.info.cashier} />
                 break;
         }
     }
@@ -33,6 +34,10 @@ class Overview extends React.Component {
     constructor(props) {
         super(props)
 
+        this.state = {
+            orders: []
+        }
+
         this.compName = 'Overview'
 
         this.data = [{ name: 360, value: 360 }]
@@ -41,19 +46,115 @@ class Overview extends React.Component {
     }
 
     render() {
+        let responsiveWidth = this.props.sideBarVisible ? '75%' : '95%'
         return (
-            <ResponsiveContainer width={500} height={500}>
-                <PieChart style={{ marginLeft: '50%', transform: 'translateX(50%)' }}>
-                    <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value'>
-                        <Cell stroke={'#8884d8'} />
-                    </Pie>
-                    <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data} nameKey='name' dataKey='value'>
-                        <Cell stroke={'mediumaquamarine'} />
-                    </Pie>
-                    <text x='50%' y='60%' textAnchor='middle' fontSize='140'>7</text>
-                </PieChart>
-            </ResponsiveContainer>
+            <Grid>
+                <Grid.Row>
+                    <Grid.Column>
+                        <Segment style={{ width: responsiveWidth, marginTop: '1.5%', marginLeft: '1.5%' }}>
+                            <Grid>
+                                <Grid.Row columns={3} divided>
+                                    <Grid.Column textAlign='center' >
+                                        <Statistic>
+                                            <Statistic.Value>
+                                                <Icon name='checkmark box' />
+                                                100
+                                            </Statistic.Value>
+                                            <Statistic.Label>Orders Sold</Statistic.Label>
+                                        </Statistic>
+                                    </Grid.Column>
+                                    <Grid.Column textAlign='center'>
+                                        <Statistic>
+                                            <Statistic.Value>
+                                                <Icon name='user circle outline' />
+                                                500
+                                            </Statistic.Value>
+                                            <Statistic.Label>Customers</Statistic.Label>
+                                        </Statistic>
+                                    </Grid.Column>
+                                    <Grid.Column textAlign='center'>
+                                        <Statistic>
+                                            <Statistic.Value>
+                                                <Icon name='marker' />
+                                                4
+                                            </Statistic.Value>
+                                            <Statistic.Label>Branches</Statistic.Label>
+                                        </Statistic>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Segment>
+                    </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row style={{ height: (window.innerHeight - (window.innerHeight / 5)) }} >
+                    <Grid.Column>
+                        <Segment style={{ width: responsiveWidth, height: '100%', marginLeft: '1.5%' }}>
+                            <Grid>
+                                <Grid.Row columns={2}>
+                                    <Grid.Column>
+                                        <Header size='huge' style={{ marginTop: '1%', marginLeft: '1%' }} >
+                                            <Icon name='pie chart' />
+                                            <Header.Content>
+                                                Total orders of today
+                                            </Header.Content>
+                                        </Header>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Header size='huge' style={{ marginTop: '1%', marginLeft: '1%' }} >
+                                            <Icon name='bar chart' />
+                                            <Header.Content>
+                                                Top sustenance of the day
+                                            </Header.Content>
+                                        </Header>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row style={{ height: (window.innerHeight - (window.innerHeight / 3)) }} columns={2}>
+                                    <Grid.Column>
+                                        <ResponsiveContainer>
+                                            <PieChart>
+                                                <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value'>
+                                                    <Cell stroke={'#8884d8'} />
+                                                </Pie>
+                                                <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data} nameKey='name' dataKey='value'>
+                                                    <Cell stroke={'mediumaquamarine'} />
+                                                </Pie>
+                                                <text x='50%' y='60%' textAnchor='middle' fontSize='140'>{this.state.orders.length}</text>
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <ResponsiveContainer>
+                                            <BarChart>
+                                                {/* <Pie fill={'#8884d8'} data={this.data} innerRadius='70%' nameKey='name' dataKey='value'>
+                                                    <Cell stroke={'#8884d8'} />
+                                                </Pie>
+                                                <Pie fill={'mediumaquamarine'} outerRadius='60%' data={this.data} nameKey='name' dataKey='value'>
+                                                    <Cell stroke={'mediumaquamarine'} />
+                                                </Pie>
+                                                <text x='50%' y='60%' textAnchor='middle' fontSize='140'>{this.state.orders.length}</text> */}
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+
+                        </Segment>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
         )
+    }
+
+    componentWillMount() {
+        let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
+        fetch(urlOrders).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                orders: json
+            })
+        })
     }
 
 }
@@ -65,14 +166,17 @@ class NewOrder extends React.Component {
         this.driveURL = 'https://drive.google.com/uc?id='
         this.state = {
             open: true,
-            customerName: '',
+            customerEmail: '',
             animate: this.props.sideBarVisible,
             columns: this.props.sideBarVisible ? 3 : 4,
             data: [],
             orders: [], // in orders array each element is the same in data with addition of field 'count'
             orderId: undefined,
             types: [],
-            typeIdToFilter: -1
+            typeIdToFilter: -1,
+            employees: [],
+            cashier: this.props.cashier,
+            customer: {}
         }
 
         this.compName = 'NewOrder'
@@ -87,14 +191,14 @@ class NewOrder extends React.Component {
                     <Header as='h2'>
                         <Icon size='small' name='wordpress forms' />
                         <Header.Content>
-                            Please enter customer's information
+                            Please enter customer's email
                         </Header.Content>
                     </Header>
                     <Modal.Content>
                         <Form size='huge'>
                             <Form.Field>
-                                <label>Customer's name</label>
-                                <input placeholder="Left blank if it's new customer..." type='text' onChange={(e) => this.handleChange(e)} />
+                                <label>Customer's email</label>
+                                <input id='customer-email' placeholder="Left blank if it's new customer..." type='text' onChange={(e) => this.handleChange(e)} />
                             </Form.Field>
                         </Form>
                     </Modal.Content>
@@ -104,7 +208,7 @@ class NewOrder extends React.Component {
                 </Modal>
             )
         } else {
-            let customerName = (this.state.customerName == '' ? 'New Customer' : this.state.customerName)
+            let customerEmail = (this.state.customerEmail == '' ? 'New Customer' : this.state.customerEmail)
             let total = this.state.orders.reduce((acc, drink) => {
                 acc += (drink.price - (drink.price * drink.discount / 100)) * drink.count
                 return acc
@@ -130,7 +234,7 @@ class NewOrder extends React.Component {
                                     this.state.types.map(type => {
                                         return (
                                             <Grid.Column>
-                                                <Label style={this.state.typeIdToFilter==type.id?{color: 'white', backgroundColor: 'red'}:null} onClick={() => this.handleFilter(type.id)} as='a' tag>{type.type}</Label>
+                                                <Label style={this.state.typeIdToFilter == type.id ? { color: 'white', backgroundColor: 'red' } : null} onClick={() => this.handleFilter(type.id)} as='a' tag>{type.type}</Label>
                                             </Grid.Column>
                                         )
                                     })
@@ -214,7 +318,7 @@ class NewOrder extends React.Component {
                                                 <span className="date">COBRA</span>
                                             </Card.Meta>
                                             <Card.Description>
-                                                <Input style={{ float: 'right' }} label='Customner' transparent disabled value={' ' + customerName} />
+                                                <Input style={{ float: 'right' }} label='Customner' transparent disabled value={' ' + customerEmail} />
                                                 <br />
                                                 <br />
                                                 <Input style={{ float: 'right' }} label='Total' transparent disabled value={' ' + Math.ceil(total)} />
@@ -339,10 +443,11 @@ class NewOrder extends React.Component {
             },
             method: 'POST',
             body: JSON.stringify({
-                cashierId: 1,
+                cashierId: this.state.cashier.id,
+                branchId: this.state.cashier.branchId,
                 checkoutDate: null,
                 createdDate: null,
-                memberId: 1,
+                memberId: this.state.customer.id,
                 status: 0,
                 total: 0
             })
@@ -411,8 +516,7 @@ class NewOrder extends React.Component {
         }
     }
 
-    componentDidMount() {
-        let comp = this
+    componentWillMount() {
         let urlAllSustenance = constant.service.domain + constant.service.catalog.name + constant.service.catalog.all
         fetch(urlAllSustenance).then(res => {
             return res.json()
@@ -421,13 +525,22 @@ class NewOrder extends React.Component {
                 d.showOnFilter = true
                 return d
             })
-            comp.setState({ data: json })
+            this.setState({ data: json })
         })
         let urlAllTypes = constant.service.domain + constant.service.type.name + constant.service.type.all
         fetch(urlAllTypes).then(res => {
             return res.json()
         }).then(json => {
             this.setState({ types: json })
+        })
+        
+        let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.all
+        fetch(urlEmployees).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                employees: json
+            })
         })
     }
 
@@ -461,22 +574,34 @@ class NewOrder extends React.Component {
     }
 
     handleSubmitForm() {
-        let customerName = this.state.customerName
-        // this.createEmptyOrder()
-        //this segment sends the customer name to server to validate
-        // assume it's valid
-        let response = true
+        document.getElementById('customer-email').style.border = ''
+        let customerEmail = this.state.customerEmail
+        let urlCustomer = constants.service.domain + constants.service.customer.name + constants.service.customer.getByEmail
+        urlCustomer = urlCustomer.replace('{email}', this.state.customerEmail)
 
-        // => go to drinks menu
-        this.setState({
-            open: false
+        fetch(urlCustomer).then(res => {
+            if (res.status == 200) {
+                return res.json()
+            }else{
+                document.getElementById('customer-email').style.border = '1.2px solid red'
+            }
+        }).then(json => {
+            if (json) {
+                this.setState({
+                    customer: json,
+                    open: false
+                })
+            }
+            this.createEmptyOrder()
         })
-
+        // this.setState({
+        //     open: false
+        // })
     }
 
     handleChange(e) {
         this.setState({
-            customerName: e.target.value
+            customerEmail: e.target.value
         })
     }
 
@@ -486,36 +611,161 @@ class NewOrder extends React.Component {
 }
 
 class AllOrder extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
-        this.state={
-            activeIndex: 0
+        this.state = {
+            activeIndex: 0,
+            orders: [],
+            activeAccordion: -1,
+            activeSubAccordion: -1
         }
     }
 
-    render(){
-        return(
-            <Accordion style={{ width: '70%', marginLeft: '1.5%', float: 'left' }}>
-                <Accordion.Title active={this.state.activeIndex==0} index={0} onClick={() => this.setState({activeIndex: 0})} >
-                    <Segment>
-                        aaa
-                    </Segment>
-                </Accordion.Title>
-                <Accordion.Content active={this.state.activeIndex==0} >
-                    <Transition visible={this.state.activeIndex==0} animation='scale' duration={{hide: 1, show: 400}} >
-                        <Segment >
-                            bbb
-                        </Segment>
-                    </Transition>
-                </Accordion.Content>
-                <Accordion.Title active={this.state.activeIndex==1} index={1} onClick={() => this.setState({activeIndex: 1})} >
-                    ccc
-                </Accordion.Title>
-                <Accordion.Content active={this.state.activeIndex==1} >
-                    ddd
-                </Accordion.Content>
-            </Accordion>
+    render() {
+        let responsiveWidth = this.props.sideBarVisible ? '75%' : '95%'
+        return (
+            <div style={{ overflowY: 'scroll', height: '100%' }}>
+                <Grid style={{ width: responsiveWidth, marginLeft: '1.5%', marginTop: '1.5%' }} >
+                    <Grid.Row columns={2}>
+                        <Grid.Column width={16}>
+                            <Accordion>
+                                {
+                                    this.state.orders.map((customOrder, index) => {
+                                        let order = customOrder.order
+                                        {/* this.getAccountByAccountId(order.cashierId)
+                                        let account = this.account
+                                        let cashier = this.state.employees.filter(emp => emp.accountId == account.id && emp.role == account.role.name)
+                                        let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id) */}
+                                        return (
+                                            <div>
+                                                <Accordion.Title active={this.state.activeAccordion == index} index={index} onClick={() => this.handleSwitchAccordion(index)}>
+                                                    <Segment style={{ borderBottom: this.state.activeAccordion == index ? '2px solid blue' : '' }} raised={this.state.activeAccordion == index} >
+                                                        <Grid>
+                                                            <Grid.Row verticalAlign='middle' >
+                                                                <Grid.Column width={10}>
+                                                                    <Header size='large'>
+                                                                        <Icon name='checkmark box' size='big' />
+                                                                        <Header.Content>
+                                                                            a
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column textAlign='center' width={6}>
+                                                                    <Statistic floated='right'>
+                                                                        <Statistic.Value>
+                                                                            a
+                                                                        </Statistic.Value>
+                                                                        <Statistic.Label>
+                                                                            Items
+                                                                </Statistic.Label>
+                                                                    </Statistic>
+                                                                </Grid.Column>
+                                                            </Grid.Row>
+                                                        </Grid>
+                                                    </Segment>
+                                                </Accordion.Title>
+                                                {/* {
+                                                    orderDetailInThisOrder.map((orderdetail, i) => {
+                                                        return (
+                                                            <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
+                                                                <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
+                                                                    <Accordion.Title active={this.state.activeSubAccordion == i} index={i} onClick={() => this.handleSwitchSubAccordion(i)}>
+                                                                        <Segment style={{ borderBottom: this.state.activeSubAccordion == i ? '2px solid red' : '' }} raised={this.state.activeSubAccordion == i} >
+                                                                            <Grid>
+                                                                                <Grid.Row verticalAlign='middle' columns={'equal'}>
+                                                                                    <Grid.Column width={9}>
+                                                                                        <Header size='large' >
+                                                                                            <Header.Content>
+                                                                                                {orderdetail.id}
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                            </Grid>
+                                                                        </Segment>
+                                                                    </Accordion.Title>
+                                                                </Transition>
+                                                                <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeSubAccordion == i}>
+                                                                    <Transition animation='scale' visible={this.state.activeSubAccordion == i} duration={{ hide: 1, show: 350 }}>
+                                                                        <Segment >
+                                                                            <Grid>
+                                                                                <Grid.Row columns={2}>
+                                                                                    <Grid.Column>
+                                                                                        <Image src={this.state.sustenanceImage ? this.state.sustenanceImage.url : this.driveURL + sustenance.imageId} />
+                                                                                        <input type='file' onChange={() => this.handleLoadImage()} style={{ display: 'none', visibility: 'hidden' }} id='sustenance-image' />
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column>
+                                                                                        <Form size='huge'>
+                                                                                            <Form.Field>
+                                                                                                <label>Name</label>
+                                                                                                <input value={sustenance.name} />
+                                                                                            </Form.Field>
+                                                                                            <Form.Field>
+                                                                                                <label>Price</label>
+                                                                                                <Input placeholder={sustenance.price} labelPosition='right'>
+                                                                                                    <input id='sustenance-price' />
+                                                                                                    <Label>VND</Label>
+                                                                                                </Input>
+                                                                                            </Form.Field>
+                                                                                            <Form.Field>
+                                                                                                <label>Discount</label>
+                                                                                                <Input placeholder={sustenance.discount} labelPosition='right'>
+                                                                                                    <input id='sustenance-discount' />
+                                                                                                    <Label>%</Label>
+                                                                                                </Input>
+                                                                                            </Form.Field>
+                                                                                            <Button onClick={() => this.handleEditSustenance(sustenance.id)} color='green' size='big'>Save</Button>
+                                                                                            {
+                                                                                                this.state.sustenanceImage ?
+                                                                                                    (<Button onClick={() => this.handleUploadImage()} icon color='blue' size='big' labelPosition='right'>
+                                                                                                        <Icon name='cloud upload' />
+                                                                                                        Upload sustenance image
+                                                                                                </Button>) :
+                                                                                                    (<Button onClick={() => this.handleSelectImage()} icon color='blue' size='big' labelPosition='right'>
+                                                                                                        <Icon name='image' />
+                                                                                                        Choose image
+                                                                                                 </Button>)
+                                                                                            }
+                                                                                        </Form>
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                            </Grid>
+                                                                        </Segment>
+                                                                    </Transition>
+                                                                </Accordion.Content>
+                                                            </Accordion.Content>
+                                                        )
+                                                    })
+                                                } */}
+                                            </div>
+                                        )
+                                    })
+                                }
+                            </Accordion>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </div>
+
         )
+    }
+
+    handleSwitchAccordion(index) {
+        this.setState({
+            activeAccordion: index
+        })
+    }
+
+    componentWillMount() {
+        let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
+
+        fetch(urlOrders).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                orders: json
+            })
+        })
     }
 }

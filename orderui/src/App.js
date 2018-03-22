@@ -9,7 +9,8 @@ class App extends Component {
     super(props)
 
     this.state = {
-      authorized: false
+      authorized: false,
+      cashier: {}
     }
 
     this.handleSubmit.bind(this)
@@ -19,18 +20,19 @@ class App extends Component {
   render() {
     if(this.state.authorized){
       return (
-        <DashBoard handleLogout={(response) => this.handleSubmit(response)} />
+        <DashBoard handleLogout={(response) => this.handleSubmit(response)} cashier={this.state.cashier} />
       );
     }else{
       return (
-        <Login handleSubmit={(response) => this.handleSubmit(response)} />
+        <Login handleSubmit={(response, cashier) => this.handleSubmit(response, cashier)} />
       );
     }
   }
 
-  handleSubmit(response){
+  handleSubmit(response, cashier){
     this.setState({
-      authorized: response
+      authorized: response,
+      cashier: cashier
     })
   }
 

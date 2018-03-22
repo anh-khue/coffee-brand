@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, Icon, Image, Input, Divider, Button, Grid } from 'semantic-ui-react'
 import background from '../images/coffeeworkspace.jpg'
 import constant from '../constants'
+import constants from '../constants';
 
 export default class Login extends React.Component {
     constructor(props) {
@@ -60,49 +61,65 @@ export default class Login extends React.Component {
 
     //submit to server
     submit() {
-        // document.getElementById("username").style.border = ''
-        // document.getElementById("password").style.border = ''
+        document.getElementById("username").style.border = ''
+        document.getElementById("password").style.border = ''
 
-        // let email = this.state.username
-        // let password = this.state.password
-        // fetch(constant.service.domain + constant.service.login.name + constant.service.login.signin, {
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         email: email,
-        //         password: password
-        //     })
-        // }).then(res => {
-        //     if (res.status == 200) {
-        //         this.setState({
-        //             loading: true
-        //         })
-        //         // assume it's valid
-        //         let authorized = true
-
-        //         //demo
-        //         setTimeout(() => {
-        //             this.props.handleSubmit(authorized)
-        //         }, 1000)
-        //     }else if(res.status==404){
-        //         document.getElementById("username").style.border = '1.2px solid red'
-        //         document.getElementById("password").style.border = '1.2px solid red'
-        //     }
-        // })
-
-        this.setState({
-            loading: true
+        let email = this.state.username
+        let password = this.state.password
+        fetch(constant.service.domain + constant.service.login.name + constant.service.login.signin, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        }).then(res => {
+            if (res.status == 200) {
+                return res.json()
+            } else if (res.status == 404) {
+                document.getElementById("username").style.border = '1.2px solid red'
+                document.getElementById("password").style.border = '1.2px solid red'
+            }
+        }).then(json => {
+            if (json) {
+                // assume it's valid
+                let authorized = json.role.name == 'CASHIER'
+                if (authorized) {
+                    let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.getByAccountId
+                    urlEmployees = urlEmployees.replace('{accountId}', json.id)
+                    fetch(urlEmployees).then(res => {
+                        return res.json()
+                    }).then(json => {
+                        this.setState({
+                            loading: true,
+                        })
+                        setTimeout(() => {
+                            this.props.handleSubmit(true, json)
+                        }, 1000)
+                    })
+                } else {
+                    document.getElementById("username").style.border = '1.2px solid red'
+                    document.getElementById("password").style.border = '1.2px solid red'
+                }
+            }
         })
-        // assume it's valid
-        let authorized = true
 
-        //demo
-        setTimeout(() => {
-            this.props.handleSubmit(authorized)
-        }, 1000)
+
+
+
+        // this.setState({
+        //     loading: true
+        // })
+        // // assume it's valid
+        // let authorized = true
+
+        // //demo
+        // setTimeout(() => {
+        //     this.props.handleSubmit(authorized)
+        // }, 1000)
     }
 
     reset() {
