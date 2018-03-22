@@ -533,8 +533,8 @@ class NewOrder extends React.Component {
         }).then(json => {
             this.setState({ types: json })
         })
-        
-        let urlEmployees = constants.service.domain+constants.service.employee.name+constants.service.employee.all
+
+        let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
         fetch(urlEmployees).then(res => {
             return res.json()
         }).then(json => {
@@ -582,7 +582,7 @@ class NewOrder extends React.Component {
         fetch(urlCustomer).then(res => {
             if (res.status == 200) {
                 return res.json()
-            }else{
+            } else {
                 document.getElementById('customer-email').style.border = '1.2px solid red'
             }
         }).then(json => {
@@ -617,8 +617,9 @@ class AllOrder extends React.Component {
         this.state = {
             activeIndex: 0,
             orders: [],
+            orderdetails: [],
+            sustenance: [],
             activeAccordion: -1,
-            activeSubAccordion: -1
         }
     }
 
@@ -633,111 +634,92 @@ class AllOrder extends React.Component {
                                 {
                                     this.state.orders.map((customOrder, index) => {
                                         let order = customOrder.order
-                                        {/* this.getAccountByAccountId(order.cashierId)
-                                        let account = this.account
-                                        let cashier = this.state.employees.filter(emp => emp.accountId == account.id && emp.role == account.role.name)
-                                        let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id) */}
+
+                                        let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id)
                                         return (
                                             <div>
                                                 <Accordion.Title active={this.state.activeAccordion == index} index={index} onClick={() => this.handleSwitchAccordion(index)}>
                                                     <Segment style={{ borderBottom: this.state.activeAccordion == index ? '2px solid blue' : '' }} raised={this.state.activeAccordion == index} >
                                                         <Grid>
                                                             <Grid.Row verticalAlign='middle' >
-                                                                <Grid.Column width={10}>
+                                                                <Grid.Column width={6}>
                                                                     <Header size='large'>
                                                                         <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
-                                                                            a
+                                                                            {
+                                                                                order.id
+                                                                            }
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={4}>
+                                                                    <Header size='large'>
+                                                                        <Icon name='calendar' size='big' />
+                                                                        <Header.Content>
+                                                                            {
+                                                                                (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
+                                                                            }
                                                                         </Header.Content>
                                                                     </Header>
                                                                 </Grid.Column>
                                                                 <Grid.Column textAlign='center' width={6}>
-                                                                    <Statistic floated='right'>
+                                                                    <Statistic size='mini' floated='right'>
                                                                         <Statistic.Value>
-                                                                            a
+                                                                            {order.total}
                                                                         </Statistic.Value>
                                                                         <Statistic.Label>
-                                                                            Items
-                                                                </Statistic.Label>
+                                                                            Total
+                                                        </Statistic.Label>
                                                                     </Statistic>
                                                                 </Grid.Column>
                                                             </Grid.Row>
                                                         </Grid>
                                                     </Segment>
                                                 </Accordion.Title>
-                                                {/* {
+                                                {
                                                     orderDetailInThisOrder.map((orderdetail, i) => {
                                                         return (
-                                                            <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
+                                                            <Accordion.Content style={{ width: '95%', marginTop: '1.5%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
                                                                 <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
-                                                                    <Accordion.Title active={this.state.activeSubAccordion == i} index={i} onClick={() => this.handleSwitchSubAccordion(i)}>
-                                                                        <Segment style={{ borderBottom: this.state.activeSubAccordion == i ? '2px solid red' : '' }} raised={this.state.activeSubAccordion == i} >
-                                                                            <Grid>
-                                                                                <Grid.Row verticalAlign='middle' columns={'equal'}>
-                                                                                    <Grid.Column width={9}>
-                                                                                        <Header size='large' >
-                                                                                            <Header.Content>
-                                                                                                {orderdetail.id}
-                                                                                            </Header.Content>
-                                                                                        </Header>
-                                                                                    </Grid.Column>
-                                                                                </Grid.Row>
-                                                                            </Grid>
-                                                                        </Segment>
-                                                                    </Accordion.Title>
-                                                                </Transition>
-                                                                <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeSubAccordion == i}>
-                                                                    <Transition animation='scale' visible={this.state.activeSubAccordion == i} duration={{ hide: 1, show: 350 }}>
-                                                                        <Segment >
-                                                                            <Grid>
-                                                                                <Grid.Row columns={2}>
-                                                                                    <Grid.Column>
-                                                                                        <Image src={this.state.sustenanceImage ? this.state.sustenanceImage.url : this.driveURL + sustenance.imageId} />
-                                                                                        <input type='file' onChange={() => this.handleLoadImage()} style={{ display: 'none', visibility: 'hidden' }} id='sustenance-image' />
-                                                                                    </Grid.Column>
-                                                                                    <Grid.Column>
-                                                                                        <Form size='huge'>
-                                                                                            <Form.Field>
-                                                                                                <label>Name</label>
-                                                                                                <input value={sustenance.name} />
-                                                                                            </Form.Field>
-                                                                                            <Form.Field>
-                                                                                                <label>Price</label>
-                                                                                                <Input placeholder={sustenance.price} labelPosition='right'>
-                                                                                                    <input id='sustenance-price' />
-                                                                                                    <Label>VND</Label>
-                                                                                                </Input>
-                                                                                            </Form.Field>
-                                                                                            <Form.Field>
-                                                                                                <label>Discount</label>
-                                                                                                <Input placeholder={sustenance.discount} labelPosition='right'>
-                                                                                                    <input id='sustenance-discount' />
-                                                                                                    <Label>%</Label>
-                                                                                                </Input>
-                                                                                            </Form.Field>
-                                                                                            <Button onClick={() => this.handleEditSustenance(sustenance.id)} color='green' size='big'>Save</Button>
+                                                                    <Segment>
+                                                                        <Grid>
+                                                                            <Grid.Row verticalAlign='middle' columns={'equal'}>
+                                                                                <Grid.Column width={6}>
+                                                                                    <Header size='large' >
+                                                                                        <Header.Content>
                                                                                             {
-                                                                                                this.state.sustenanceImage ?
-                                                                                                    (<Button onClick={() => this.handleUploadImage()} icon color='blue' size='big' labelPosition='right'>
-                                                                                                        <Icon name='cloud upload' />
-                                                                                                        Upload sustenance image
-                                                                                                </Button>) :
-                                                                                                    (<Button onClick={() => this.handleSelectImage()} icon color='blue' size='big' labelPosition='right'>
-                                                                                                        <Icon name='image' />
-                                                                                                        Choose image
-                                                                                                 </Button>)
+                                                                                                (this.state.sustenance.find(sus => sus.id == orderdetail.sustenanceId)).name
                                                                                             }
-                                                                                        </Form>
-                                                                                    </Grid.Column>
-                                                                                </Grid.Row>
-                                                                            </Grid>
-                                                                        </Segment>
-                                                                    </Transition>
-                                                                </Accordion.Content>
+                                                                                        </Header.Content>
+                                                                                    </Header>
+                                                                                </Grid.Column>
+                                                                                <Grid.Column width={4}>
+                                                                                    <Header size='large' >
+                                                                                        <Header.Content>
+                                                                                            {
+                                                                                                orderdetail.quantity
+                                                                                            }
+                                                                                        </Header.Content>
+                                                                                    </Header>
+                                                                                </Grid.Column>
+                                                                                <Grid.Column width={6}>
+                                                                                    <Header size='large' >
+                                                                                        <Header.Content>
+                                                                                            {
+                                                                                                orderdetail.total
+                                                                                            }
+                                                                                        </Header.Content>
+                                                                                    </Header>
+                                                                                </Grid.Column>
+                                                                            </Grid.Row>
+                                                                        </Grid>
+                                                                    </Segment>
+                                                                </Transition>
+
                                                             </Accordion.Content>
                                                         )
                                                     })
-                                                } */}
+                                                }
                                             </div>
                                         )
                                     })
@@ -759,12 +741,31 @@ class AllOrder extends React.Component {
 
     componentWillMount() {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
+        let urlAllSustenance = constants.service.domain + constants.service.catalog.name + constants.service.catalog.all
+        let urlAllOrderDetails = constants.service.domain + constants.service.orderDetail.name + constants.service.orderDetail.all
+
 
         fetch(urlOrders).then(res => {
             return res.json()
         }).then(json => {
             this.setState({
                 orders: json
+            })
+        })
+
+        fetch(urlAllOrderDetails).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                orderdetails: json
+            })
+        })
+
+        fetch(urlAllSustenance).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                sustenance: json
             })
         })
     }
