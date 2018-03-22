@@ -1313,7 +1313,7 @@ class ManageOrders extends React.Component {
                                 {
                                     this.state.orders.map((customOrder, index) => {
                                         let order = customOrder.order
-                                        let cashier = this.state.employees.filter(emp => emp.accountId == order.cashierName && emp.role == account.role.name)
+                                        {/* let cashier = this.state.employees.filter(emp => emp.accountId == order.cashierName && emp.role == account.role.name) */}
                                         let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id)
                                         return (
                                             <div>
@@ -1326,7 +1326,7 @@ class ManageOrders extends React.Component {
                                                                         <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
                                                                             {
-                                                                                cashier.lastName + ' ' + cashier.firstName +
+                                                                                {/* cashier.lastName + ' ' + cashier.firstName + */}
                                                                                 (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
                                                                             }
                                                                         </Header.Content>
