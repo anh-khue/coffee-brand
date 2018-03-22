@@ -1313,6 +1313,7 @@ class ManageOrders extends React.Component {
                                 {
                                     this.state.orders.map((customOrder, index) => {
                                         let order = customOrder.order
+                                        let cashier = order.cashier
                                         {/* let cashier = this.state.employees.filter(emp => emp.accountId == order.cashierName && emp.role == account.role.name) */}
                                         let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id)
                                         return (
@@ -1326,7 +1327,7 @@ class ManageOrders extends React.Component {
                                                                         <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
                                                                             {
-                                                                                {/* cashier.lastName + ' ' + cashier.firstName + */}
+                                                                                cashier.lastName + ' ' + cashier.firstName +
                                                                                 (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
                                                                             }
                                                                         </Header.Content>
@@ -1351,7 +1352,6 @@ class ManageOrders extends React.Component {
                                                         return (
                                                             <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
                                                                 <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
-                                                                    <Accordion.Title active={this.state.activeSubAccordion == i} index={i} onClick={() => this.handleSwitchSubAccordion(i)}>
                                                                         <Segment style={{ borderBottom: this.state.activeSubAccordion == i ? '2px solid red' : '' }} raised={this.state.activeSubAccordion == i} >
                                                                             <Grid>
                                                                                 <Grid.Row verticalAlign='middle' columns={'equal'}>
@@ -1365,56 +1365,8 @@ class ManageOrders extends React.Component {
                                                                                 </Grid.Row>
                                                                             </Grid>
                                                                         </Segment>
-                                                                    </Accordion.Title>
                                                                 </Transition>
-                                                                <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)' }} active={this.state.activeSubAccordion == i}>
-                                                                    <Transition animation='scale' visible={this.state.activeSubAccordion == i} duration={{ hide: 1, show: 350 }}>
-                                                                        <Segment >
-                                                                            {/* <Grid>
-                                                                                <Grid.Row columns={2}>
-                                                                                    <Grid.Column>
-                                                                                        <Image src={this.state.sustenanceImage ? this.state.sustenanceImage.url : this.driveURL + sustenance.imageId} />
-                                                                                        <input type='file' onChange={() => this.handleLoadImage()} style={{ display: 'none', visibility: 'hidden' }} id='sustenance-image' />
-                                                                                    </Grid.Column>
-                                                                                    <Grid.Column>
-                                                                                        <Form size='huge'>
-                                                                                            <Form.Field>
-                                                                                                <label>Name</label>
-                                                                                                <input value={sustenance.name} />
-                                                                                            </Form.Field>
-                                                                                            <Form.Field>
-                                                                                                <label>Price</label>
-                                                                                                <Input placeholder={sustenance.price} labelPosition='right'>
-                                                                                                    <input id='sustenance-price' />
-                                                                                                    <Label>VND</Label>
-                                                                                                </Input>
-                                                                                            </Form.Field>
-                                                                                            <Form.Field>
-                                                                                                <label>Discount</label>
-                                                                                                <Input placeholder={sustenance.discount} labelPosition='right'>
-                                                                                                    <input id='sustenance-discount' />
-                                                                                                    <Label>%</Label>
-                                                                                                </Input>
-                                                                                            </Form.Field>
-                                                                                            <Button onClick={() => this.handleEditSustenance(sustenance.id)} color='green' size='big'>Save</Button>
-                                                                                            {
-                                                                                                this.state.sustenanceImage ?
-                                                                                                    (<Button onClick={() => this.handleUploadImage()} icon color='blue' size='big' labelPosition='right'>
-                                                                                                        <Icon name='cloud upload' />
-                                                                                                        Upload sustenance image
-                                                                                                </Button>) :
-                                                                                                    (<Button onClick={() => this.handleSelectImage()} icon color='blue' size='big' labelPosition='right'>
-                                                                                                        <Icon name='image' />
-                                                                                                        Choose image
-                                                                                                 </Button>)
-                                                                                            }
-                                                                                        </Form>
-                                                                                    </Grid.Column>
-                                                                                </Grid.Row>
-                                                                            </Grid> */}
-                                                                        </Segment>
-                                                                    </Transition>
-                                                                </Accordion.Content>
+                                                                
                                                             </Accordion.Content>
                                                         )
                                                     })
@@ -1467,7 +1419,9 @@ class ManageOrders extends React.Component {
                     return res.json()
                 }).then(cashier => {
                     Object.assign(order, {
-                        cashier: cashier
+                        order:{
+                            cashier: cashier
+                        }
                     })
                 })
             })
