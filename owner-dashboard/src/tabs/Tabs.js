@@ -1296,7 +1296,6 @@ class ManageOrders extends React.Component {
             orderdetails: [],
             employees: [],
             activeAccordion: -1,
-            activeSubAccordion: -1,
         }
 
         this.account = undefined
@@ -1327,13 +1326,13 @@ class ManageOrders extends React.Component {
                                                                         <Icon name='checkmark box' size='big' />
                                                                         <Header.Content>
                                                                             {
-                                                                                cashier.lastName + ' ' + cashier.firstName +
+                                                                                order.id + ' ' +
                                                                                 (new Date(order.checkoutDate).toLocaleDateString()).replace(new RegExp("/", 'g'), '-')
                                                                             }
                                                                         </Header.Content>
                                                                     </Header>
                                                                 </Grid.Column>
-                                                                <Grid.Column textAlign='center' width={6}>
+                                                                {/* <Grid.Column textAlign='center' width={6}>
                                                                     <Statistic floated='right'>
                                                                         <Statistic.Value>
                                                                             a
@@ -1342,7 +1341,7 @@ class ManageOrders extends React.Component {
                                                                             Items
                                                                 </Statistic.Label>
                                                                     </Statistic>
-                                                                </Grid.Column>
+                                                                </Grid.Column> */}
                                                             </Grid.Row>
                                                         </Grid>
                                                     </Segment>
@@ -1352,7 +1351,7 @@ class ManageOrders extends React.Component {
                                                         return (
                                                             <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
                                                                 <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
-                                                                        <Segment style={{ borderBottom: this.state.activeSubAccordion == i ? '2px solid red' : '' }} raised={this.state.activeSubAccordion == i} >
+                                                                        <Segment>
                                                                             <Grid>
                                                                                 <Grid.Row verticalAlign='middle' columns={'equal'}>
                                                                                     <Grid.Column width={9}>
@@ -1408,6 +1407,7 @@ class ManageOrders extends React.Component {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
         let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
         let urlEmployeeById = constants.service.domain+constants.service.employee.name+constants.service.employee.getById
+        let comp = this
 
         fetch(urlOrders).then(res => {
             return res.json()
@@ -1415,18 +1415,19 @@ class ManageOrders extends React.Component {
             orders.forEach(order => {
                 let cashierId = order.order.cashierId
                 let url = urlEmployeeById.replace('{id}', cashierId)
+
                 fetch(url).then(res => {
                     return res.json()
                 }).then(c => {
                     order.order.cashier = c
-                    
-                })
-                console.log(orders)
-                this.setState({
-                    orders: orders
+                    Object.assign(order.order, {
+                        cashier: c
+                    })
                 })
             })
-            
+            this.setState({
+                orders: orders
+            })
         })
         fetch(urlEmployees).then(res => {
             return res.json()
