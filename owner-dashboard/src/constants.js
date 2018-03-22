@@ -25,7 +25,8 @@ let constant = {
         },
         orderDetail:{
             name: 'cobra-order-service/',
-            get: 'order_details/{id}'
+            get: 'order_details/{id}',
+            all: 'order_details'
         },
         type: {
             name: 'cobra-catalog-service/',

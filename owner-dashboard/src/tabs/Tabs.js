@@ -1407,7 +1407,7 @@ class ManageOrders extends React.Component {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
         let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
         let urlEmployeeById = constants.service.domain+constants.service.employee.name+constants.service.employee.getById
-        let comp = this
+        let urlOrderDetails = constants.service.domain+constants.service.orderDetail.name+constants.service.orderDetail.all
 
         fetch(urlOrders).then(res => {
             return res.json()
@@ -1429,6 +1429,15 @@ class ManageOrders extends React.Component {
                 orders: orders
             })
         })
+
+        fetch(urlOrderDetails).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                orderdetails: json
+            })
+        })
+        
         fetch(urlEmployees).then(res => {
             return res.json()
         }).then(json => {
