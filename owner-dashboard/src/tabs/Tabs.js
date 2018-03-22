@@ -1295,6 +1295,7 @@ class ManageOrders extends React.Component {
             orders: [],
             orderdetails: [],
             employees: [],
+            sustenance: [],
             activeAccordion: -1,
         }
 
@@ -1342,7 +1343,7 @@ class ManageOrders extends React.Component {
                                                                     </Header>
                                                                 </Grid.Column>
                                                                 <Grid.Column textAlign='center' width={6}>
-                                                                    <Statistic floated='right'>
+                                                                    <Statistic size='mini' floated='right'>
                                                                         <Statistic.Value>
                                                                             {order.total}
                                                                         </Statistic.Value>
@@ -1358,15 +1359,35 @@ class ManageOrders extends React.Component {
                                                 {
                                                     orderDetailInThisOrder.map((orderdetail, i) => {
                                                         return (
-                                                            <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
+                                                            <Accordion.Content style={{ width: '95%', marginTop: '1.5%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
                                                                 <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
                                                                         <Segment>
                                                                             <Grid>
                                                                                 <Grid.Row verticalAlign='middle' columns={'equal'}>
-                                                                                    <Grid.Column width={9}>
+                                                                                    <Grid.Column width={6}>
                                                                                         <Header size='large' >
                                                                                             <Header.Content>
-                                                                                                {orderdetail.id}
+                                                                                                {
+                                                                                                    (this.state.sustenance.find(sus => sus.id == orderdetail.sustenanceId)).name
+                                                                                                }
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column width={4}>
+                                                                                        <Header size='large' >
+                                                                                            <Header.Content>
+                                                                                                {
+                                                                                                    orderdetail.quantity
+                                                                                                }
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column width={6}>
+                                                                                        <Header size='large' >
+                                                                                            <Header.Content>
+                                                                                                {
+                                                                                                    orderdetail.total
+                                                                                                }
                                                                                             </Header.Content>
                                                                                         </Header>
                                                                                     </Grid.Column>
@@ -1386,12 +1407,24 @@ class ManageOrders extends React.Component {
                             </Accordion>
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Input type='date' />
+                            <Input onChange={(e) => console.log(e.target.value)} type='date' />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
             </div>
         )
+    }
+
+    handleLoadOrderByDate(date){
+        let urlOrderByDate = constants.service.domain+constants.service.order.name+constants.service.order.date
+        urlOrderByDate = urlOrderByDate.replace('{date}', date+' 00:00:00')
+        fetch(urlOrderByDate).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                orders: json
+            })
+        })
     }
 
     handleSwitchAccordion(index) {
@@ -1417,6 +1450,7 @@ class ManageOrders extends React.Component {
         let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
         let urlEmployeeById = constants.service.domain+constants.service.employee.name+constants.service.employee.getById
         let urlOrderDetails = constants.service.domain+constants.service.orderDetail.name+constants.service.orderDetail.all
+        let urlSustenance = constants.service.domain+constants.service.catalog.name+constants.service.catalog.all
 
         fetch(urlOrders).then(res => {
             return res.json()
@@ -1454,20 +1488,28 @@ class ManageOrders extends React.Component {
                 employees: json
             })
         })
-    }
 
-
-    getOrderDetailsByOrderId(id) {
-        let urlOrderDetails = constants.service.domain + constants.service.orderDetail.name + constants.service.orderDetail.get
-        let orders = this.state.orders
-        orders.map(order => {
-            let url = urlOrderDetails.replace('{id}', order.order.id)
-            fetch(url).then(res => {
-                return res.json()
-            }).then(json => {
-                console.log(json)
+        fetch(urlSustenance).then(res => {
+            return res.json()
+        }).then(json => {
+            this.setState({
+                sustenance: json
             })
         })
     }
+
+
+    // getOrderDetailsByOrderId(id) {
+    //     let urlOrderDetails = constants.service.domain + constants.service.orderDetail.name + constants.service.orderDetail.get
+    //     let orders = this.state.orders
+    //     orders.map(order => {
+    //         let url = urlOrderDetails.replace('{id}', order.order.id)
+    //         fetch(url).then(res => {
+    //             return res.json()
+    //         }).then(json => {
+    //             console.log(json)
+    //         })
+    //     })
+    // }
 }
 

@@ -21,7 +21,7 @@ let constant = {
         order:{
             name: 'cobra-order-service/',
             all: 'orders',
-            date: '{id}/status=CheckedOut/date='
+            date: 'orders/status=checked_out/date={date}'
         },
         orderDetail:{
             name: 'cobra-order-service/',
