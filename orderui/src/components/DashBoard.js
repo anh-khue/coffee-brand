@@ -124,6 +124,7 @@ export default class DashBoard extends React.Component{
     }
 
     logout(){
+        localStorage.removeItem('isLoggedIn')
         this.props.handleLogout(false)
     }
 }
