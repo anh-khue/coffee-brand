@@ -56,50 +56,49 @@ export default class Login extends React.Component{
 
     //submit to server
     submit(){
-        // document.getElementById("username").style.border = ''
-        // document.getElementById("password").style.border = ''
+        document.getElementById("username").style.border = ''
+        document.getElementById("password").style.border = ''
 
-        // let email = this.state.username
-        // let password = this.state.password
-        // fetch(constant.service.domain + constant.service.login.name + constant.service.login.signin, {
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         email: email,
-        //         password: password
-        //     })
-        // }).then(res => {
-        //     if (res.status == 200) {
-        //         this.setState({
-        //             loading: true
-        //         })
-        //         // assume it's valid
-        //         let authorized = true
+        let email = this.state.username
+        let password = this.state.password
+        fetch(constant.service.domain + constant.service.login.name + constant.service.login.signin, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        }).then(res => {
+            if (res.status == 200) {
+                this.setState({
+                    loading: true
+                })
+                // assume it's valid
+                let authorized = true
 
-        //         //demo
-        //         setTimeout(() => {
-        //             this.props.handleSubmit(authorized)
-        //         }, 1000)
-        //     }else if(res.status==404){
-        //         document.getElementById("username").style.border = '1.2px solid red'
-        //         document.getElementById("password").style.border = '1.2px solid red'
-        //     }
+                //demo
+                setTimeout(() => {
+                    this.props.handleSubmit(authorized)
+                }, 1000)
+            }else if(res.status==404){
+                document.getElementById("username").style.border = '1.2px solid red'
+                document.getElementById("password").style.border = '1.2px solid red'
+            }
+        })
+
+        // this.setState({
+        //     loading: true
         // })
 
-        this.setState({
-            loading: true
-        })
-        // assume it's valid
-        let authorized = true
+        // let authorized = true
         localStorage.setItem('isLoggedIn', 'true')
         
-        //demo
-        setTimeout(() => {
-            this.props.handleSubmit(authorized)
-        }, 1000)
+        // setTimeout(() => {
+        //     this.props.handleSubmit(authorized)
+        // }, 1000)
     }
 
     reset(){
