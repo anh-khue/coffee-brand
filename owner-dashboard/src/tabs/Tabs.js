@@ -1404,7 +1404,7 @@ class ManageOrders extends React.Component {
     }
 
 
-    async componentWillMount() {
+    componentWillMount() {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
         let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
         let urlEmployeeById = constants.service.domain+constants.service.employee.name+constants.service.employee.getById
@@ -1412,16 +1412,19 @@ class ManageOrders extends React.Component {
         fetch(urlOrders).then(res => {
             return res.json()
         }).then(orders => {
-            orders = orders.map(order => {
+            orders.forEach(order => {
                 let cashierId = order.order.cashierId
                 let url = urlEmployeeById.replace('{id}', cashierId)
-                let cashier = {}
-                await fetch(url).then(res => {
+                fetch(url).then(res => {
                     return res.json()
                 }).then(c => {
-                    cashier = c
+                    order.order.cashier = c
+                    
                 })
-                return Object.assign(order, {order: {cashier: cashier}})
+                console.log(orders)
+                this.setState({
+                    orders: orders
+                })
             })
             
         })
