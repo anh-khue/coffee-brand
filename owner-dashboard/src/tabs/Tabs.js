@@ -1412,7 +1412,7 @@ class ManageOrders extends React.Component {
         fetch(urlOrders).then(res => {
             return res.json()
         }).then(orders => {
-            orders.map(order => {
+            orders = orders.map(order => {
                 let cashierId = order.order.cashierId
                 let url = urlEmployeeById.replace('{id}', cashierId)
                 let cashier = {}
