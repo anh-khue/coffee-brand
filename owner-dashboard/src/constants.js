@@ -15,7 +15,8 @@ let constant = {
         },
         employee:{
             name: 'cobra-employee-service/',
-            all: 'employees'
+            all: 'employees',
+            getById: 'employees/{id}'
         },
         order:{
             name: 'cobra-order-service/',

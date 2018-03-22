@@ -1182,7 +1182,7 @@ class ManageSustenance extends React.Component {
                             </Accordion>
                         </Grid.Column>
                         <Grid.Column width={2}>
-                                
+
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -1313,10 +1313,7 @@ class ManageOrders extends React.Component {
                                 {
                                     this.state.orders.map((customOrder, index) => {
                                         let order = customOrder.order
-                                        this.getAccountByAccountId(order.cashierId)
-                                        let account = this.account
-                                        let cashier = this.state.employees.filter(emp => emp.accountId == account.id && emp.role == account.role.name)
-                                        console.log(cashier, account)
+                                        let cashier = this.state.employees.filter(emp => emp.accountId == order.cashierName && emp.role == account.role.name)
                                         let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id)
                                         return (
                                             <div>
@@ -1458,17 +1455,23 @@ class ManageOrders extends React.Component {
     componentWillMount() {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
         let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
-        let urlAccounts = constants.service.domain + constants.service.account.name + constants.service.account.get
-        urlAccounts = urlAccounts.replace('{id}', id)
+        let urlEmployeeById = constants.service.domain+constants.service.employee.name+constants.service.employee.getById
 
         fetch(urlOrders).then(res => {
             return res.json()
         }).then(orders => {
-            fetch(urlAccounts).then(res => {
-                return res.json()
-            }).then(account => {
-                
+            orders.map(order => {
+                let cashierId = order.order.cashierId
+                let url = urlEmployeeById.replace('{id}', cashierId)
+                fetch(url).then(res => {
+                    return res.json()
+                }).then(cashier => {
+                    Object.assign(order, {
+                        cashier: cashier
+                    })
+                })
             })
+            console.log(orders)
             this.setState({
                 orders: orders
             })
@@ -1480,10 +1483,6 @@ class ManageOrders extends React.Component {
                 employees: json
             })
         })
-    }
-
-    getAccountByAccountId(id) {
-        
     }
 
 
