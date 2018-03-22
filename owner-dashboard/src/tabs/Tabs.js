@@ -136,7 +136,7 @@ class Overview extends React.Component {
                                 <Grid.Row style={{ height: (window.innerHeight - (window.innerHeight / 3)) }}>
                                     <Grid.Column>
                                         <ResponsiveContainer>
-                                            <LineChart data={this.state.data}>
+                                            <LineChart data={this.data}>
                                                 <XAxis dataKey={'date'}>
                                                 </XAxis>
                                                 <YAxis />
@@ -156,29 +156,27 @@ class Overview extends React.Component {
         )
     }
 
-    componentWillMount(){
-        let urlOrderByDate = constants.service.domain+constants.service.order.name+constants.service.order.date
-        for(let i=5; i>=0; i--){
-            let d = new Date()
-            d.setDate(d.getDate() - i)
-            let date = d.toISOString().substr(0, 10)
-            let url = urlOrderByDate.replace('{date}', date+' 00:00:00')
-            fetch(url).then(res => {
-                return res.json()
-            }).then(json => {
-                let total = json.reduce((acc, current, i) => {
-                    return acc+=current.total
-                }, 0)
-                this.setState(prevState => {
-                    return{
-                        data: prevState.data.push({date: date, sale: total})
-                    }
-                })
-            })
-        }
-        
-
-    }
+    // componentWillMount(){
+    //     let urlOrderByDate = constants.service.domain+constants.service.order.name+constants.service.order.date
+    //     for(let i=5; i>=0; i--){
+    //         let d = new Date()
+    //         d.setDate(d.getDate() - i)
+    //         let date = d.toISOString().substr(0, 10)
+    //         let url = urlOrderByDate.replace('{date}', date+' 00:00:00')
+    //         fetch(url).then(res => {
+    //             return res.json()
+    //         }).then(json => {
+    //             let total = json.reduce((acc, current, i) => {
+    //                 return acc+=current.total
+    //             }, 0)
+    //             this.setState(prevState => {
+    //                 return{
+    //                     data: prevState.data.push({date: date, sale: total})
+    //                 }
+    //             })
+    //         })
+    //     }
+    // }
 
 }
 
