@@ -25,7 +25,7 @@ export default class User extends Component {
         this.setState({ loading: false });
 
         console.log(this.state.user.email)
-        fetch('http://192.168.100.39:9999/cobra-customer-service/customer/email=' + this.state.user.email)
+        fetch('http://192.168.43.19:9999/cobra-customer-service/customer/email=' + this.state.user.email)
             .then(res => {
                 return res.json()
             })

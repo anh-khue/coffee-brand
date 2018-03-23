@@ -14,7 +14,7 @@ const DEFAULT_LATITUDE_LONGITUDE_DELTA = 0.01;
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyD7wXi2cuD6R3PBTuSOVSnNJ3BIU6dPFwQ';
 
-const BRANCH_ADDRESSES_API_URL = 'http://192.168.100.39:9999/cobra-branch-service/branches';
+const BRANCH_ADDRESSES_API_URL = 'http://192.168.43.19:9999/cobra-branch-service/branches';
 
 import Branch from '../components/Branch';
 

@@ -7,7 +7,7 @@ import Location from '../pages/Location.js';
 
 const googleDriveImageUrl = 'https://drive.google.com/uc?id='
 
-const branchServiceURL = 'http://192.168.100.39:9999/cobra-branch-service';
+const branchServiceURL = 'http://192.168.43.19:9999/cobra-branch-service';
 
 export default class Branch extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ export default class Branch extends Component {
     }
 
     onStarRatingPress(rating) {
-        fetch(branchServiceURL + '/branches/1', {
+        fetch(branchServiceURL + '/branches/' + this.props.branchId, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -53,7 +53,8 @@ export default class Branch extends Component {
             Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
         });
 
-        fetch(branchServiceURL + '/branches/1')
+        console.log(this.props.branchId)
+        fetch(branchServiceURL + '/branches/' + this.props.branchId)
             .then(res => {
                 return res.json()
             })
@@ -69,7 +70,7 @@ export default class Branch extends Component {
                 console.log(this.state.coverUrl)
             });
 
-        fetch(branchServiceURL + '/branches/1/images')
+        fetch(branchServiceURL + '/branches/' + this.props.branchId + '/images')
             .then(res => {
                 return res.json()
             }).then(json => {
@@ -117,7 +118,7 @@ export default class Branch extends Component {
                         </Body>
                         <Right />
                     </Header> */}
-                    <View>
+                    <Content>
                         <Card>
                             <CardItem cardBody>
                                 <Button style={{ backgroundColor: 'transparent', position: 'absolute', top: 0, left: 0, zIndex: 999 }} onPress={() => this.setState({ goToLocation: true })}>
@@ -150,18 +151,18 @@ export default class Branch extends Component {
                             </CardItem>
                         </Card>
                         <Container style={{ height: 260 }}>
-                                <DeckSwiper
-                                    dataSource={this.state.cards}
-                                    renderItem={item =>
-                                        <Card style={{ elevation: 3 }}>
-                                            <CardItem cardBody>
-                                                <Image source={{ uri: item.image.uri }} style={{ height: 260, flex: 1 }} />
-                                            </CardItem>
-                                        </Card>
-                                    }
-                                />
+                            <DeckSwiper
+                                dataSource={this.state.cards}
+                                renderItem={item =>
+                                    <Card style={{ elevation: 3 }}>
+                                        <CardItem cardBody>
+                                            <Image source={{ uri: item.image.uri }} style={{ height: 260, flex: 1 }} />
+                                        </CardItem>
+                                    </Card>
+                                }
+                            />
                         </Container>
-                    </View>
+                    </Content>
                 </Container>
             );
         } else {
