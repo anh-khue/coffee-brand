@@ -1,8 +1,11 @@
 import React from 'react'
-import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Divider, Grid, Input, Statistic, Accordion, Table, Pagination, Rating, Dropdown } from 'semantic-ui-react'
+import { Modal, Header, Icon, Image, Form, Button, Card, Segment, Sticky, Rail, Label, Transition, Divider, Grid, Input, Statistic, Accordion, Table, Pagination, Rating, Dropdown, Checkbox, Popup } from 'semantic-ui-react'
 import { LineChart, CartesianGrid, Line, XAxis, YAxis, ResponsiveContainer } from 'recharts'
 import coffeImg from '../images/coffee.jpg'
 import constants from '../constants';
+import ITEM from '../dataset/item'
+import CATEGORY from '../dataset/category'
+import GridRow from 'semantic-ui-react/dist/commonjs/collections/Grid/GridRow';
 
 export default class TabRenderer extends React.Component {
     constructor(props) {
@@ -13,20 +16,23 @@ export default class TabRenderer extends React.Component {
         switch (this.props.info.active) {
             case 0:
                 return (
-                    <Overview data={this.props.info.data} sideBarVisible={this.props.info.sideBarVisible} />
+                    // <Overview data={this.props.info.data} sideBarVisible={this.props.info.sideBarVisible} />
+                    null
                 )
                 break;
             case 1:
                 return (
-                    <ManageBranches sideBarVisible={this.props.info.sideBarVisible} />
+                    <ManageItems />
                 )
                 break;
             case 2:
-                return <ManageSustenance sideBarVisible={this.props.info.sideBarVisible} />
+                return (
+                    null
+                )
                 break;
             case 3:
                 return (
-                    <ManageOrders sideBarVisible={this.props.info.sideBarVisible} />
+                    <ManageOrders />
                 )
                 break;
         }
@@ -39,7 +45,7 @@ class Overview extends React.Component {
 
         this.compName = 'Overview'
 
-        this.state={
+        this.state = {
             data: []
         }
 
@@ -1208,12 +1214,29 @@ class ManageSustenance extends React.Component {
                             </Accordion>
                         </Grid.Column>
                         <Grid.Column width={2}>
-
+                            <input onChange={e => this.handleUploadExcel(e)} type='file' />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
             </div>
         )
+    }
+
+    handleUploadExcel(e) {
+        console.log(e.target.files[0])
+        let url = constants.service.domain + constants.service.catalog.name + constants.service.catalog.importExcel
+        let fileReader = new FileReader()
+        let formData = new FormData()
+        formData.append("file", e.target.files[0])
+        fileReader.onload = e => {
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            }).then(res => {
+                console.log(res.status)
+            })
+        }
+        fileReader.readAsBinaryString(e.target.files[0])
     }
 
     componentWillMount() {
@@ -1313,7 +1336,7 @@ class ManageSustenance extends React.Component {
 
 }
 
-class ManageOrders extends React.Component {
+class Manage extends React.Component {
     constructor(props) {
         super(props)
 
@@ -1340,7 +1363,7 @@ class ManageOrders extends React.Component {
                                     this.state.orders.map((customOrder, index) => {
                                         let order = customOrder.order
                                         let cashier = order.cashier
-                                        {/* let cashier = this.state.employees.filter(emp => emp.accountId == order.cashierName && emp.role == account.role.name) */}
+                                        {/* let cashier = this.state.employees.filter(emp => emp.accountId == order.cashierName && emp.role == account.role.name) */ }
                                         let orderDetailInThisOrder = this.state.orderdetails.filter(orderdetail => orderdetail.orderId == order.id)
                                         return (
                                             <div>
@@ -1387,41 +1410,41 @@ class ManageOrders extends React.Component {
                                                         return (
                                                             <Accordion.Content style={{ width: '95%', marginTop: '1.5%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0%' }} active={this.state.activeAccordion == index}>
                                                                 <Transition animation='scale' visible={this.state.activeAccordion == index} duration={{ hide: 1, show: 350 }} >
-                                                                        <Segment>
-                                                                            <Grid>
-                                                                                <Grid.Row verticalAlign='middle' columns={'equal'}>
-                                                                                    <Grid.Column width={6}>
-                                                                                        <Header size='large' >
-                                                                                            <Header.Content>
-                                                                                                {
+                                                                    <Segment>
+                                                                        <Grid>
+                                                                            <Grid.Row verticalAlign='middle' columns={'equal'}>
+                                                                                <Grid.Column width={6}>
+                                                                                    <Header size='large' >
+                                                                                        <Header.Content>
+                                                                                            {/* {
                                                                                                     (this.state.sustenance.find(sus => sus.id == orderdetail.sustenanceId)).name
-                                                                                                }
-                                                                                            </Header.Content>
-                                                                                        </Header>
-                                                                                    </Grid.Column>
-                                                                                    <Grid.Column width={4}>
-                                                                                        <Header size='large' >
-                                                                                            <Header.Content>
-                                                                                                {
-                                                                                                    orderdetail.quantity
-                                                                                                }
-                                                                                            </Header.Content>
-                                                                                        </Header>
-                                                                                    </Grid.Column>
-                                                                                    <Grid.Column width={6}>
-                                                                                        <Header size='large' >
-                                                                                            <Header.Content>
-                                                                                                {
-                                                                                                    orderdetail.total
-                                                                                                }
-                                                                                            </Header.Content>
-                                                                                        </Header>
-                                                                                    </Grid.Column>
-                                                                                </Grid.Row>
-                                                                            </Grid>
-                                                                        </Segment>
+                                                                                                } */}
+                                                                                        </Header.Content>
+                                                                                    </Header>
+                                                                                </Grid.Column>
+                                                                                <Grid.Column width={4}>
+                                                                                    <Header size='large' >
+                                                                                        <Header.Content>
+                                                                                            {
+                                                                                                orderdetail.quantity
+                                                                                            }
+                                                                                        </Header.Content>
+                                                                                    </Header>
+                                                                                </Grid.Column>
+                                                                                <Grid.Column width={6}>
+                                                                                    <Header size='large' >
+                                                                                        <Header.Content>
+                                                                                            {
+                                                                                                orderdetail.total
+                                                                                            }
+                                                                                        </Header.Content>
+                                                                                    </Header>
+                                                                                </Grid.Column>
+                                                                            </Grid.Row>
+                                                                        </Grid>
+                                                                    </Segment>
                                                                 </Transition>
-                                                                
+
                                                             </Accordion.Content>
                                                         )
                                                     })
@@ -1433,7 +1456,7 @@ class ManageOrders extends React.Component {
                             </Accordion>
                         </Grid.Column>
                         <Grid.Column width={2}>
-                            <Input onChange={(e) => console.log(e.target.value)} type='date' />
+                            <Input onChange={(e) => this.handleLoadOrderByDate(e.target.value)} type='date' />
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -1441,9 +1464,9 @@ class ManageOrders extends React.Component {
         )
     }
 
-    handleLoadOrderByDate(date){
-        let urlOrderByDate = constants.service.domain+constants.service.order.name+constants.service.order.date
-        urlOrderByDate = urlOrderByDate.replace('{date}', date+' 00:00:00')
+    handleLoadOrderByDate(date) {
+        let urlOrderByDate = constants.service.domain + constants.service.order.name + constants.service.order.date
+        urlOrderByDate = urlOrderByDate.replace('{date}', date + ' 00:00:00')
         fetch(urlOrderByDate).then(res => {
             return res.json()
         }).then(json => {
@@ -1474,26 +1497,24 @@ class ManageOrders extends React.Component {
     componentWillMount() {
         let urlOrders = constants.service.domain + constants.service.order.name + constants.service.order.all
         let urlEmployees = constants.service.domain + constants.service.employee.name + constants.service.employee.all
-        let urlEmployeeById = constants.service.domain+constants.service.employee.name+constants.service.employee.getById
-        let urlOrderDetails = constants.service.domain+constants.service.orderDetail.name+constants.service.orderDetail.all
-        let urlSustenance = constants.service.domain+constants.service.catalog.name+constants.service.catalog.all
+        let urlEmployeeById = constants.service.domain + constants.service.employee.name + constants.service.employee.getById
+        let urlOrderDetails = constants.service.domain + constants.service.orderDetail.name + constants.service.orderDetail.all
+        let urlSustenance = constants.service.domain + constants.service.catalog.name + constants.service.catalog.all
 
         fetch(urlOrders).then(res => {
             return res.json()
         }).then(orders => {
-            orders.forEach(order => {
-                let cashierId = order.order.cashierId
-                let url = urlEmployeeById.replace('{id}', cashierId)
+            // orders.forEach(order => {
+            //     let cashierId = order.order.cashierId
+            //     let urlab = urlEmployeeById.replace('{id}', cashierId)
 
-                fetch(url).then(res => {
-                    return res.json()
-                }).then(c => {
-                    order.order.cashier = c
-                    Object.assign(order.order, {
-                        cashier: c
-                    })
-                })
-            })
+            //     fetch(urlab).then(r => {
+            //         alert(r.status)
+            //         return r.json()
+            //     }).then(c => {
+            //         order.order.cashier = c
+            //     })
+            // })
             this.setState({
                 orders: orders
             })
@@ -1539,3 +1560,471 @@ class ManageOrders extends React.Component {
     // }
 }
 
+class ManageItems extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            activeAccordion: -1,
+            activeSubAccordion: -1,
+            activePage: 1,
+            editingItemSeqId: -1,
+            items: [],
+            categories: CATEGORY,
+            editingItem: {
+                seqId: -1,
+                itemId: '',
+                itemName: '',
+                price: 0,
+                categoryByCategorySeqId: {
+                    seqId: -1,
+                    categoryId: '',
+                    description: 'None'
+                },
+                available: false
+            }
+        }
+
+        this.maxRecordPerPage = 3
+    }
+
+    render() {
+        let items = this.state.items
+        let categories = this.state.categories
+        return (
+            <div style={{ overflowY: 'scroll', height: '100%' }}>
+                {
+                    this.state.items.length > 0 ?
+                        (<Accordion style={{ width: '75%', marginLeft: '1.5%', marginTop: '1.5%' }}>
+                            {
+                                categories.map((category, categoryIndex) => {
+                                    let itemsInThisCategory = items.filter(i => i.categoryByCategorySeqId.categoryId == category.categoryId)
+                                    let itemsInThisCategoryPaged = []
+                                    let pages = Math.ceil(itemsInThisCategory.length / this.maxRecordPerPage)
+                                    let categoryOptions = categories.map(category => {
+                                        return {
+                                            text: category.categoryId,
+                                            value: category.seqId
+                                        }
+                                    })
+                                    itemsInThisCategory.reduce((acc, current, i) => {
+                                        acc.push(current)
+                                        if (acc.length % (this.maxRecordPerPage) == 0) {
+                                            itemsInThisCategoryPaged.push(acc)
+                                            acc = []
+                                        } else if ((i + 1) == itemsInThisCategory.length) {
+                                            itemsInThisCategoryPaged.push(acc)
+                                        }
+                                        return acc
+                                    }, [])
+                                    return (
+                                        <div>
+                                            <Accordion.Title active={this.state.activeAccordion == categoryIndex} index={categoryIndex} onClick={() => this.handleClickAccordion(categoryIndex)}>
+                                                <Segment style={{ borderBottom: this.state.activeAccordion == categoryIndex ? '2px solid red' : '', zIndex: '-1' }}>
+                                                    <Grid>
+                                                        <Grid.Row columns={2}>
+                                                            <Grid.Column verticalAlign='middle'>
+                                                                <Header size='huge'>
+                                                                    <Icon name='food' />
+                                                                    <Header.Content>
+                                                                        {category.categoryId}
+                                                                    </Header.Content>
+                                                                </Header>
+                                                            </Grid.Column>
+                                                            <Grid.Column textAlign='right'>
+                                                                <Statistic>
+                                                                    <Statistic.Value>
+                                                                        {itemsInThisCategory.length}
+                                                                    </Statistic.Value>
+                                                                    <Statistic.Label>
+                                                                        Items
+                                                                    </Statistic.Label>
+                                                                </Statistic>
+                                                            </Grid.Column>
+                                                        </Grid.Row>
+                                                    </Grid>
+                                                </Segment>
+                                            </Accordion.Title>
+                                            <Accordion.Content style={{ width: '95%', marginLeft: '100%', transform: 'translateX(-100%)', padding: '0' }} active={this.state.activeAccordion == categoryIndex}>
+                                                <Transition animation='scale' visible={this.state.activeAccordion == categoryIndex} duration={{ hide: 1, show: 250 }}>
+                                                    <Segment>
+                                                        <Table celled>
+                                                            <Table.Header>
+                                                                <Table.Row textAlign='center'>
+                                                                    <Table.HeaderCell>ID</Table.HeaderCell>
+                                                                    <Table.HeaderCell>Name</Table.HeaderCell>
+                                                                    <Table.HeaderCell>Price</Table.HeaderCell>
+                                                                    <Table.HeaderCell>Category</Table.HeaderCell>
+                                                                    <Table.HeaderCell>Available</Table.HeaderCell>
+                                                                    <Table.HeaderCell>Action</Table.HeaderCell>
+                                                                </Table.Row>
+                                                            </Table.Header>
+                                                            {
+                                                                (itemsInThisCategoryPaged.length == 0 || itemsInThisCategoryPaged[(this.state.activePage - 1)] == undefined) ?
+                                                                    null :
+                                                                    (
+                                                                        <Table.Body>
+                                                                            {
+                                                                                itemsInThisCategoryPaged[(this.state.activePage - 1)].map(item => {
+                                                                                    let category = categories.find(c => c.categoryId == item.categoryByCategorySeqId.categoryId)
+                                                                                    return (
+                                                                                        <Table.Row>
+                                                                                            <Table.Cell>
+                                                                                                <Header>
+                                                                                                    <Icon name='food' />
+                                                                                                    <Header.Content>
+                                                                                                        {
+                                                                                                            (<Input disabled value={item.itemId} />)
+                                                                                                        }
+                                                                                                    </Header.Content>
+                                                                                                </Header>
+                                                                                            </Table.Cell>
+                                                                                            <Table.Cell>
+                                                                                                {
+                                                                                                    (this.state.editingItemSeqId != item.seqId) ?
+                                                                                                        (<Header size='small'>
+                                                                                                            <Header.Content>
+                                                                                                                {item.itemName}
+                                                                                                            </Header.Content>
+                                                                                                        </Header>)
+                                                                                                        : (<Input onChange={(e) => this.handleEditChanges('itemName', e.target.value)} placeholder={item.itemName} />)
+                                                                                                }
+                                                                                            </Table.Cell>
+                                                                                            <Table.Cell>
+                                                                                                {
+                                                                                                    (this.state.editingItemSeqId != item.seqId) ?
+                                                                                                        (<Header>
+                                                                                                            <Header.Content>
+                                                                                                                {item.price}
+                                                                                                            </Header.Content>
+                                                                                                        </Header>)
+                                                                                                        : (<Input onChange={(e) => this.handleEditChanges('price', e.target.value)} placeholder={item.price} />)
+                                                                                                }
+                                                                                            </Table.Cell>
+                                                                                            <Table.Cell>
+                                                                                                {
+                                                                                                    (this.state.editingItemSeqId != item.seqId) ?
+                                                                                                        (<Header>
+                                                                                                            <Header.Content>
+                                                                                                                {category.categoryId}
+                                                                                                            </Header.Content>
+                                                                                                        </Header>)
+                                                                                                        : (<Dropdown onChange={(e, data) => this.handleEditChanges('categoryByCategorySeqId',
+                                                                                                            { seqId: data.value, categoryId: this.state.categories.find(c => c.seqId == data.value).categoryId, description: this.state.categories.find(c => c.seqId == data.value).description })}
+                                                                                                            defaultValue={(categoryOptions.findIndex(b => b.text == category.categoryId) + 1)} options={categoryOptions} />)
+                                                                                                }
+                                                                                            </Table.Cell>
+                                                                                            <Table.Cell textAlign='center'>
+                                                                                                {
+                                                                                                    (this.state.editingItemSeqId != item.seqId) ?
+                                                                                                        (<Checkbox toggle checked={item.available} />)
+                                                                                                        : (<Checkbox onChange={(e, data) => this.handleEditChanges('available', data.checked)} toggle defaultChecked={true} />)
+                                                                                                }
+                                                                                            </Table.Cell>
+                                                                                            <Table.Cell textAlign='center'>
+                                                                                                <Popup position='top right' flowing hoverable trigger={<Button compact icon={<Icon size='large' name='pencil' />} />}>
+                                                                                                    <Button.Group>
+                                                                                                        <Button color={this.state.editingItemSeqId == item.seqId ? 'green' : null} compact
+                                                                                                            onClick={() => this.handleEdit(item.seqId)}
+                                                                                                        >
+                                                                                                            {
+                                                                                                                this.state.editingItemSeqId == item.seqId ?
+                                                                                                                    'Save' : 'Edit'
+                                                                                                            }
+                                                                                                        </Button>
+                                                                                                        {
+                                                                                                            this.state.editingItemSeqId == item.seqId ?
+                                                                                                                (<Button compact color='red'
+                                                                                                                    onClick={() => this.handleEdit(-1)}
+                                                                                                                >
+                                                                                                                    Cancel
+                                                                                                    </Button>) : null
+                                                                                                        }
+                                                                                                    </Button.Group>
+                                                                                                </Popup>
+
+                                                                                            </Table.Cell>
+                                                                                        </Table.Row>
+                                                                                    )
+                                                                                })
+                                                                            }
+                                                                        </Table.Body>
+                                                                    )
+                                                            }
+                                                            <Table.Footer>
+                                                                <Table.Row textAlign='center'>
+                                                                    <Table.HeaderCell colSpan={5}>
+                                                                        <Pagination onPageChange={(e, data) => this.handleChangePage(data.activePage)} activePage={this.state.activePage} defaultActivePage={1} totalPages={pages} />
+                                                                    </Table.HeaderCell>
+                                                                    <Table.HeaderCell colSpan={5}>
+                                                                        <Button color='blue'>
+                                                                            Add new
+                                                                        </Button>
+                                                                    </Table.HeaderCell>
+                                                                </Table.Row>
+                                                            </Table.Footer>
+                                                        </Table>
+                                                    </Segment>
+                                                </Transition>
+                                            </Accordion.Content>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Accordion>)
+                        :
+                        (null)
+                }
+            </div>
+        )
+    }
+
+    updateItemServer(updatedItem) {
+        let urlUpdate = constants.domain + constants.editItemById
+
+        fetch(urlUpdate, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('JWToken')
+            },
+            body: JSON.stringify(updatedItem)
+        }).then(res => {
+            if (res.status == 200) {
+                this.fetchAllItems()
+            }
+        })
+    }
+
+    handleEditChanges(field, value) {
+        this.setState(prevState => {
+            return {
+                editingItem: Object.assign(prevState.editingItem, { [field]: value })
+            }
+        })
+    }
+
+    handleEdit(editingItemSeqId) {
+        let editSeqId = editingItemSeqId
+        let items = this.state.items
+        let categories = this.state.categories
+        let editingItem = this.state.editingItem
+        let categoryToAdd = categories.find(category => category.categoryId == editingItem.itemCategory)
+
+        if (this.state.editingItemSeqId == editSeqId) {
+            let oldItem = items.find(i => i.seqId == editSeqId)
+            Object.assign(oldItem, editingItem)
+            this.updateItemServer(editingItem)
+        } else if (this.state.editingItemSeqId == -1 && editSeqId != -1) {
+            editingItem = Object.assign(editingItem, items.find(i => i.seqId == editSeqId))
+        } else {
+            editingItem = {
+                seqId: -1,
+                itemId: '',
+                itemName: '',
+                price: 0,
+                categoryByCategorySeqId: {
+                    seqId: -1,
+                    categoryId: '',
+                    description: 'None'
+                },
+                available: false
+            }
+            editSeqId = -1
+        }
+        this.setState({
+            editingItemSeqId: editSeqId,
+            editingItem: editingItem
+        })
+    }
+
+    handleChangePage(page) {
+        this.setState({
+            activePage: page
+        })
+    }
+
+    handleClickAccordion(index) {
+        this.setState(prevState => {
+            return {
+                activeAccordion: prevState.activeAccordion == index ? -1 : index,
+                activeSubAccordion: -1,
+                editingItemSeqId: -1
+            }
+        })
+    }
+
+    handleClickSubAccordion(index) {
+        this.setState(prevState => {
+            return {
+                activeSubAccordion: prevState.activeSubAccordion == index ? -1 : index,
+                editingItemSeqId: -1
+            }
+        })
+    }
+
+    componentDidMount() {
+        this.fetchAllItems()
+    }
+
+    fetchAllItems() {
+        let urlAllItems = constants.domain + constants.getAllItems
+
+        fetch(urlAllItems, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('JWToken')
+            }
+        }).then(res => res.json()).then(json => {
+            this.setState({
+                items: json
+            })
+        })
+    }
+}
+
+class ManageOrders extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            payRequestOrders: []
+        }
+    }
+
+    render() {
+        let payRequestOrders = this.state.payRequestOrders
+        return (
+            <div style={{ height: '100%', overflowY: 'scroll' }}>
+                <Grid style={{ width: '75%', marginLeft: '1.5%', marginTop: '1.5%' }}>
+                    <Grid.Row columns={3}>
+                        <Grid.Column width={4}>
+                            <Segment>
+                                <Header icon textAlign='center'>
+                                    <Icon size='large' name='remove' />
+                                    Waiting Queue
+                                </Header>
+                                <Divider />
+                                <div style={{ height: '100%' }}>
+                                    <Segment basic style={{ height: window.innerHeight - (window.innerHeight * 30 / 100), overflowY: 'scroll' }}>
+                                        {
+                                            payRequestOrders.length <= 0 ?
+                                                null :
+                                                payRequestOrders.map(order => {
+                                                    return (
+                                                        <Card>
+                                                            <Card.Content>
+                                                                <Grid>
+                                                                    <Grid.Row columns={'equal'}>
+                                                                        <Grid.Column stretched textAlign='center'>
+                                                                            <Header>
+                                                                                <Header.Content>
+                                                                                    Receipt {order.seqId}
+                                                                                </Header.Content>
+                                                                            </Header>
+                                                                        </Grid.Column>
+                                                                    </Grid.Row>
+                                                                    <Grid.Row columns={2}>
+                                                                        <Grid.Column>
+                                                                            <Header>
+                                                                                <Header.Content>
+                                                                                    Table
+                                                                                </Header.Content>
+                                                                            </Header>
+                                                                        </Grid.Column>
+                                                                        <Grid.Column textAlign='right'>
+                                                                            <Header>
+                                                                                <Header.Content>
+                                                                                    {order.dinerTableByTableSeqId.tableId}
+                                                                                </Header.Content>
+                                                                            </Header>
+                                                                        </Grid.Column>
+                                                                    </Grid.Row>
+                                                                    <Grid.Row columns={2}>
+                                                                        <Grid.Column>
+                                                                            <Header>
+                                                                                <Header.Content>
+                                                                                    Total
+                                                                                </Header.Content>
+                                                                            </Header>
+                                                                        </Grid.Column>
+                                                                        <Grid.Column textAlign='right'>
+                                                                            <Header>
+                                                                                <Header.Content>
+                                                                                    {order.total}
+                                                                                </Header.Content>
+                                                                            </Header>
+                                                                        </Grid.Column>
+                                                                    </Grid.Row>
+                                                                </Grid>
+                                                            </Card.Content>
+                                                        </Card>
+                                                    )
+                                                })
+                                        }
+                                    </Segment>
+                                </div>
+                            </Segment>
+                        </Grid.Column>
+
+                        <Grid.Column width={8}>
+                            <Segment>
+                                <Grid>
+                                    <Grid.Row columns={3}>
+                                        <Grid.Column>
+                                        </Grid.Column>
+                                        <Grid.Column>
+                                            <Header icon textAlign='center'>
+                                                <Icon name='search' />
+                                                Order Detail
+                                            </Header>
+                                        </Grid.Column>
+                                        <Grid.Column verticalAlign='middle' textAlign='right'>
+                                            <Button size='huge' color='blue'>
+                                                Checkout
+                                            </Button>
+                                        </Grid.Column>
+                                    </Grid.Row>
+                                </Grid>
+                                <Divider />
+                                <Segment style={{ height: window.innerHeight - (window.innerHeight * 30 / 100), overflowY: 'scroll' }}>
+
+                                </Segment>
+                            </Segment>
+                        </Grid.Column>
+
+                        <Grid.Column width={4}>
+                            <Segment>
+                                <Header icon textAlign='center'>
+                                    <Icon name='checkmark' />
+                                    Paid
+                                </Header>
+                                <Divider />
+                                <Segment style={{ height: window.innerHeight - (window.innerHeight * 30 / 100), overflowY: 'scroll' }}>
+
+                                </Segment>
+                            </Segment>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </div>
+        )
+    }
+
+    componentDidMount() {
+        this.getAllPayRequestOrders()
+    }
+
+    getAllPayRequestOrders() {
+        let urlPayRequestOrders = constants.domain + constants.getPayRequestOrders
+
+        fetch(urlPayRequestOrders, {
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('JWToken')
+            }
+        }).then(res => res.json()).then(json => {
+            this.setState({
+                payRequestOrders: json
+            })
+        })
+    }
+}
