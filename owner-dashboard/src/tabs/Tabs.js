@@ -69,11 +69,11 @@ class ManageItems extends React.Component {
                         <Grid.Column width={16}>
                             <Segment>
                                 <Grid>
-                                    <Grid.Row columns={3}>
+                                    <Grid.Row color='red' columns={3}>
                                         <Grid.Column>
                                         </Grid.Column>
                                         <Grid.Column verticalAlign='middle' textAlign='center'>
-                                            <Header>
+                                            <Header style={{color: 'white'}}>
                                                 <Header.Content>
                                                     Item List
                                         </Header.Content>
@@ -1053,11 +1053,11 @@ class ManageTables extends React.Component {
                             <Grid.Row>
                                 <Segment>
                                     <Grid>
-                                        <Grid.Row columns={3}>
+                                        <Grid.Row color='red' columns={3}>
                                             <Grid.Column>
                                             </Grid.Column>
                                             <Grid.Column verticalAlign='middle' textAlign='center'>
-                                                <Header>
+                                                <Header style={{color: 'white'}}>
                                                     <Header.Content>
                                                         Table List
                                         </Header.Content>
