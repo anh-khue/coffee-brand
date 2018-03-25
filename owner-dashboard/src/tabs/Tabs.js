@@ -410,10 +410,11 @@ class ManageOrders extends React.Component {
             payRequestOrders: [],
             orderDetails: [],
             checkedOutDetails: [],
-            receiptSeqId: -1
+            receiptSeqId: -1,
+            activeTabIndex: 0,
         }
 
-        this.maxRecordPerRow = 4
+        this.maxRecordPerRow = 3
 
         this.panes = [
             {
@@ -645,11 +646,72 @@ class ManageOrders extends React.Component {
                                                     orders.map(order => {
                                                         return (
                                                             <Grid.Column>
-                                                                <Card>
+                                                                <Card onClick={() => this.goToTab(2, order.seqId)}>
                                                                     <Card.Content>
-                                                                        <Card.Header>
-                                                                            {order.seqId}
+                                                                        <Card.Header textAlign='center'>
+                                                                            <Header icon>
+                                                                                <Header.Content>
+                                                                                    <Icon name='checkmark box' />
+                                                                                    Receipt {order.seqId}
+                                                                                </Header.Content>
+                                                                            </Header>
                                                                         </Card.Header>
+                                                                        <Segment>
+                                                                            <Grid>
+                                                                                <Grid.Row columns={2}>
+                                                                                    <Grid.Column>
+                                                                                        <Header>
+                                                                                            <Header.Content>
+                                                                                                Table
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column>
+                                                                                        <Header>
+                                                                                            <Header.Content>
+                                                                                                {order.dinerTableByTableSeqId.tableId}
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                                <Grid.Row columns={2}>
+                                                                                    <Grid.Column>
+                                                                                        <Header>
+                                                                                            <Header.Content>
+                                                                                                Total
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column>
+                                                                                        <Header>
+                                                                                            <Header.Content>
+                                                                                                {order.total}
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                                <Grid.Row columns={2}>
+                                                                                    <Grid.Column>
+                                                                                        <Header>
+                                                                                            <Header.Content>
+                                                                                                Date
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                    <Grid.Column>
+                                                                                        <Header>
+                                                                                            <Header.Content>
+                                                                                                {
+                                                                                                    order.issueDate != 0 ?
+                                                                                                        (new Date(order.issueDate)).toLocaleDateString('vi-VN')
+                                                                                                        : 'Not checked out yet'
+                                                                                                }
+                                                                                            </Header.Content>
+                                                                                        </Header>
+                                                                                    </Grid.Column>
+                                                                                </Grid.Row>
+                                                                            </Grid>
+                                                                        </Segment>
                                                                     </Card.Content>
                                                                 </Card>
                                                             </Grid.Column>
@@ -664,6 +726,186 @@ class ManageOrders extends React.Component {
                         </Tab.Pane>
                     )
                 }
+            },
+            {
+                menuItem: 'Order Detail', render: () => {
+                    let receiptDetails = this.state.orderDetails
+                    return (
+                        <Tab.Pane style={{ backgroundColor: '#e1e4ea', borderColor: 'transparent' }}>
+                            <Grid>
+                                <Grid.Row columns={1}>
+                                    <Grid.Column>
+                                        <Segment>
+                                            {
+                                                this.state.receiptSeqId == -1 ?
+                                                    null :
+                                                    (
+                                                        <Grid>
+                                                            <Grid.Row columns={1}>
+                                                                <Grid.Column>
+                                                                    <Segment basic textAlign='center'>
+                                                                        <Header>
+                                                                            <Header.Content>
+                                                                                Receipt {this.state.receiptSeqId}
+                                                                            </Header.Content>
+                                                                        </Header>
+                                                                    </Segment>
+                                                                </Grid.Column>
+                                                            </Grid.Row>
+                                                            <Grid.Row color='red' columns={'equal'}>
+                                                                <Grid.Column width={2}>
+                                                                    <Header style={{ color: 'white' }}>
+                                                                        <Header.Content>
+                                                                            ID
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={4}>
+                                                                    <Header style={{ color: 'white' }}>
+                                                                        <Header.Content>
+                                                                            Name
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={2}>
+                                                                    <Header style={{ color: 'white' }}>
+                                                                        <Header.Content>
+                                                                            Quantity
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={1}>
+                                                                    <Header>
+                                                                        <Header.Content>
+
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={2}>
+                                                                    <Header style={{ color: 'white' }}>
+                                                                        <Header.Content>
+                                                                            Price
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={1}>
+                                                                    <Header>
+                                                                        <Header.Content>
+
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={1}>
+                                                                    <Header style={{ color: 'white' }}>
+                                                                        <Header.Content>
+                                                                            Total
+                                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={3}>
+                                                                    <Header textAlign='right' style={{ color: 'white' }}>
+                                                                        <Header.Content>
+                                                                            Currency
+                                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                            </Grid.Row>
+                                                            {
+                                                                receiptDetails.map(receiptDetail => {
+                                                                    return (
+                                                                        <Grid.Row columns={'equal'}>
+                                                                            <Grid.Column width={2}>
+                                                                                <Header>
+                                                                                    <Header.Content>
+                                                                                        {receiptDetail.itemByItemSeqId.itemId}
+                                                                                    </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={4}>
+                                                                                <Header>
+                                                                                    <Header.Content>
+                                                                                        {receiptDetail.itemByItemSeqId.itemName}
+                                                                                    </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={2}>
+                                                                                <Header textAlign='center'>
+                                                                                    <Header.Content>
+                                                                                        {receiptDetail.quantity}
+                                                                                    </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={1}>
+                                                                                <Header>
+                                                                                    <Header.Content>
+                                                                                        x
+                                                                                    </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={2}>
+                                                                                <Header>
+                                                                                    <Header.Content>
+                                                                                        {receiptDetail.itemByItemSeqId.price}
+                                                                                    </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={1}>
+                                                                                <Header>
+                                                                                    <Header.Content>
+                                                                                        =
+                                                                                        </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={1}>
+                                                                                <Header>
+                                                                                    <Header.Content>
+                                                                                        {parseInt(receiptDetail.quantity) * parseFloat(receiptDetail.itemByItemSeqId.price)}
+                                                                                    </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                            <Grid.Column width={3}>
+                                                                                <Header textAlign='right'>
+                                                                                    <Header.Content>
+                                                                                        VND
+                                                                                        </Header.Content>
+                                                                                </Header>
+                                                                            </Grid.Column>
+                                                                        </Grid.Row>
+                                                                    )
+                                                                })
+                                                            }
+                                                            <Divider/>
+                                                            <Grid.Row columns='equal'>
+                                                                <Grid.Column width={12}>
+                                                                    <Header textAlign='right'>
+                                                                        <Header.Content>
+                                                                            Grand Total
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                                <Grid.Column width={4}>
+                                                                    <Header>
+                                                                        <Header.Content>
+                                                                            {
+                                                                                receiptDetails.reduce((acc, current) => {
+                                                                                    acc += (parseInt(current.quantity) * parseFloat(current.itemByItemSeqId.price))
+                                                                                    return acc
+                                                                                }, 0)
+                                                                            }
+                                                                        </Header.Content>
+                                                                    </Header>
+                                                                </Grid.Column>
+                                                            </Grid.Row>
+                                                        </Grid>
+                                                    )
+                                            }
+                                        </Segment>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Grid>
+                        </Tab.Pane>
+                    )
+                }
             }
         ]
     }
@@ -672,10 +914,23 @@ class ManageOrders extends React.Component {
         return (
             <div style={{ height: '100%', overflowY: 'scroll' }}>
                 <Grid style={{ width: '100%', marginLeft: '1.5%', marginTop: '1.5%' }}>
-                    <Tab menu={{ pointing: true, color: 'red', inverted: true }} panes={this.panes} style={{ width: '75%' }} />
+                    <Tab menu={{ pointing: true, color: 'red', inverted: true }} onTabChange={(e, { activeIndex }) => this.goToTab(activeIndex, activeIndex == 2 ? this.state.receiptSeqId : null)} activeIndex={this.state.activeTabIndex} panes={this.panes} style={{ width: '75%' }} />
                 </Grid>
             </div>
         )
+    }
+
+    goToTab(index, receiptSeqId) {
+        this.setState(prevState => {
+            return {
+                activeTabIndex: index,
+                receiptSeqId: index == 2? receiptSeqId: -1,
+                orderDetails: index == 2? prevState.orderDetails:[]
+            }
+        })
+        if (index == 2) {
+            this.getReceiptDetailsByReceiptSeqId(receiptSeqId)
+        }
     }
 
     componentDidMount() {
@@ -757,7 +1012,7 @@ class ManageOrders extends React.Component {
         }).then(res => res.json()).then(json => {
             this.setState({
                 orderDetails: json,
-                receiptSeqId: checkedOut ? -1 : seqId
+                receiptSeqId: checkedOut && this.state.activeTabIndex != 2 ? -1 : seqId
             })
         })
     }
