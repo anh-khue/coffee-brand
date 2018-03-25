@@ -18,7 +18,6 @@ class App extends Component {
 
   render() {
     let JWToken = localStorage.getItem('JWToken')
-    console.log(this.state.authorized, JWToken)
     if(this.state.authorized || (JWToken != '' && JWToken != undefined && JWToken != null)){
       return (
         <DashBoard handleLogout={(response) => this.handleSubmit(response)} />
